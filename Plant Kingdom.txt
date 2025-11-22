@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Biology Test - Vishwajeet Science Academy</title>
+<style>
+/* --- styles as in your template --- */
+body {
+  font-family: 'Poppins', Arial, sans-serif;
+  background: #f4f7fc;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+.page-border {
+  min-height: 100vh;
+  border: 6px solid #1e90ff;
+  border-radius: 20px;
+  margin: 0;
+  background: white;
+  box-shadow: 0 0 35px #a0befd;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 0;
+}
+.container {width:97%;max-width:950px;margin:auto;display:flex;flex-direction:column;}
+h2.main-title {text-align:center;margin-bottom:18px;font-size:1.65rem;color:#1c416b;font-weight:800;}
+label {font-weight:600;margin:14px 0 7px;display:block;}
+input[type=text], select {width:100%;padding:10px 12px;font-size:1.04em;border-radius:7px;border:1.4px solid #bbb;background:#f9f9fb;}
+#startBtn {margin-top:20px;padding:14px 40px;font-size:1.12em;font-weight:700;border-radius:8px;background:#1e90ff;color:white;border:none;cursor:pointer;}
+#startBtn:disabled {background:#a0bbd9;cursor:not-allowed;}
+#startBtn:not(:disabled):hover {background:#1970dd;}
+#quiz-section {display:none;margin-top:22px;gap:25px;}
+#progress {text-align:center;margin-bottom:16px;font-size:1.1em;color:#555;}
+.question-text {font-weight:700;font-size:1.22em;margin-bottom:17px;}
+.options {margin-bottom:25px;}
+.options label.option-label {display:flex;align-items:center;gap:13px;background:#f9f9f9;border:2px solid #eaeaea;border-radius:9px;margin-bottom:14px;font-size:1.08em;font-weight:500;cursor:pointer;transition:all 0.18s;min-height:48px;padding:0 20px;}
+.options label.option-label:hover {border:2px solid #1976d2;background:#f0f9ff;box-shadow:0 2px 8px #1976d215;}
+.options input[type="radio"] {accent-color:#1976d2;appearance:none;width:22px;height:22px;border:2px solid #bbb;border-radius:50%;background:#fff;margin-right:10px;}
+.options input[type="radio"]:checked {border:7px solid #1976d2;background:#f3f8fd;}
+.options label.option-label.selected {border:2.5px solid #1976d2;background:#eef6fb;}
+.options .option-letter {font-weight:700;color:#1976d2;font-size:1.13em;padding-right:10px;}
+#navigation {text-align:center;margin-top:12px;}
+.nav-btn {padding:12px 26px;border-radius:8px;border:none;font-weight:700;font-size:1.1em;margin:0 10px;background:#1976d2;color:white;}
+.nav-btn:hover:not(:disabled) {background:#065ab1;}
+.nav-btn:disabled {background:#b9cce1;}
+#submitBtn {margin-top:22px;padding:14px 42px;font-weight:700;font-size:1.2em;background:#238823;color:white;border:none;border-radius:9px;}
+#submitBtn:disabled {background:#a8d1b7;}
+#finish-section {display:none;margin-top:25px;}
+.card {width:470px;max-width:96vw;background:white;border:3px solid #1e90ff;border-radius:22px;box-shadow:0 0 18px #7bb9fd;padding:30px 20px;text-align:center;margin:0 auto;}
+.card h1 {font-size:1.4rem;margin-bottom:20px;color:#1c416b;}
+.trophy {font-size:2.3rem;margin-bottom:15px;color:#ffbb1f;}
+.details {font-size:1rem;font-weight:600;color:#444;margin-bottom:20px;}
+.score {font-size:1.25rem;font-weight:800;margin-bottom:20px;}
+.stats {display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.stat {flex:1;background:#f5f8fa;border-radius:10px;padding:10px;text-align:center;min-width:80px;}
+.stat-number {width:44px;height:44px;margin:0 auto 8px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2em;}
+.stat.attempted .stat-number {background:#197fd6;color:white;}
+.stat.correct .stat-number {background:#08ad6c;color:white;}
+.stat.wrong .stat-number {background:#d64541;color:white;}
+.stat.notattempted .stat-number {background:#ddd;color:#333;}
+#question-navigator {margin-left:24px;width:210px;display:grid;grid-template-columns:repeat(5,36px);grid-auto-rows:36px;gap:10px;}
+.q-nav-btn {border-radius:6px;border:none;cursor:pointer;color:white;font-weight:700;}
+.q-nav-btn.not-attempted {background:#d64541;}
+.q-nav-btn.skipped {background:#197fd6;}
+.q-nav-btn.attempted {background:#08ad6c;}
+.q-nav-btn.current {outline:2px solid #000;}
+table.review-table {width:100%;border-collapse:collapse;margin-top:15px;}
+table.review-table th, table.review-table td {border:1px solid #ccc;padding:6px;}
+.correct{color:#08ad6c;font-weight:bold;}
+.incorrect{color:#d64541;font-weight:bold;}
+.skipped{color:#197fd6;font-weight:bold;}
+.export-btns {margin:22px auto 0 auto;display:flex;gap:15px;flex-wrap:wrap;justify-content:center;}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+<div class="page-border">
+<div class="container">
+<h2 class="main-title">BIOLOGY TEST - VISHWAJEET SCIENCE ACADEMY</h2>
+<div id="login-section">
+  <label for="rollno">Enter Roll Number (01-200)</label>
+  <input type="text" id="rollno" maxlength="3" placeholder="e.g. 01" />
+  <label for="batch">Select Batch</label>
+  <select id="batch">
+    <option value="">-- Select Batch --</option>
+    <option value="11th">11th</option>
+    <option value="12th">12th</option>
+    <option value="NEET Repeater">NEET Repeater</option>
+  </select>
+  <button id="startBtn" disabled>Start Test</button>
+</div>
+<section id="quiz-section">
+  <div style="flex:1">
+    <div id="progress"></div>
+    <div id="question-block">
+      <div class="question-text" id="question-text"></div>
+      <form id="options-form" class="options"></form>
+    </div>
+    <div id="navigation">
+      <button id="prevBtn" class="nav-btn" disabled>Previous</button>
+      <button id="skipBtn" class="nav-btn">Skip</button>
+      <button id="nextBtn" class="nav-btn" disabled>Next</button>
+    </div>
+    <button id="submitBtn" disabled>Submit Test</button>
+  </div>
+  <nav id="question-navigator"></nav>
+</section>
+<section id="finish-section">
+  <div style="display:flex; flex-direction:column; align-items:center;">
+    <div class="card">
+      <h1><span class="trophy">&#x1F3C6;</span> Congratulations! Your Test has been Submitted <span class="trophy">&#x1F3C6;</span></h1>
+      <div class="details" id="resultDetails"></div>
+      <div id="resultScore" class="score"></div>
+      <div class="stats">
+        <div class="stat attempted"><div class="stat-number" id="attemptedCount">0</div><p>Attempted</p></div>
+        <div class="stat correct"><div class="stat-number" id="correctCount">0</div><p>Correct</p></div>
+        <div class="stat wrong"><div class="stat-number" id="wrongCount">0</div><p>Wrong</p></div>
+        <div class="stat notattempted"><div class="stat-number" id="notAttemptedCount">0</div><p>Not Attempted</p></div>
+      </div>
+      <canvas id="piechart" width="220" height="220"></canvas>
+      <div class="footer">© 2025 Vishwajeet Science Academy</div>
+    </div>
+    <div class="export-btns">
+      <button class="nav-btn" id="printBtn" type="button">🖨️ Print Report</button>
+      <button class="nav-btn" id="pdfBtn" type="button">⬇️ Download PDF</button>
+      <button class="nav-btn" id="excelBtn" type="button">⬇️ Export to Excel</button>
+    </div>
+  </div>
+  <h2 id="review-heading" style="margin-top:36px;">Review Your Answers</h2>
+  <div id="review-section"></div>
+</section>
+</div>
+</div>
+<script>
+/* --- Full 60 MCQs array here in {q,a,b,c,d,ans,expl} format from our previous answer --- */
+const mcqs = [
+  {q:"Which of the following statements best differentiates natural and artificial systems of classification, if an unknown plant is classified based on both leaf shape and seed structure?", a:"Artificial uses both, natural uses only seed structure", b:"Artificial uses one, natural uses multiple related traits", c:"Natural uses environmental data only", d:"Artificial prioritizes evolutionary relationships", ans:"b", expl:"Natural systems consider many correlated traits, whereas artificial focus on limited observable features."},
+  {q:"Two statements: I. Natural systems give equal weight to vegetative and reproductive characters II. Artificial systems often split related species due to emphasis on one trait", a:"Both True", b:"Only I True", c:"Only II True", d:"Both False", ans:"c", expl:"Only II is true; natural systems do not give equal weight to vegetative and reproductive characters."},
+  {q:"Numerical taxonomy can distinguish plant species better than traditional morphology because:", a:"It ignores reproductive data", b:"It uses statistical analysis of multiple traits", c:"It looks only at genetic code", d:"It applies only to extinct plants", ans:"b", expl:"Numerical taxonomy assigns codes/statistics to many traits."},
+  {q:"Match the following pairs about algal classes’ features:\nA. Chlorophyceae\nB. Phaeophyceae\nC. Rhodophyceae\n(i) Fucoxanthin\n(ii) Floridean starch\n(iii) Cup-shaped chloroplast", a:"A-iii, B-i, C-ii", b:"A-ii, B-i, C-iii", c:"A-i, B-iii, C-ii", d:"A-ii, B-iii, C-i", ans:"a", expl:"Chlorophyceae—cup-shaped chloroplast, Phaeophyceae—Fucoxanthin, Rhodophyceae—Floridean starch."},
+  {q:"Assertion: Algae are major oxygen producers in aquatic systems. Reason: Photosynthetic algae increase dissolved O₂ during carbon fixation.", a:"Both correct, reason explains", b:"Both correct, reason doesn't explain", c:"Assertion correct, reason wrong", d:"Both wrong", ans:"a", expl:"Both correct; reason explains assertion."},
+  {q:"During sexual reproduction in Spirogyra, the fusing gametes are:", a:"Non-flagellated, similar in size", b:"Flagellated, unequal in size", c:"Non-flagellated, unequal in size", d:"Large egg, small sperm", ans:"a", expl:"Spirogyra undergoes isogamy with non-flagellated, similar gametes."},
+  {q:"Phaeophyceae differs from Chlorophyceae by which feature?", a:"Pyrenoids in cytoplasm", b:"Presence of fucoxanthin in plastids", c:"Cellulose cell wall", d:"Storage of starch only", ans:"b", expl:"Only Phaeophyceae have fucoxanthin."},
+  {q:"Algal asexual reproduction ‘zoospores’ are:", a:"Non-motile, diploid", b:"Motile, haploid", c:"Motile, diploid", d:"Non-motile, haploid", ans:"b", expl:"Zoospores are motile (flagellated), haploid."},
+  {q:"A scientist finds an algal thallus with both pectose and cellulose in its wall and pyrenoids without fucoxanthin. To which group does it most likely belong?", a:"Phaeophyceae", b:"Rhodophyceae", c:"Chlorophyceae", d:"Fungi", ans:"c", expl:"Pyrenoids and pectose+cellulose wall: Chlorophyceae."},
+  {q:"Which sequence correctly orders the increase in complexity of algal thalli?", a:"Unicellular → Colonial → Filamentous → Parenchymatous", b:"Filamentous → Parenchymatous → Colonial → Unicellular", c:"Colonial → Unicellular → Parenchymatous → Filamentous", d:"Unicellular → Filamentous → Colonial → Parenchymatous", ans:"a", expl:"This is the order of complexity."},
+  {q:"Match the pairs (Bryophyte structure and function):\nA. Rhizoids\nB. Capsule\nC. Gemmae\n(i) Anchorage/absorption\n(ii) Asexual reproduction\n(iii) Spore production", a:"A-i, B-iii, C-ii", b:"A-ii, B-i, C-iii", c:"A-iii, B-ii, C-i", d:"A-i, B-ii, C-iii", ans:"a", expl:"Rhizoids anchor, capsule produces spores, gemmae for asexual reproduction."},
+  {q:"Assertion: Mosses are called amphibians of the plant kingdom. Reason: Due to requirement of water for sexual reproduction.", a:"Both correct; reason explains", b:"Both correct; reason does not explain", c:"Assertion correct, reason wrong", d:"Both incorrect", ans:"a", expl:"Both correct; explanation is valid."},
+  {q:"A botanist observes a gametophytic stage with dorsiventral thallus and gemma cups. Identify:", a:"Moss", b:"Liverwort", c:"Alga", d:"Pteridophyte", ans:"b", expl:"Dorsiventral thallus, gemma cups: Liverwort."},
+  {q:"Which pair is NOT correctly matched in bryophytes:", a:"Sphagnum – Peat formation", b:"Marchantia – Leafy gametophyte", c:"Funaria – Capsule with spores", d:"Polytrichum – Moss", ans:"b", expl:"Marchantia’s gametophyte is thalloid, not leafy."},
+  {q:"Protonema in mosses functions as:", a:"Spore producing structure", b:"Juvenile, filamentous gametophyte", c:"Root-like anchor", d:"Capsule layer", ans:"b", expl:"Protonema is the juvenile gametophyte in moss."},
+  {q:"Which sequence shows the alternation of generations in a typical pteridophyte?", a:"Sporophyte–spore–gametophyte–gametes–zygote–sporophyte", b:"Gametophyte–zygote–sporophyte–gametes–spore–gametophyte", c:"Gametophyte–spore–zygote–sporophyte–gametes–sporophyte", d:"Sporophyte–gametes–spore–gametophyte–sporophyte", ans:"a", expl:"This is the correct life cycle for pteridophytes."},
+  {q:"Assertion: All ferns are heterosporous. Reason: Ferns produce megaspores and microspores on the same plant.", a:"Both true", b:"Both false", c:"Assertion false, reason false", d:"Assertion false, reason true", ans:"c", expl:"Most ferns are homosporous; only some are heterosporous."},
+  {q:"The progression from microphyllous to macrophyllous leaves is best represented by (in the plant kingdom):", a:"Pteridophytes → Bryophytes", b:"Ferns → Selaginella", c:"Selaginella → Ferns", d:"Mosses → Ferns", ans:"c", expl:"Macrophyllous (large leaves) like ferns; microphyllous like Selaginella."},
+  {q:"Why are seeds not formed in pteridophytes, although embryo develops within gametophyte?", a:"Gametophyte is independent, lacks integuments", b:"Zygote develops outside female structure", c:"Water not required for fertilization", d:"Alternation of generations absent", ans:"a", expl:"Pteridophytes lack seed-protecting integuments."},
+  {q:"A spore germinates to form a green, multicellular, thalloid structure in a fern. This is called:", a:"Prothallus", b:"Protonema", c:"Archegonia", d:"Sporophyll", ans:"a", expl:"Prothallus is the gametophyte in ferns."},
+  {q:"Match the pair (Gymnosperm structure - adaptation):\nA. Coralloid root\nB. Tap root + Mycorrhiza\nC. Sunken stomata\n(i) N₂-fixation\n(ii) Fungal symbiosis\n(iii) Minimize water loss", a:"A-i, B-ii, C-iii", b:"A-iii, B-i, C-ii", c:"A-ii, B-i, C-iii", d:"A-i, B-iii, C-ii", ans:"a", expl:"Coralloid root (N₂-fixation), tap root+mycorrhiza, sunken stomata minimize water loss."},
+  {q:"Assertion: Leaves of Pinus are needle-like and possess thick cuticle. Reason: These reduce the exposed surface area and water loss.", a:"Both correct; reason explains", b:"Both correct; reason incorrect", c:"Assertion correct; reason incorrect", d:"Both incorrect", ans:"a", expl:"Both features are adaptations to conserve water."},
+  {q:"In Cycas, the cones and megasporophylls are borne on different plants. This condition is termed:", a:"Monoecious", b:"Dioecious", c:"Bisexual", d:"Self-compatible", ans:"b", expl:"Cycas is dioecious."},
+  {q:"Gymnosperm seeds are considered 'naked' because:", a:"There is no fruit", b:"Seed is inside a fruit", c:"Seeds lack embryo", d:"Seeds are formed without fertilization", ans:"a", expl:"No ovary/fruit; seeds remain exposed."},
+  {q:"Development of male gametophyte in gymnosperms is restricted to:", a:"Microsporangium", b:"Female cone", c:"Archegonium", d:"Pollen grain", ans:"d", expl:"Male gametophyte is pollen grain in gymnosperms."},
+  {q:"Assertion: Gymnosperms represent first group of seed plants. Reason: In gymnosperms, ovules are completely enclosed within ovary.", a:"Both true", b:"Assertion true, reason false", c:"Both false", d:"Assertion false, reason true", ans:"b", expl:"Ovules are not enclosed, making them 'naked seeds'."},
+  {q:"Two statements regarding angiosperms:\nI. Seeds develop inside fruit\nII. Flowers are reproductive organs", a:"Both I and II correct", b:"Only I correct", c:"Only II correct", d:"Both I and II incorrect", ans:"a", expl:"Both statements describe angiosperms accurately."},
+  {q:"Greatest adaptation distinguishing angiosperms from gymnosperms is:", a:"Presence of flowers", b:"Well-developed roots", c:"Vascular tissues", d:"Dominant sporophyte", ans:"a", expl:"Flowers and fruit distinguish angiosperms."},
+  {q:"Which sequence orders reproductive structures in monocot and dicot seeds?", a:"Cotyledon–Endosperm–Embryo", b:"Endosperm–Cotyledon–Embryo", c:"Nucellus–Endosperm–Embryo", d:"Embryo–Endosperm–Cotyledon", ans:"b", expl:"Endosperm is used up by cotyledon that feeds embryo."},
+  {q:"Assertion: Monocots contain parallel venation and fibrous roots. Reason: Both are common features linked to single cotyledon.", a:"Both correct, reason explains", b:"Both correct, reason incorrect", c:"Assertion correct, reason incorrect", d:"Both incorrect", ans:"b", expl:"Both features are true, but not caused by cotyledon count."},
+  {q:"Match the plant group and dominant life stage:\nA. Bryophyte\nB. Pteridophyte\nC. Gymnosperm\n(i) Gametophyte\n(ii) Sporophyte\n(iii) Sporophyte", a:"A-i, B-ii, C-iii", b:"A-ii, B-i, C-iii", c:"A-iii, B-ii, C-i", d:"A-ii, B-iii, C-i", ans:"a", expl:"Bryophyte = gametophyte dominated; others = sporophyte."},
+  {q:"Statements about alternation of generations:\nI. In moss, sporophyte is partially dependent on gametophyte\nII. In fern, sporophyte is independent", a:"Both true", b:"Only I true", c:"Only II true", d:"Both false", ans:"a", expl:"Moss sporophyte is dependent, fern is independent."},
+  {q:"Assertion: All algae have haplontic life cycles. Reason: Diploid stage is always absent in algae.", a:"Both correct; reason explains", b:"Assertion false, reason false", c:"Assertion true, reason false", d:"Both true", ans:"b", expl:"Some algae are diplontic or haplo-diplontic."},
+  {q:"Heterospory laid foundation for:", a:"Gametophyte dominance", b:"Seed habit", c:"Oogamous reproduction", d:"Extensive branching", ans:"b", expl:"Heterospory enabled seed evolution."},
+  {q:"Plant group with dependent, multicellular sporophyte (not seed bearing):", a:"Gymnosperm", b:"Moss", c:"Fern", d:"Green alga", ans:"b", expl:"Moss: sporophyte is dependent on gametophyte."},
+  {q:"A botanist isolates a plant with a thallus, no vascular tissue, grows on moist wall, reproduces with gemma cups. Classify:", a:"Liverwort", b:"Pteridophyte", c:"Chlorophyceae", d:"Gymnosperm", ans:"a", expl:"Dorsiventral thallus, gemma cups: Liverwort."},
+  {q:"In which of the following plants would mutation affecting pyrenoid formation show greatest effect on protein storage?", a:"Green algae", b:"Brown algae", c:"Bryophyte", d:"Angiosperm", ans:"a", expl:"Pyrenoids are protein-storing in green algae."},
+  {q:"A researcher finds a plant whose seeds develop inside a fruit, the embryo has two cotyledons, and veins are reticulate. It is a:", a:"Monocot", b:"Dicot", c:"Gymnosperm", d:"Fern", ans:"b", expl:"Dicots have these features."},
+  {q:"Which correctly distinguishes between the gametophyte of moss and fern?", a:"Moss gametophyte has capsule; fern has prothallus", b:"Moss gametophyte is dominant; fern has reduced gametophyte", c:"Moss gametophyte is branched filament; fern is leafy shoot", d:"Moss gametophyte persists longer than fern’s", ans:"b", expl:"Moss: gametophyte-dominant; fern: sporophyte-dominant."},
+  {q:"A plant produces archegonia, is heterosporous, forms seeds exposed on cones. Likely group is:", a:"Fern", b:"Moss", c:"Gymnosperm", d:"Angiosperm", ans:"c", expl:"Gymnosperms have all these features."},
+  {q:"I. In Salvinia, megaspores germinate on parent plant II. This leads to partial retention of female gametophyte", a:"Both true", b:"Only I true", c:"Only II true", d:"Both false", ans:"a", expl:"Both processes occur in Salvinia."},
+  {q:"I. Liverworts reproduce asexually by fragmentation and gemmae II. Gemmae are multicellular, photosynthetic propagules", a:"Both I and II correct", b:"Only I correct", c:"Only II correct", d:"Both wrong", ans:"a", expl:"Both are correct about liverworts."},
+  {q:"Assertion: Numerical taxonomy ensures more objectivity in classification. Reason: It is based on subjective choices of morphological features.", a:"Assertion true, reason false", b:"Both true", c:"Assertion false, reason true", d:"Both false", ans:"a", expl:"Numerical taxonomy uses objective statistics."},
+  {q:"I. The sporophyte of a Bryophyte is always dependent on its gametophyte II. The gametophyte of Fern is dependent on the sporophyte", a:"Both true", b:"Only I true", c:"Only II true", d:"Both false", ans:"b", expl:"Only bryophyte sporophyte is dependent."},
+  {q:"Assertion: All algae are aquatic Reason: Algae are limited to freshwater and marine environments only", a:"Both correct", b:"Both incorrect", c:"Assertion true, reason false", d:"Assertion false, reason true", ans:"c", expl:"Algae can also live on moist soil, not only aquatic."},
+  {q:"Match the plant with characteristic:\nA. Funaria\nB. Selaginella\nC. Cycas\n(i) Homosporous\n(ii) Heterosporous\n(iii) Dioecious", a:"A-i, B-ii, C-iii", b:"A-ii, B-i, C-iii", c:"A-iii, B-ii, C-i", d:"A-ii, B-iii, C-i", ans:"a", expl:"Funaria—homosporous, Selaginella—heterosporous, Cycas—dioecious."},
+  {q:"Match:\nA. Ectocarpus\nB. Chara\nC. Polysiphonia\n(i) Brown algae\n(ii) Green algae\n(iii) Red algae", a:"A-i, B-ii, C-iii", b:"A-ii, B-i, C-iii", c:"A-iii, B-i, C-ii", d:"A-i, B-iii, C-ii", ans:"a", expl:"A-brown, B-green, C-red algae."},
+  {q:"Match the tissue type with plant group dominant in it:\nA. Non-vascular\nB. Vascular but seedless\nC. Vascular with seeds\n(i) Bryophyte\n(ii) Pteridophyte\n(iii) Gymnosperm/Angiosperm", a:"A-i, B-ii, C-iii", b:"A-ii, B-i, C-iii", c:"A-iii, B-ii, C-i", d:"A-ii, B-iii, C-i", ans:"a", expl:"That's the correct match as per plant evolution."},
+  {q:"Single-celled green alga with cup-shaped chloroplast:", a:"Chlamydomonas", b:"Chara", c:"Laminaria", d:"Polytrichum", ans:"a", expl:"Chlamydomonas is unicellular and cup-shaped chloroplast."},
+  {q:"Brown algal hydrocolloid with commercial value:", a:"Agar", b:"Algin", c:"Pyrenoid", d:"Carrageen", ans:"b", expl:"Algin is a polysaccharide derived from brown algae."},
+  {q:"Haploid structure giving rise to leafy moss:", a:"Protonema", b:"Prothallus", c:"Capsule", d:"Strobilus", ans:"a", expl:"Protonema is the first stage in moss."},
+  {q:"Dioecious gymnosperm producing coralloid roots:", a:"Pinus", b:"Cycas", c:"Ginkgo", d:"Cedrus", ans:"b", expl:"Cycas is dioecious and often has coralloid roots."},
+  {q:"Flowerless, vascular cryptogam group:", a:"Pteridophyte", b:"Angiosperm", c:"Moss", d:"Algae", ans:"a", expl:"Pteridophytes are vascular but don't produce flowers or seeds."},
+  {q:"Seed enclosed in fruit is an adaptation first seen in:", a:"Gymnosperms", b:"Angiosperms", c:"Pteridophytes", d:"Bryophytes", ans:"b", expl:"Only angiosperms have enclosed seeds inside fruits."},
+  {q:"Peat moss refers to:", a:"Marchantia", b:"Sphagnum", c:"Polytrichum", d:"Funaria", ans:"b", expl:"Sphagnum forms peat moss deposits."},
+  {q:"Dominant stage in ferns:", a:"Gametophyte", b:"Sporophyte", c:"Zygote", d:"Gemma", ans:"b", expl:"Sporophyte is the dominant, leafy plant in ferns."},
+  {q:"Algae important for carbon fixation in oceans:", a:"Rhodophyceae", b:"Chlorophyceae", c:"Phaeophyceae", d:"All of these", ans:"d", expl:"All major algae groups fix carbon in oceans."},
+  {q:"Thick cuticle, sunken stomata are adaptive traits found in:", a:"Moss", b:"Gymnosperm leaves", c:"Fern leaves", d:"Chlorophyceae", ans:"b", expl:"Gymnosperms adapted for dryness with these traits."},
+  {q:"Red pigment predominant in deep-sea algae:", a:"Phycoerythrin", b:"Xanthophyll", c:"Fucoxanthin", d:"Chlorophyll b", ans:"a", expl:"Phycoerythrin is common in red algae of deep sea."},
+  {q:"A botanist describes a plant as ‘dominant, diploid, vascular, heterosporous but not forming seeds inside fruits.’ Most likely, it is a:", a:"Fern like Selaginella", b:"Moss", c:"Gymnosperm", d:"Angiosperm", ans:"c", expl:"Description best matches gymnosperms."}
+];
+
+/*** QUIZ SCRIPT FIXED ***/
+const rollInput=document.getElementById('rollno');
+const batchSelect=document.getElementById('batch');
+const startBtn=document.getElementById('startBtn');
+const quizSection=document.getElementById('quiz-section');
+const progressDiv=document.getElementById('progress');
+const questionText=document.getElementById('question-text');
+const optionsForm=document.getElementById('options-form');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const skipBtn=document.getElementById('skipBtn');
+const submitBtn=document.getElementById('submitBtn');
+const finishSection=document.getElementById('finish-section');
+const resultDetails=document.getElementById('resultDetails');
+const resultScore=document.getElementById('resultScore');
+const attemptedCount=document.getElementById('attemptedCount');
+const correctCount=document.getElementById('correctCount');
+const wrongCount=document.getElementById('wrongCount');
+const notAttemptedCount=document.getElementById('notAttemptedCount');
+const reviewSection=document.getElementById('review-section');
+const pieCanvas=document.getElementById('piechart');
+const questionNavigator=document.getElementById('question-navigator');
+
+let currentQuestionIndex=0;
+let answers=new Array(mcqs.length).fill(undefined);
+
+function validateInput(){
+  const roll=parseInt(rollInput.value.trim(),10);
+  startBtn.disabled=!(roll>=1 && roll<=200 && batchSelect.value);
+}
+rollInput.addEventListener('input',()=>{rollInput.value=rollInput.value.replace(/\D/g,'');validateInput();});
+batchSelect.addEventListener('change',validateInput);
+
+startBtn.onclick=()=>{ document.getElementById('login-section').style.display='none'; quizSection.style.display='flex'; renderNavigator(); loadQuestion(0); };
+
+function renderNavigator(){
+  questionNavigator.innerHTML='';
+  mcqs.forEach((q,i)=>{
+    let btn=document.createElement('button');
+    btn.textContent=i+1;
+    btn.className='q-nav-btn not-attempted';
+    btn.dataset.index=i;
+    btn.onclick=()=>loadQuestion(i);
+    questionNavigator.appendChild(btn);
+  });
+}
+function updateNavigatorColors(){
+  questionNavigator.querySelectorAll('.q-nav-btn').forEach(btn=>{
+    const idx=+btn.dataset.index;
+    btn.classList.remove('attempted','skipped','not-attempted','current');
+    if(idx===currentQuestionIndex) btn.classList.add('current');
+    if(answers[idx]===undefined) btn.classList.add('not-attempted');
+    else if(answers[idx]===null) btn.classList.add('skipped');
+    else btn.classList.add('attempted');
+  });
+}
+function loadQuestion(i){
+  currentQuestionIndex=i;
+  const q=mcqs[i];
+  questionText.textContent=`Q${i+1}. ${q.q}`;
+  optionsForm.innerHTML='';
+  ['a','b','c','d'].forEach(key=>{
+    const lbl=document.createElement('label');
+    lbl.className='option-label';
+    lbl.innerHTML=`<input type="radio" name="option" value="${key}"><span class="option-letter">(${key.toUpperCase()})</span>${q[key]}`;
+    optionsForm.appendChild(lbl);
+  });
+  optionsForm.querySelectorAll('input[type="radio"]').forEach(radio=>{
+    radio.addEventListener('change',()=>{
+      optionsForm.querySelectorAll('label.option-label').forEach(lbl=>lbl.classList.remove('selected'));
+      radio.closest('label').classList.add('selected');
+      nextBtn.disabled=false;
+    });
+  });
+  if (answers[i]) {
+    const sel=optionsForm.querySelector(`input[value="${answers[i]}"]`);
+    if(sel){ sel.checked=true; sel.closest('label').classList.add('selected'); nextBtn.disabled=false; }
+    else { nextBtn.disabled=true;}
+  } else { nextBtn.disabled=true; }
+  prevBtn.disabled=(i===0);
+  progressDiv.textContent=`Question ${i+1} of ${mcqs.length}`;
+  updateNavigatorColors();
+}
+
+prevBtn.onclick=()=>{ if(currentQuestionIndex>0) loadQuestion(currentQuestionIndex-1); };
+nextBtn.onclick=()=>{ const sel=optionsForm.querySelector('input[name="option"]:checked'); if(sel) answers[currentQuestionIndex]=sel.value; submitBtn.disabled=false; if(currentQuestionIndex<mcqs.length-1) loadQuestion(currentQuestionIndex+1); };
+skipBtn.onclick=()=>{ answers[currentQuestionIndex]=null; submitBtn.disabled=false; if(currentQuestionIndex<mcqs.length-1) loadQuestion(currentQuestionIndex+1); };
+submitBtn.onclick=()=>{ if(confirm('Submit test?')) finalizeTest(); };
+
+function finalizeTest(){
+  quizSection.style.display='none';
+  finishSection.style.display='block';
+  const total = mcqs.length;
+  const correct = answers.filter((a,i)=>a === mcqs[i].ans).length;
+  const wrong = answers.filter((a,i)=>a !== null && a !== undefined && a !== mcqs[i].ans).length;
+  const attempted = answers.filter(a=>a !== null && a !== undefined).length;
+  const skipped = answers.filter(a=>a === null).length;
+  const notAttempted = answers.filter(a=>a === undefined).length;
+  const score = correct*4 - wrong;
+  const pct = ((score/(total*4))*100).toFixed(2);
+
+  resultDetails.innerHTML=`<strong>Roll Number:</strong> ${rollInput.value.padStart(2,'0')}<br><strong>Batch:</strong> ${batchSelect.value}`;
+  resultScore.textContent=`Score: ${score} / ${total*4} (${pct}%)`;
+  resultScore.style.color=score>=0 ? '#08ad6c' : '#d64541';
+  attemptedCount.textContent=attempted;
+  correctCount.textContent=correct;
+  wrongCount.textContent=wrong;
+  notAttemptedCount.textContent=notAttempted;
+  drawPieChart(correct, wrong, skipped);
+  renderReview();
+}
+function drawPieChart(c,w,s){
+  const ctx=pieCanvas.getContext('2d');
+  const total=c+w+s || 1; const cx=110, cy=110, r=100;
+  ctx.clearRect(0,0,pieCanvas.width,pieCanvas.height);
+  let start=-Math.PI/2;
+  const slices=[{v:c,col:'#08ad6c'},{v:w,col:'#d64541'},{v:s,col:'#197fd6'}];
+  slices.forEach(sl=>{ if(!sl.v) return; const ang=(sl.v/total)*2*Math.PI; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,start+ang); ctx.closePath(); ctx.fillStyle=sl.col; ctx.fill(); start+=ang; });
+}
+function renderReview(){
+  let html='<table class="review-table"><thead><tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct</th><th>Status</th><th>Explanation</th></tr></thead><tbody>';
+  mcqs.forEach((q,i)=>{
+    const a = answers[i];
+    const yourAns=(a===null)?'Skipped':(a!==undefined)?`(${a}) ${q[a]}`:'Not Attempted';
+    const correctAns=`(${q.ans}) ${q[q.ans]}`;
+    const status=(a===null)?'<span class="skipped">Skipped</span>':(a===q.ans)?'<span class="correct">Correct</span>':'<span class="incorrect">Wrong</span>';
+    html+=`<tr><td>${i+1}</td><td>${q.q}</td><td>${yourAns}</td><td>${correctAns}</td><td>${status}</td><td>${q.expl}</td></tr>`;
+  });
+  html+='</tbody></table>'; reviewSection.innerHTML=html;
+}
+document.getElementById("printBtn").onclick=()=>{const fs=document.getElementById('finish-section');let original=document.body.innerHTML;document.body.innerHTML=fs.innerHTML;window.print();document.body.innerHTML=original;location.reload();};
+document.getElementById("pdfBtn").onclick=()=>{const { jsPDF }=window.jspdf;const doc=new jsPDF();doc.setFontSize(15);doc.text("BIOLOGY TEST - VISHWAJEET SCIENCE ACADEMY",105,16,{align:"center"});doc.setFontSize(10);doc.text(resultDetails.innerText,14,26);doc.text(resultScore.innerText,14,32);doc.autoTable({html:"#review-section table",startY:40,theme:"grid",headStyles:{fillColor:[30,144,255]}});doc.save("Biology_Test_Result.pdf");};
+document.getElementById("excelBtn").onclick=()=>{let table=document.querySelector("#review-section table");if(!table){alert("No review table.");return;}let html=table.outerHTML.replace(/ /g,"%20");let blob=new Blob([html],{type:'application/vnd.ms-excel'});let link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download="Biology_Test_Result.xls";link.click();setTimeout(()=>URL.revokeObjectURL(link.href),1000);};
+</script>
+</body>
+</html>

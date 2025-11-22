@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Biology Test - Vishwajeet Science Academy</title>
+<style>
+/* --- styles as in your template --- */
+body {
+  font-family: 'Poppins', Arial, sans-serif;
+  background: #f4f7fc;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+.page-border {
+  min-height: 100vh;
+  border: 6px solid #1e90ff;
+  border-radius: 20px;
+  margin: 0;
+  background: white;
+  box-shadow: 0 0 35px #a0befd;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 0;
+}
+.container {width:97%;max-width:950px;margin:auto;display:flex;flex-direction:column;}
+h2.main-title {text-align:center;margin-bottom:18px;font-size:1.65rem;color:#1c416b;font-weight:800;}
+label {font-weight:600;margin:14px 0 7px;display:block;}
+input[type=text], select {width:100%;padding:10px 12px;font-size:1.04em;border-radius:7px;border:1.4px solid #bbb;background:#f9f9fb;}
+#startBtn {margin-top:20px;padding:14px 40px;font-size:1.12em;font-weight:700;border-radius:8px;background:#1e90ff;color:white;border:none;cursor:pointer;}
+#startBtn:disabled {background:#a0bbd9;cursor:not-allowed;}
+#startBtn:not(:disabled):hover {background:#1970dd;}
+#quiz-section {display:none;margin-top:22px;gap:25px;}
+#progress {text-align:center;margin-bottom:16px;font-size:1.1em;color:#555;}
+.question-text {font-weight:700;font-size:1.22em;margin-bottom:17px;}
+.options {margin-bottom:25px;}
+.options label.option-label {display:flex;align-items:center;gap:13px;background:#f9f9f9;border:2px solid #eaeaea;border-radius:9px;margin-bottom:14px;font-size:1.08em;font-weight:500;cursor:pointer;transition:all 0.18s;min-height:48px;padding:0 20px;}
+.options label.option-label:hover {border:2px solid #1976d2;background:#f0f9ff;box-shadow:0 2px 8px #1976d215;}
+.options input[type="radio"] {accent-color:#1976d2;appearance:none;width:22px;height:22px;border:2px solid #bbb;border-radius:50%;background:#fff;margin-right:10px;}
+.options input[type="radio"]:checked {border:7px solid #1976d2;background:#f3f8fd;}
+.options label.option-label.selected {border:2.5px solid #1976d2;background:#eef6fb;}
+.options .option-letter {font-weight:700;color:#1976d2;font-size:1.13em;padding-right:10px;}
+#navigation {text-align:center;margin-top:12px;}
+.nav-btn {padding:12px 26px;border-radius:8px;border:none;font-weight:700;font-size:1.1em;margin:0 10px;background:#1976d2;color:white;}
+.nav-btn:hover:not(:disabled) {background:#065ab1;}
+.nav-btn:disabled {background:#b9cce1;}
+#submitBtn {margin-top:22px;padding:14px 42px;font-weight:700;font-size:1.2em;background:#238823;color:white;border:none;border-radius:9px;}
+#submitBtn:disabled {background:#a8d1b7;}
+#finish-section {display:none;margin-top:25px;}
+.card {width:470px;max-width:96vw;background:white;border:3px solid #1e90ff;border-radius:22px;box-shadow:0 0 18px #7bb9fd;padding:30px 20px;text-align:center;margin:0 auto;}
+.card h1 {font-size:1.4rem;margin-bottom:20px;color:#1c416b;}
+.trophy {font-size:2.3rem;margin-bottom:15px;color:#ffbb1f;}
+.details {font-size:1rem;font-weight:600;color:#444;margin-bottom:20px;}
+.score {font-size:1.25rem;font-weight:800;margin-bottom:20px;}
+.stats {display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.stat {flex:1;background:#f5f8fa;border-radius:10px;padding:10px;text-align:center;min-width:80px;}
+.stat-number {width:44px;height:44px;margin:0 auto 8px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2em;}
+.stat.attempted .stat-number {background:#197fd6;color:white;}
+.stat.correct .stat-number {background:#08ad6c;color:white;}
+.stat.wrong .stat-number {background:#d64541;color:white;}
+.stat.notattempted .stat-number {background:#ddd;color:#333;}
+#question-navigator {margin-left:24px;width:210px;display:grid;grid-template-columns:repeat(5,36px);grid-auto-rows:36px;gap:10px;}
+.q-nav-btn {border-radius:6px;border:none;cursor:pointer;color:white;font-weight:700;}
+.q-nav-btn.not-attempted {background:#d64541;}
+.q-nav-btn.skipped {background:#197fd6;}
+.q-nav-btn.attempted {background:#08ad6c;}
+.q-nav-btn.current {outline:2px solid #000;}
+table.review-table {width:100%;border-collapse:collapse;margin-top:15px;}
+table.review-table th, table.review-table td {border:1px solid #ccc;padding:6px;}
+.correct{color:#08ad6c;font-weight:bold;}
+.incorrect{color:#d64541;font-weight:bold;}
+.skipped{color:#197fd6;font-weight:bold;}
+.export-btns {margin:22px auto 0 auto;display:flex;gap:15px;flex-wrap:wrap;justify-content:center;}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+<div class="page-border">
+<div class="container">
+<h2 class="main-title">BIOLOGY TEST - VISHWAJEET SCIENCE ACADEMY</h2>
+<div id="login-section">
+  <label for="rollno">Enter Roll Number (01-200)</label>
+  <input type="text" id="rollno" maxlength="3" placeholder="e.g. 01" />
+  <label for="batch">Select Batch</label>
+  <select id="batch">
+    <option value="">-- Select Batch --</option>
+    <option value="11th">11th</option>
+    <option value="12th">12th</option>
+    <option value="NEET Repeater">NEET Repeater</option>
+  </select>
+  <button id="startBtn" disabled>Start Test</button>
+</div>
+<section id="quiz-section">
+  <div style="flex:1">
+    <div id="progress"></div>
+    <div id="question-block">
+      <div class="question-text" id="question-text"></div>
+      <form id="options-form" class="options"></form>
+    </div>
+    <div id="navigation">
+      <button id="prevBtn" class="nav-btn" disabled>Previous</button>
+      <button id="skipBtn" class="nav-btn">Skip</button>
+      <button id="nextBtn" class="nav-btn" disabled>Next</button>
+    </div>
+    <button id="submitBtn" disabled>Submit Test</button>
+  </div>
+  <nav id="question-navigator"></nav>
+</section>
+<section id="finish-section">
+  <div style="display:flex; flex-direction:column; align-items:center;">
+    <div class="card">
+      <h1><span class="trophy">&#x1F3C6;</span> Congratulations! Your Test has been Submitted <span class="trophy">&#x1F3C6;</span></h1>
+      <div class="details" id="resultDetails"></div>
+      <div id="resultScore" class="score"></div>
+      <div class="stats">
+        <div class="stat attempted"><div class="stat-number" id="attemptedCount">0</div><p>Attempted</p></div>
+        <div class="stat correct"><div class="stat-number" id="correctCount">0</div><p>Correct</p></div>
+        <div class="stat wrong"><div class="stat-number" id="wrongCount">0</div><p>Wrong</p></div>
+        <div class="stat notattempted"><div class="stat-number" id="notAttemptedCount">0</div><p>Not Attempted</p></div>
+      </div>
+      <canvas id="piechart" width="220" height="220"></canvas>
+      <div class="footer">© 2025 Vishwajeet Science Academy</div>
+    </div>
+    <div class="export-btns">
+      <button class="nav-btn" id="printBtn" type="button">🖨️ Print Report</button>
+      <button class="nav-btn" id="pdfBtn" type="button">⬇️ Download PDF</button>
+      <button class="nav-btn" id="excelBtn" type="button">⬇️ Export to Excel</button>
+    </div>
+  </div>
+  <h2 id="review-heading" style="margin-top:36px;">Review Your Answers</h2>
+  <div id="review-section"></div>
+</section>
+</div>
+</div>
+<script>
+/* --- Full 60 MCQs array here in {q,a,b,c,d,ans,expl} format from our previous answer --- */
+const mcqs = [
+  {q:"A pond suddenly turns green during summer. The most likely organisms responsible are:", a:"Cyanobacteria", b:"Fungi", c:"Red algae", d:"Lichens", ans:"a", expl:"Cyanobacteria (blue-green algae) commonly cause algal blooms."},
+  {q:"A student observes motile, flagellated, unicellular organisms in stagnant water that show both autotrophic and heterotrophic nutrition. They most likely belong to:", a:"Euglenoids", b:"Dinoflagellates", c:"Ciliates", d:"Slime moulds", ans:"a", expl:"Euglenoids can photosynthesize and ingest food."},
+  {q:"An organism absorbs nutrients from decaying matter, shows network of non septate hyphae, and reproduces by spores in sporangia. Its probable group is:", a:"Phycomycetes", b:"Basidiomycetes", c:"Ascomycetes", d:"Zygomycetes", ans:"a", expl:"Phycomycetes have non-septate hyphae and reproduce with sporangiospores."},
+  {q:"A marine biologist finds unicellular algae with silica cell walls like 'soap boxes' under a microscope. These organisms are:", a:"Dinoflagellates", b:"Diatoms", c:"Euglenoids", d:"Slime moulds", ans:"b", expl:"Diatoms have siliceous shells of two halves."},
+  {q:"A plant grows poorly in nitrogen-deficient soil but flourishes with lichens present. Why?", a:"Lichens fix nitrogen", b:"Cyanobacteria in lichens fix nitrogen", c:"Fungi in lichens absorb nitrogen", d:"None", ans:"b", expl:"Cyanobacteria in lichens fix atmospheric nitrogen."},
+  {q:"A scientist isolates a cell with no definite cell wall, flexible pellicle, and central nucleus. To which group could it belong?", a:"Euglenoids", b:"Diatoms", c:"Monera", d:"Basidiomycetes", ans:"a", expl:"Euglenoids have no cell wall but possess a pellicle."},
+  {q:"A water body appears reddish during summer. What is likely the cause?", a:"Rapid multiplication of diatoms", b:"Rapid multiplication of red dinoflagellates", c:"Outbreak of yeasts", d:"Bloom of moss", ans:"b", expl:"Red tides are caused by dinoflagellates."},
+  {q:"A fungus producing conidia in chains and used commercially for antibiotic production is:", a:"Agaricus", b:"Penicillium", c:"Rhizopus", d:"Puccinia", ans:"b", expl:"Penicillium produces conidia and antibiotics."},
+  {q:"A pond sample shows colonies of photosynthetic prokaryotes. These are most likely:", a:"Cyanobacteria", b:"Euglenoids", c:"Red algae", d:"Oomycetes", ans:"a", expl:"Cyanobacteria are photosynthetic prokaryotes."},
+  {q:"Which organism likely survives in hot water springs of 100°C?", a:"Methanogens", b:"Halophiles", c:"Thermoacidophiles", d:"Diatoms", ans:"c", expl:"Thermoacidophiles live in extreme heat."},
+
+  {q:"Assertion: All prokaryotes are unicellular organisms.\nReason: Prokaryotic cells lack a membrane-bound nucleus.", a:"Both A and R are true, but R is not the explanation of A.", b:"Both A and R are true, and R explains A.", c:"A true, R false.", d:"A false, R true.", ans:"a", expl:"Both are true, but lack of a nucleus is not the reason for unicellularity."},
+  {q:"Assertion: Archaebacteria can survive in extremely salty environments.\nReason: They have unique cell walls for harsh conditions.", a:"Both A and R true, and R explains A.", b:"Both true, R does not explain.", c:"A true, R false.", d:"A false, R true.", ans:"a", expl:"Unique cell wall enables survival in harsh conditions."},
+  {q:"Assertion: Slime moulds move and behave like amoebas during one phase.\nReason: They lack chitin in their vegetative stage.", a:"Both true, R correct explanation.", b:"Both true, but R not explanation.", c:"A true, R false.", d:"Both false.", ans:"b", expl:"Both true but movement is due to amoeboid nature, not cell wall."},
+  {q:"Assertion: Euglenoids do not have a cell wall but possess a flexible pellicle.\nReason: The flexible pellicle aids shape and locomotion.", a:"Both true, R explains A.", b:"Both true, but R not the explanation.", c:"A true, R false.", d:"Both false.", ans:"a", expl:"Pellicle helps shape and movement in euglenoids."},
+  {q:"Assertion: Fruiting bodies in fungi serve for asexual reproduction.\nReason: Fruiting bodies produce sexual spores.", a:"Both true and R explains A.", b:"Both true, but R not the explanation.", c:"A true, R false.", d:"A false, R true.", ans:"d", expl:"Fruiting bodies are for sexual reproduction."},
+  {q:"Assertion: Mycoplasma can survive without a cell wall.\nReason: Mycoplasma have sterols in their cell membrane.", a:"Both true, R explains A.", b:"Both true, R does not explain.", c:"A true, R false.", d:"Both false.", ans:"a", expl:"Sterols stabilize mycoplasma membranes."},
+  {q:"Assertion: Most bacteria are heterotrophic.\nReason: They cannot photosynthesize.", a:"Both true, R explains A.", b:"Both true, R does not explain.", c:"A true, R false.", d:"Both false.", ans:"b", expl:"Some bacteria are photosynthetic."},
+  {q:"Assertion: Diatoms are chief producers in oceans.\nReason: Diatoms are photosynthetic and abundant.", a:"Both true, R explains A.", b:"Both true, R does not explain.", c:"A true, R false.", d:"Both false.", ans:"a", expl:"Photosynthetic and abundant, thus chief producers."},
+  {q:"Assertion: Some cyanobacteria can fix atmospheric nitrogen.\nReason: They possess heterocysts for nitrogen fixation.", a:"Both true, R explains A.", b:"Both true, R does not explain.", c:"A true, R false.", d:"Both false.", ans:"a", expl:"Heterocysts help fix nitrogen in cyanobacteria."},
+  {q:"Assertion: Viruses are considered living only when inside host cells.\nReason: They use host machinery for reproduction.", a:"Both true, R explains A.", b:"Both true, R does not explain.", c:"A true, R false.", d:"Both false.", ans:"a", expl:"They are metabolically active only inside hosts."},
+
+  {q:"Which statements about cyanobacteria are correct?\nI. Capable of photosynthesis\nII. Possess flagella\nIII. Can fix nitrogen\nIV. Lack true nucleus", a:"I, III, IV", b:"I, II, III", c:"I, IV", d:"I, III", ans:"a", expl:"Cyanobacteria don't have flagella, nor true nucleus."},
+  {q:"Select correct for kingdom Protista:\nI. Contains autotrophs and heterotrophs\nII. Only multicellular\nIII. Motility by cilia, flagella, or pseudopodia\nIV. Nuclear membrane present", a:"I, III, IV", b:"II, III, IV", c:"I, II, III", d:"All", ans:"a", expl:"Protists are mostly unicellular."},
+  {q:"Which features relate to archaea?\nI. Peptidoglycan in wall\nII. Live in high-temp areas\nIII. Methanogenesis\nIV. Modern rRNA sequences", a:"II, III, IV", b:"I, IV", c:"II, III", d:"I, II", ans:"a", expl:"No peptidoglycan, but the others apply."},
+  {q:"Viruses (choose all correct):\nI. Both DNA and RNA in a single virion\nII. Lack cellular organization\nIII. Show living characters only inside host\nIV. Can infect bacteria", a:"II, III, IV", b:"I, II", c:"I, II, IV", d:"All", ans:"a", expl:"A virion has either DNA or RNA (not both); viruses infect bacteria and lack cellular organization."},
+  {q:"Concerning diatoms:\nI. 'Pearls of the ocean'\nII. Silica shells remain after death\nIII. Chemosynthetic\nIV. Source of food for aquatic animals", a:"I, II, IV", b:"II, III, IV", c:"I, III, IV", d:"All", ans:"a", expl:"Diatoms are not chemosynthetic."},
+  {q:"Features of fungi:\nI. Heterotrophic\nII. Cell wall with chitin\nIII. Chlorophyll present\nIV. Filamentous body", a:"I, II, IV", b:"II, III, IV", c:"I, II", d:"I, II, III", ans:"a", expl:"Fungi are heterotrophic, chitinous and filamentous; no chlorophyll."},
+  {q:"Correct statements about dinoflagellates:\nI. Mostly marine\nII. Possess two flagella\nIII. Cellulose covered by shells\nIV. Cause waterborne diseases", a:"I, II, III", b:"II, III, IV", c:"I, II", d:"All", ans:"a", expl:"Dinoflagellates are mostly marine, with two flagella and cellulose plates."},
+  {q:"Regarding slime molds:\nI. Plasmodium stage is multinucleate\nII. Move using cilia\nIII. Spore walls are highly resistant\nIV. Vegetative phase is amoeboid", a:"I, III, IV", b:"II, III, IV", c:"I, III", d:"I, IV", ans:"a", expl:"Slime molds don't use cilia; other statements are correct."},
+  {q:"About Mycoplasma:\nI. No cell wall\nII. Smallest living cells\nIII. Pathogenic in animals\nIV. Photosynthetic", a:"I, II, III", b:"I, III, IV", c:"II, III, IV", d:"All", ans:"a", expl:"Mycoplasma are not photosynthetic."},
+  {q:"Fungal reproduction methods include:\nI. Conidia\nII. Zoospores\nIII. Basidiospores\nIV. Binary fission", a:"I, II, III", b:"II, III, IV", c:"All", d:"I, III", ans:"a", expl:"Binary fission is not typical for fungi."},
+
+  {q:"Match group to example:\nA. Cyanobacteria-1.Nostoc\nB. Fungi-2.Agaricus\nC. Protista-3.Paramecium\nD. Virus-4.HIV", a:"A-1, B-2, C-3, D-4", b:"A-3, B-1, C-2, D-4", c:"A-4, B-2, C-3, D-1", d:"A-1, B-4, C-2, D-3", ans:"a", expl:"Nostoc is Cyanobacteria etc."},
+  {q:"Match role in ecosystem:\nA. Fungi-1.Saprophyte\nB. Blue-green algae-2.Producer\nC. Nitrosomonas-3.Nitrification\nD. Rhizobium-4.Nitrogen fixation", a:"A-1, B-2, C-3, D-4", b:"A-3, B-4, C-2, D-1", c:"A-2, B-3, C-4, D-1", d:"A-2, B-1, C-3, D-4", ans:"a", expl:"Roles according to NCERT."},
+  {q:"Match group to wall component:\nA. Bacteria-1.Peptidoglycan\nB. Fungi-2.Chitin\nC. Archaea-3.Polysaccharide/lipid\nD. Plant-4.Cellulose", a:"A-1, B-2, C-3, D-4", b:"A-2, B-1, C-3, D-4", c:"A-4, B-1, C-2, D-3", d:"A-1, B-4, C-2, D-3", ans:"a", expl:"NCERT textbook cell wall types."},
+  {q:"Match microbe to use/impact:\nA. Penicillium-1.Antibiotic source\nB. Nostoc-2.Nitrogen fixer\nC. Lichen-3.Pollution indicator\nD. Diatom-4.Diatomaceous earth", a:"A-1, B-2, C-3, D-4", b:"A-3, B-1, C-2, D-4", c:"A-2, B-4, C-3, D-1", d:"A-1, B-2, C-4, D-3", ans:"a", expl:"Penicillium as antibiotic, Nostoc as nitrogen fixer etc."},
+  {q:"Match habitat:\nA. Halophiles-1.Salty marsh\nB. Thermophiles-2.Hot springs\nC. Methanogens-3.Rumen of cattle\nD. Slime molds-4.Decaying wood", a:"A-1, B-2, C-3, D-4", b:"A-2, B-1, C-3, D-4", c:"A-3, B-2, C-4, D-1", d:"A-1, B-4, C-2, D-3", ans:"a", expl:"Each is adapted to the listed habitat."},
+  {q:"Match to disease/feature:\nA. Puccinia-1.Rust disease\nB. Mycoplasma-2.Animal pneumonia\nC. Aspergillus-3.Allergy\nD. Tobacco Mosaic Virus-4.Plant infection", a:"A-1, B-2, C-3, D-4", b:"A-2, B-1, C-3, D-4", c:"A-1, B-3, C-2, D-4", d:"A-4, B-2, C-1, D-3", ans:"a", expl:"NCERT diseases and features."},
+  {q:"Match protist to locomotion:\nA. Amoeba-1.Pseudopodia\nB. Paramecium-2.Cilia\nC. Euglena-3.Flagella\nD. Plasmodium-4.None", a:"A-1, B-2, C-3, D-4", b:"A-2, B-1, C-3, D-4", c:"A-4, B-2, C-3, D-1", d:"A-1, B-4, C-2, D-3", ans:"a", expl:"Locomotor organelles as given in NCERT."},
+  {q:"Match to example:\nA. Basidiomycetes-1.Mushroom\nB. Ascomycetes-2.Yeast\nC. Deuteromycetes-3.Alternaria\nD. Phycomycetes-4.Rhizopus", a:"A-1, B-2, C-3, D-4", b:"A-2, B-3, C-4, D-1", c:"A-4, B-1, C-2, D-3", d:"A-1, B-4, C-2, D-3", ans:"a", expl:"Standard textbook matches."},
+  {q:"Match function:\nA. Lichen-1.Symbiosis\nB. Nostoc-2.Nitrogen fixation\nC. Penicillium-3.Antibiotic\nD. Diatom-4.Aquatic producer", a:"A-1, B-2, C-3, D-4", b:"A-2, B-1, C-4, D-3", c:"A-4, B-1, C-3, D-2", d:"A-1, B-3, C-2, D-4", ans:"a", expl:"Typical NCERT-based functions."},
+  {q:"Match wall-less cells to adaptation:\nA. Mycoplasma-1.Sterol-rich membrane\nB. E. coli-2.Cell wall\nC. Chlamydomonas-3.Cellulose wall\nD. Fungi-4.Chitin wall", a:"A-1, B-2, C-3, D-4", b:"A-2, B-1, C-3, D-4", c:"A-3, B-2, C-4, D-1", d:"A-1, B-4, C-2, D-3", ans:"a", expl:"Sterols help wall-less mycoplasma survive."},
+
+  {q:"Cell wall of fungi is made up of:", a:"Cellulose", b:"Chitin", c:"Peptidoglycan", d:"Silica", ans:"b", expl:"Chitin is the main component in fungal cell walls."},
+  {q:"Kingdom with blue-green algae:", a:"Protista", b:"Plantae", c:"Monera", d:"Fungi", ans:"c", expl:"Cyanobacteria/blue-green algae are classified under Monera."},
+  {q:"Mycoplasma characteristic:", a:"Contains cell wall", b:"Lacks cell wall", c:"Multicellular", d:"Flagellated", ans:"b", expl:"Mycoplasma lack cell walls."},
+  {q:"Infective stage of virus:", a:"Virion", b:"Viroid", c:"Capsid", d:"Prion", ans:"a", expl:"The virion is the infective viral stage."},
+  {q:"Group for methanogenesis:", a:"Cyanobacteria", b:"Archaebacteria", c:"Fungi", d:"Dinoflagellates", ans:"b", expl:"Methanogenesis is a feature of some Archaebacteria."},
+  {q:"Diatoms are called:", a:"Pearls of ocean", b:"Root of ocean", c:"Red tides", d:"Saprophytes", ans:"a", expl:"Their abundance and utility make them pearls of the ocean."},
+  {q:"Red tides caused by:", a:"Diatoms", b:"Slime molds", c:"Dinoflagellates", d:"Basidiomycetes", ans:"c", expl:"Rapid multiplication of dinoflagellates causes red tides."},
+  {q:"Yeasts are:", a:"Ascomycetes", b:"Basidiomycetes", c:"Phycomycetes", d:"Deuteromycetes", ans:"a", expl:"Yeasts are unicellular ascomycetes."},
+  {q:"Connecting link between living and non-living:", a:"Protozoa", b:"Viruses", c:"Bacteria", d:"Fungi", ans:"b", expl:"Viruses show both living and non-living characteristics."},
+  {q:"A lichen is an association between:", a:"Alga and bacterium", b:"Fungus and alga", c:"Fungus and protozoa", d:"Bacteria and fungus", ans:"b", expl:"A lichen is symbiosis between a fungus and an alga."},
+  {q:"Fruiting body is found in:", a:"Fungi", b:"Bacteria", c:"Euglenoids", d:"Virus", ans:"a", expl:"Fruiting body is characteristic of fungi, for sexual reproduction."},
+  {q:"Photosynthetic pigment in cyanobacteria:", a:"Chlorophyll a", b:"Chlorophyll c", c:"Rhodopsin", d:"Phycoerythrin", ans:"a", expl:"Cyanobacteria contain chlorophyll a."},
+  {q:"Atypical genetic material in prions:", a:"RNA", b:"DNA", c:"Protein", d:"Both DNA and RNA", ans:"c", expl:"Prions are made solely of protein."},
+  {q:"Pili are found in:", a:"Bacteria", b:"Fungi", c:"Diatoms", d:"Algae", ans:"a", expl:"Pili are present on bacterial cell surfaces."},
+  {q:"Saprophytic nutrition is common in:", a:"Bacteria", b:"Plants", c:"Diatoms", d:"Viruses", ans:"a", expl:"Many bacteria are saprophytic."},
+  {q:"A structure unique to bacterial cell envelope is:", a:"Peptidoglycan", b:"Chitin", c:"Silica", d:"Lignin", ans:"a", expl:"Bacterial cell walls are composed largely of peptidoglycan."},
+  {q:"Prokaryotes have:", a:"70S ribosomes", b:"80S ribosomes", c:"No ribosomes", d:"90S ribosomes", ans:"a", expl:"The 70S ribosome is typical of prokaryotes."},
+  {q:"Gametophyte is the dominant phase in:", a:"Fungi", b:"Cyanobacteria", c:"Dinoflagellates", d:"Slime moulds", ans:"d", expl:"Slime moulds have a dominant gametophytic (haploid) stage."},
+  {q:"Responsible for bread mold:", a:"Rhizopus", b:"Penicillium", c:"Aspergillus", d:"Saccharomyces", ans:"a", expl:"Rhizopus is called bread mold."},
+  {q:"Antibiotic first extracted from:", a:"Penicillium", b:"Streptococcus", c:"Nostoc", d:"Puccinia", ans:"a", expl:"Penicillin was first extracted from Penicillium notatum."}
+ ];
+
+/*** QUIZ SCRIPT FIXED ***/
+const rollInput=document.getElementById('rollno');
+const batchSelect=document.getElementById('batch');
+const startBtn=document.getElementById('startBtn');
+const quizSection=document.getElementById('quiz-section');
+const progressDiv=document.getElementById('progress');
+const questionText=document.getElementById('question-text');
+const optionsForm=document.getElementById('options-form');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const skipBtn=document.getElementById('skipBtn');
+const submitBtn=document.getElementById('submitBtn');
+const finishSection=document.getElementById('finish-section');
+const resultDetails=document.getElementById('resultDetails');
+const resultScore=document.getElementById('resultScore');
+const attemptedCount=document.getElementById('attemptedCount');
+const correctCount=document.getElementById('correctCount');
+const wrongCount=document.getElementById('wrongCount');
+const notAttemptedCount=document.getElementById('notAttemptedCount');
+const reviewSection=document.getElementById('review-section');
+const pieCanvas=document.getElementById('piechart');
+const questionNavigator=document.getElementById('question-navigator');
+
+let currentQuestionIndex=0;
+let answers=new Array(mcqs.length).fill(undefined);
+
+function validateInput(){
+  const roll=parseInt(rollInput.value.trim(),10);
+  startBtn.disabled=!(roll>=1 && roll<=200 && batchSelect.value);
+}
+rollInput.addEventListener('input',()=>{rollInput.value=rollInput.value.replace(/\D/g,'');validateInput();});
+batchSelect.addEventListener('change',validateInput);
+
+startBtn.onclick=()=>{ document.getElementById('login-section').style.display='none'; quizSection.style.display='flex'; renderNavigator(); loadQuestion(0); };
+
+function renderNavigator(){
+  questionNavigator.innerHTML='';
+  mcqs.forEach((q,i)=>{
+    let btn=document.createElement('button');
+    btn.textContent=i+1;
+    btn.className='q-nav-btn not-attempted';
+    btn.dataset.index=i;
+    btn.onclick=()=>loadQuestion(i);
+    questionNavigator.appendChild(btn);
+  });
+}
+function updateNavigatorColors(){
+  questionNavigator.querySelectorAll('.q-nav-btn').forEach(btn=>{
+    const idx=+btn.dataset.index;
+    btn.classList.remove('attempted','skipped','not-attempted','current');
+    if(idx===currentQuestionIndex) btn.classList.add('current');
+    if(answers[idx]===undefined) btn.classList.add('not-attempted');
+    else if(answers[idx]===null) btn.classList.add('skipped');
+    else btn.classList.add('attempted');
+  });
+}
+function loadQuestion(i){
+  currentQuestionIndex=i;
+  const q=mcqs[i];
+  questionText.textContent=`Q${i+1}. ${q.q}`;
+  optionsForm.innerHTML='';
+  ['a','b','c','d'].forEach(key=>{
+    const lbl=document.createElement('label');
+    lbl.className='option-label';
+    lbl.innerHTML=`<input type="radio" name="option" value="${key}"><span class="option-letter">(${key.toUpperCase()})</span>${q[key]}`;
+    optionsForm.appendChild(lbl);
+  });
+  optionsForm.querySelectorAll('input[type="radio"]').forEach(radio=>{
+    radio.addEventListener('change',()=>{
+      optionsForm.querySelectorAll('label.option-label').forEach(lbl=>lbl.classList.remove('selected'));
+      radio.closest('label').classList.add('selected');
+      nextBtn.disabled=false;
+    });
+  });
+  if (answers[i]) {
+    const sel=optionsForm.querySelector(`input[value="${answers[i]}"]`);
+    if(sel){ sel.checked=true; sel.closest('label').classList.add('selected'); nextBtn.disabled=false; }
+    else { nextBtn.disabled=true;}
+  } else { nextBtn.disabled=true; }
+  prevBtn.disabled=(i===0);
+  progressDiv.textContent=`Question ${i+1} of ${mcqs.length}`;
+  updateNavigatorColors();
+}
+
+prevBtn.onclick=()=>{ if(currentQuestionIndex>0) loadQuestion(currentQuestionIndex-1); };
+nextBtn.onclick=()=>{ const sel=optionsForm.querySelector('input[name="option"]:checked'); if(sel) answers[currentQuestionIndex]=sel.value; submitBtn.disabled=false; if(currentQuestionIndex<mcqs.length-1) loadQuestion(currentQuestionIndex+1); };
+skipBtn.onclick=()=>{ answers[currentQuestionIndex]=null; submitBtn.disabled=false; if(currentQuestionIndex<mcqs.length-1) loadQuestion(currentQuestionIndex+1); };
+submitBtn.onclick=()=>{ if(confirm('Submit test?')) finalizeTest(); };
+
+function finalizeTest(){
+  quizSection.style.display='none';
+  finishSection.style.display='block';
+  const total = mcqs.length;
+  const correct = answers.filter((a,i)=>a === mcqs[i].ans).length;
+  const wrong = answers.filter((a,i)=>a !== null && a !== undefined && a !== mcqs[i].ans).length;
+  const attempted = answers.filter(a=>a !== null && a !== undefined).length;
+  const skipped = answers.filter(a=>a === null).length;
+  const notAttempted = answers.filter(a=>a === undefined).length;
+  const score = correct*4 - wrong;
+  const pct = ((score/(total*4))*100).toFixed(2);
+
+  resultDetails.innerHTML=`<strong>Roll Number:</strong> ${rollInput.value.padStart(2,'0')}<br><strong>Batch:</strong> ${batchSelect.value}`;
+  resultScore.textContent=`Score: ${score} / ${total*4} (${pct}%)`;
+  resultScore.style.color=score>=0 ? '#08ad6c' : '#d64541';
+  attemptedCount.textContent=attempted;
+  correctCount.textContent=correct;
+  wrongCount.textContent=wrong;
+  notAttemptedCount.textContent=notAttempted;
+  drawPieChart(correct, wrong, skipped);
+  renderReview();
+}
+function drawPieChart(c,w,s){
+  const ctx=pieCanvas.getContext('2d');
+  const total=c+w+s || 1; const cx=110, cy=110, r=100;
+  ctx.clearRect(0,0,pieCanvas.width,pieCanvas.height);
+  let start=-Math.PI/2;
+  const slices=[{v:c,col:'#08ad6c'},{v:w,col:'#d64541'},{v:s,col:'#197fd6'}];
+  slices.forEach(sl=>{ if(!sl.v) return; const ang=(sl.v/total)*2*Math.PI; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,start+ang); ctx.closePath(); ctx.fillStyle=sl.col; ctx.fill(); start+=ang; });
+}
+function renderReview(){
+  let html='<table class="review-table"><thead><tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct</th><th>Status</th><th>Explanation</th></tr></thead><tbody>';
+  mcqs.forEach((q,i)=>{
+    const a = answers[i];
+    const yourAns=(a===null)?'Skipped':(a!==undefined)?`(${a}) ${q[a]}`:'Not Attempted';
+    const correctAns=`(${q.ans}) ${q[q.ans]}`;
+    const status=(a===null)?'<span class="skipped">Skipped</span>':(a===q.ans)?'<span class="correct">Correct</span>':'<span class="incorrect">Wrong</span>';
+    html+=`<tr><td>${i+1}</td><td>${q.q}</td><td>${yourAns}</td><td>${correctAns}</td><td>${status}</td><td>${q.expl}</td></tr>`;
+  });
+  html+='</tbody></table>'; reviewSection.innerHTML=html;
+}
+document.getElementById("printBtn").onclick=()=>{const fs=document.getElementById('finish-section');let original=document.body.innerHTML;document.body.innerHTML=fs.innerHTML;window.print();document.body.innerHTML=original;location.reload();};
+document.getElementById("pdfBtn").onclick=()=>{const { jsPDF }=window.jspdf;const doc=new jsPDF();doc.setFontSize(15);doc.text("BIOLOGY TEST - VISHWAJEET SCIENCE ACADEMY",105,16,{align:"center"});doc.setFontSize(10);doc.text(resultDetails.innerText,14,26);doc.text(resultScore.innerText,14,32);doc.autoTable({html:"#review-section table",startY:40,theme:"grid",headStyles:{fillColor:[30,144,255]}});doc.save("Biology_Test_Result.pdf");};
+document.getElementById("excelBtn").onclick=()=>{let table=document.querySelector("#review-section table");if(!table){alert("No review table.");return;}let html=table.outerHTML.replace(/ /g,"%20");let blob=new Blob([html],{type:'application/vnd.ms-excel'});let link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download="Biology_Test_Result.xls";link.click();setTimeout(()=>URL.revokeObjectURL(link.href),1000);};
+</script>
+</body>
+</html>
