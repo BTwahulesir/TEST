@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student MCQ Test Dashboard - Structural Organisation in Animals</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f6fb;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      align-items: flex-start;
+      padding-top: 20px;
+    }
+    .container {
+      background: white;
+      max-width: 750px;
+      width: 95%;
+      padding: 25px 30px 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px #c0dbf8;
+    }
+    h2 {
+      color: #254e7b;
+      margin-bottom: 15px;
+      font-size: 1.6em;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 1em;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    #startBtn {
+      background: #1f71b8;
+      border: none;
+      color: white;
+      padding: 12px 28px;
+      font-weight: 700;
+      font-size: 1.1em;
+      border-radius: 8px;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto 10px auto;
+      transition: background-color 0.3s ease;
+    }
+    #startBtn:hover:not(:disabled) {
+      background: #125a9b;
+    }
+    #startBtn:disabled {
+      background: #a2b8d1;
+      cursor: not-allowed;
+    }
+    #quiz-section {
+      display: none;
+      margin-top: 15px;
+    }
+    #score {
+      font-size: 1.3em;
+      font-weight: 700;
+      color: #2f7d32;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    #progress {
+      color: #666;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .question-text {
+      font-weight: 600;
+      font-size: 1.15em;
+      margin-bottom: 18px;
+    }
+    .option-label {
+      display: block;
+      margin-bottom: 10px;
+      cursor: pointer;
+      font-size: 1.05em;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    #navigation {
+      margin-top: 22px;
+      text-align: center;
+    }
+    button.nav-btn {
+      background: #1f71b8;
+      border: none;
+      color: white;
+      padding: 11px 22px;
+      font-weight: 600;
+      border-radius: 7px;
+      margin: 0 10px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+    button.nav-btn:disabled {
+      background: #a2b8d1;
+      cursor: not-allowed;
+    }
+    button.nav-btn:hover:not(:disabled) {
+      background: #125a9b;
+    }
+    #submitBtn {
+      background: #277b2f;
+      margin-top: 25px;
+      padding: 14px 32px;
+      font-size: 1.2em;
+      cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 700;
+      border-radius: 8px;
+    }
+    #submitBtn:disabled {
+      background: #94c27a;
+      cursor: not-allowed;
+    }
+    #explanation {
+      background: #e2f0d9;
+      border-left: 5px solid #4caf50;
+      padding: 12px 15px;
+      margin-top: 18px;
+      font-size: 0.95em;
+      display: none;
+      line-height: 1.3;
+    }
+    #finish-section {
+      display: none;
+      margin-top: 15px;
+      text-align: center;
+    }
+    #summary {
+      margin: 18px 0;
+      font-size: 1.1em;
+      line-height: 1.4em;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #piechart {
+      margin: 20px auto;
+      display: block;
+      max-width: 350px;
+      max-height: 350px;
+    }
+    table.review-table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 25px;
+      font-size: 0.9em;
+    }
+    table.review-table th,
+    table.review-table td {
+      border: 1px solid #ccc;
+      padding: 8px 9px;
+      text-align: left;
+    }
+    table.review-table th {
+      background: #c9deca;
+    }
+    .correct {
+      color: #227629;
+      font-weight: 700;
+    }
+    .incorrect {
+      color: #b21d1d;
+      font-weight: 700;
+    }
+    .skipped {
+      color: #b28b23;
+      font-weight: 700;
+    }
+    #review-section {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background: #fdfdfd;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Student MCQ Test - Structural Organisation in Animals</h2>
+
+    <div id="login-section">
+      <label for="rollno">Enter Roll Number (01-200):</label>
+      <input type="text" id="rollno" maxlength="3" placeholder="e.g. 01" />
+      
+      <label for="batch">Select Batch:</label>
+      <select id="batch">
+        <option value="">-- Select Batch --</option>
+        <option value="11th">11th</option>
+        <option value="12th">12th</option>
+        <option value="NEET Repeater">NEET Repeater</option>
+      </select>
+      
+      <button id="startBtn" disabled>Start Test</button>
+    </div>
+
+    <section id="quiz-section" aria-live="polite">
+      <div id="score">Score: 0</div>
+      <div id="progress"></div>
+
+      <div id="question-block">
+        <div class="question-text" id="question-text"></div>
+        <form id="options-form">
+          <!-- radio buttons injected here -->
+        </form>
+      </div>
+
+      <div id="explanation"></div>
+
+      <div id="navigation">
+        <button id="prevBtn" class="nav-btn" disabled>Previous</button>
+        <button id="skipBtn" class="nav-btn">Skip</button>
+        <button id="nextBtn" class="nav-btn" disabled>Next</button>
+      </div>
+
+      <button id="submitBtn" disabled>Submit Test</button>
+    </section>
+
+    <section id="finish-section">
+      <h3>Test Completed!</h3>
+      <div id="summary"></div>
+      <canvas id="piechart" width="350" height="350" aria-label="Score Distribution Pie Chart"></canvas>
+      <h4>Review your answers below:</h4>
+      <div id="review-section"></div>
+    </section>
+  </div>
+
+  <script>
+    // MCQs Dataset (Add 100 in same structure)
+    const mcqs = [
+      // Sample 10 example questions included here. Extend for full 100 as per earlier.
+      {q:"The tissue with negligible intercellular matrix is",a:"Muscular",b:"Nervous",c:"Epithelial",d:"Connective",ans:"c",expl:"Epithelial tissue: tightly packed cells; little matrix"},
+      {q:"Which of the following lines alveoli of lungs?",a:"Cuboidal epithelium",b:"Squamous epithelium",c:"Ciliated epithelium",d:"Columnar epithelium",ans:"b",expl:"Squamous epithelium is thin, allows exchange"},
+      {q:"Dense regular connective tissue forms",a:"Ligaments",b:"Tendons",c:"Both (a) and (b)",d:"Cartilage",ans:"c",expl:"Tendons/ligaments: both dense regular connective tissue"},
+      {q:"Adipose tissue mainly stores",a:"Protein",b:"Fat",c:"Water",d:"Mineral",ans:"b",expl:"Adipose stores fat"},
+      {q:"Frog’s respiratory organs include",a:"Lung only",b:"Skin only",c:"Skin, lungs, buccal cavity",d:"Gill",ans:"c",expl:"Frogs respire by skin, lung, buccal cavity"},
+      {q:"Nucleus is absent in",a:"Red blood cells",b:"Neutrophils",c:"Platelets",d:"Monocytes",ans:"a",expl:"Mammalian RBCs lack nucleus"},
+      {q:"The matrix of bone contains primarily",a:"Chondrin",b:"Keratin",c:"Calcium salts",d:"Collagen",ans:"c",expl:"Bones: matrix of calcium salts and collagen"},
+      {q:"Which tissue is responsible for contraction and movement?",a:"Muscular tissue",b:"Connective tissue",c:"Epithelial tissue",d:"Nervous tissue",ans:"a",expl:"Only muscle tissue contracts"},
+      {q:"The frog’s heart is",a:"Two-chambered",b:"Three-chambered",c:"Four-chambered",d:"Single chambered",ans:"b",expl:"Two atria, one ventricle"},
+      {q:"Intercalated discs are present in",a:"Smooth muscles",b:"Cardiac muscles",c:"Skeletal muscles",d:"None",ans:"b",expl:"Intercalated discs in cardiac muscle"}
+      // You can replace this with your full 100 question array as in previous answers.
+    ];
+
+    const rollInput = document.getElementById('rollno');
+    const batchSelect = document.getElementById('batch');
+    const startBtn = document.getElementById('startBtn');
+
+    const quizSection = document.getElementById('quiz-section');
+    const scoreDiv = document.getElementById('score');
+    const progressDiv = document.getElementById('progress');
+    const questionText = document.getElementById('question-text');
+    const optionsForm = document.getElementById('options-form');
+    const explanationDiv = document.getElementById('explanation');
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const finishSection = document.getElementById('finish-section');
+    const summaryDiv = document.getElementById('summary');
+    const pieCanvas = document.getElementById('piechart');
+    const reviewSection = document.getElementById('review-section');
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answers = new Array(mcqs.length).fill(null); // Track answers, null = skipped, else a,b,c,d
+    let started = false;
+
+    // Validate Roll Number and Batch input
+    function validateLoginInput() {
+      let roll = rollInput.value.trim();
+      let batch = batchSelect.value;
+      const rollNum = parseInt(roll, 10);
+      if (
+        roll.length === 0 ||
+        isNaN(rollNum) ||
+        rollNum < 1 ||
+        rollNum > 200 ||
+        !batch
+      ) {
+        startBtn.disabled = true;
+      } else {
+        startBtn.disabled = false;
+      }
+    }
+
+    rollInput.addEventListener('input', () => {
+      // Allow only numeric input for roll number
+      rollInput.value = rollInput.value.replace(/[^0-9]/g, '');
+      validateLoginInput();
+    });
+
+    batchSelect.addEventListener('change', validateLoginInput);
+
+    startBtn.addEventListener('click', () => {
+      started = true;
+      // Hide login, show quiz
+      document.getElementById('login-section').style.display = 'none';
+      quizSection.style.display = 'block';
+      loadQuestion();
+      updateButtons();
+      updateScore();
+    });
+
+    // Load question and options based on current index
+    function loadQuestion() {
+      const q = mcqs[currentQuestionIndex];
+      questionText.textContent = `Q${currentQuestionIndex + 1}. ${q.q}`;
+
+      optionsForm.innerHTML = '';
+      ['a', 'b', 'c', 'd'].forEach(optionKey => {
+        const optionLabel = document.createElement('label');
+        optionLabel.classList.add('option-label');
+        optionLabel.htmlFor = `option-${optionKey}`;
+        optionLabel.innerHTML = `
+          <input type="radio" id="option-${optionKey}" name="option" value="${optionKey}" />
+          (${optionKey}) ${q[optionKey]}
+        `;
+        optionsForm.appendChild(optionLabel);
+      });
+
+      explanationDiv.style.display = 'none';
+      progressDiv.textContent = `Question ${currentQuestionIndex + 1} of ${mcqs.length}`;
+      nextBtn.disabled = true;
+
+      // If previously answered, pre-select
+      const prevAnswer = answers[currentQuestionIndex];
+      if (prevAnswer !== null) {
+        const prevSelectedRadio = document.getElementById(`option-${prevAnswer}`);
+        if (prevSelectedRadio) {
+          prevSelectedRadio.checked = true;
+          nextBtn.disabled = false;
+          explanationDiv.style.display = 'block';
+          showExplanationText(currentQuestionIndex);
+        }
+      }
+    }
+
+    // Update score display
+    function updateScore() {
+      const { correctCount, wrongCount, attemptedCount } = calculateStats();
+      scoreDiv.textContent = `Score: ${(correctCount * 4) - (wrongCount * 1)}`;
+    }
+
+    // Calculate stats for final summary and during test
+    function calculateStats() {
+      let correctCount = 0,
+        wrongCount = 0,
+        attemptedCount = 0,
+        skippedCount = 0;
+
+      answers.forEach((ans, idx) => {
+        if (ans === null) skippedCount++;
+        else {
+          attemptedCount++;
+          if (ans === mcqs[idx].ans) correctCount++;
+          else wrongCount++;
+        }
+      });
+
+      return { correctCount, wrongCount, attemptedCount, skippedCount };
+    }
+
+    // Show explanation below question after answering
+    function showExplanationText(index) {
+      const q = mcqs[index];
+      const chosen = answers[index];
+      const isCorrect = chosen === q.ans;
+      const chosenText = chosen ? q[chosen] : 'No answer selected';
+      explanationDiv.innerHTML = `
+        <b>Correct Answer:</b> (${q.ans}) ${q[q.ans]}<br />
+        <b>Your Answer:</b> ${chosenText}<br />
+        <b>Explanation:</b> ${q.expl}<br />
+        <span style="color:${isCorrect ? '#228b22' : '#b22222'}; font-weight:bold;">${isCorrect ? '+4 marks' : (chosen ? '-1 mark' : 'Skipped')}</span>
+      `;
+      explanationDiv.style.display = 'block';
+    }
+
+    // Event listeners for radio buttons on options (delegation)
+    optionsForm.addEventListener('change', (event) => {
+      if (event.target.name === 'option') {
+        nextBtn.disabled = false;
+      }
+    });
+
+    // Navigation buttons logic
+    prevBtn.addEventListener('click', () => {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        loadQuestion();
+        updateButtons();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      // Save current answer
+      const selectedOption = document.querySelector('input[name="option"]:checked');
+      if (selectedOption) {
+        answers[currentQuestionIndex] = selectedOption.value;
+        showExplanationText(currentQuestionIndex);
+        updateScore();
+      }
+
+      // Move forward if possible
+      if (currentQuestionIndex < mcqs.length - 1) {
+        currentQuestionIndex++;
+        loadQuestion();
+        updateButtons();
+      } else {
+        // Last question reached, enable submit
+        nextBtn.disabled = true;
+      }
+    });
+
+    skipBtn.addEventListener('click', () => {
+      // Mark current question as skipped (null)
+      answers[currentQuestionIndex] = null;
+      explanationDiv.style.display = 'none';
+      updateScore();
+      // Move to next if possible otherwise stay
+      if (currentQuestionIndex < mcqs.length - 1) {
+        currentQuestionIndex++;
+        loadQuestion();
+      }
+      updateButtons();
+    });
+
+    // Submit button logic
+    submitBtn.addEventListener('click', () => {
+      if (!confirm('Are you sure you want to submit the test?')) return;
+      finalizeTest();
+    });
+
+    // Update navigation buttons and submit button based on currentIndex and answers
+    function updateButtons() {
+      prevBtn.disabled = currentQuestionIndex === 0;
+      // Next is disabled if no answer selected for current except if skipped
+      const selectedOption = document.querySelector('input[name="option"]:checked');
+      nextBtn.disabled = !selectedOption;
+      // Submit enabled only if at least one question attempted or skipped
+      submitBtn.disabled = false; // allow submitting anytime after start
+    }
+
+    // Show final results and pie chart and review
+    function finalizeTest() {
+      quizSection.style.display = 'none';
+      finishSection.style.display = 'block';
+
+      const { correctCount, wrongCount, attemptedCount, skippedCount } = calculateStats();
+      const totalQuestions = mcqs.length;
+      const totalScore = (correctCount * 4) - (wrongCount * 1);
+      const percentage = ((totalScore / (totalQuestions * 4)) * 100).toFixed(2);
+      const accuracy = attemptedCount === 0 ? 0 : ((correctCount / attemptedCount) * 100).toFixed(2);
+
+      summaryDiv.innerHTML = `
+        <p><strong>Roll Number:</strong> ${rollInput.value.padStart(2, '0')}</p>
+        <p><strong>Batch:</strong> ${batchSelect.value}</p>
+        <p><strong>Total Score:</strong> ${totalScore} out of ${totalQuestions * 4}</p>
+        <p><strong>Percentage:</strong> ${percentage}%</p>
+        <p><strong>Accuracy (Correct / Attempted):</strong> ${accuracy}%</p>
+        <p><strong>Attempted Questions:</strong> ${attemptedCount}</p>
+        <p><strong>Skipped Questions:</strong> ${skippedCount}</p>
+        <p><strong>Right Answers:</strong> ${correctCount}</p>
+        <p><strong>Wrong Answers:</strong> ${wrongCount}</p>
+      `;
+
+      drawPieChart(right=correctCount, wrong=wrongCount, skipped=skippedCount);
+      generateReviewTable();
+    }
+
+    // Draw Pie Chart inside canvas
+    function drawPieChart(right, wrong, skipped) {
+      const canvas = pieCanvas;
+      const ctx = canvas.getContext('2d');
+      const total = right + wrong + skipped;
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const radius = Math.min(cx, cy) - 30;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.font = '16px Arial';
+      ctx.textAlign = 'center';
+
+      // Colors (right = green, wrong = red, skipped = orange)
+      const slices = [
+        { value: right, color: '#4caf50', label: `Right (${right})` },
+        { value: wrong, color: '#e53935', label: `Wrong (${wrong})` },
+        { value: skipped, color: '#ffb300', label: `Skipped (${skipped})` }
+      ];
+
+      let startAngle = -0.5 * Math.PI; // start at top
+      slices.forEach(slice => {
+        if (slice.value === 0) return; // skip empty slices
+        const sliceAngle = (slice.value / total) * 2 * Math.PI;
+
+        // Draw slice
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, radius, startAngle, startAngle + sliceAngle);
+        ctx.closePath();
+
+        ctx.fillStyle = slice.color;
+        ctx.fill();
+
+        // Draw label line and text
+        const midAngle = startAngle + sliceAngle / 2;
+        const labelX = cx + Math.cos(midAngle) * (radius / 1.5);
+        const labelY = cy + Math.sin(midAngle) * (radius / 1.5);
+
+        ctx.fillStyle = '#000';
+        ctx.fillText(slice.label, labelX, labelY);
+
+        startAngle += sliceAngle;
+      });
+    }
+
+    // Generate review table with questions and answers
+    function generateReviewTable() {
+      if (answers.length === 0) return;
+
+      let html = '<table class="review-table">';
+      html += '<thead><tr><th>Q no.</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Status</th></tr></thead><tbody>';
+      answers.forEach((ans, i) => {
+        const q = mcqs[i];
+        let yourAnsText = (ans === null) ? 'Skipped' : `(${ans}) ${q[ans]}`;
+        let correctAnsText = `(${q.ans}) ${q[q.ans]}`;
+        let status = '';
+
+        if (ans === null) status = '<span class="skipped">Skipped</span>';
+        else if (ans === q.ans) status = '<span class="correct">Correct</span>';
+        else status = '<span class="incorrect">Wrong</span>';
+
+        html += `<tr>
+          <td>${i + 1}</td>
+          <td>${q.q}</td>
+          <td>${yourAnsText}</td>
+          <td>${correctAnsText}</td>
+          <td>${status}</td>
+        </tr>`;
+      });
+      html += '</tbody></table>';
+      reviewSection.innerHTML = html;
+    }
+
+    // Initialization: Disable start until valid inputs
+    validateLoginInput();
+
+  </script>
+</body>
+</html>
