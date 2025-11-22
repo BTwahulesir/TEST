@@ -1,0 +1,941 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vishwajeet Science Academy</title>
+  <style>
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: #f4f7fc;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .page-border {
+      min-height: 100vh;
+      border: 6px solid #1e90ff;
+      border-radius: 20px;
+      margin: 0;
+      background: white;
+      box-shadow: 0 0 35px #a0befd;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 0;
+    }
+    .container {
+      width: 97%;
+      max-width: 950px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    h2.main-title {
+      text-align: center;
+      margin-bottom: 12px;
+      font-size: 2.65rem;
+      color: #E2008A;
+      font-weight: 800;
+    }
+    .logo-img {
+      display: block;
+      margin: 0 auto 18px auto;
+      max-width: 160px;
+      width: 100%;
+      height: auto;
+      border-radius: 50%;
+      box-shadow: 0 0 14px #a0befd;
+      border: 3px solid #1e90ff;
+      background: #fff;
+    }
+    .sub-title {
+      text-align: center;
+      font-size: 2.1rem;
+      margin: 0 0 28px 0;
+      font-family: 'cambria', serif, cursive;
+      color: #047020;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    h4.special-author {
+      text-align: center;
+      /* Unique styling for author heading */
+      font-family: 'Pacifico', 'Brush Script MT', cursive, sans-serif;
+      font-size: 2rem;
+      color: #6316D7;
+      font-weight: 600;
+      letter-spacing: 3px;
+      font-style: italic;
+      margin-top: 3px;
+      margin-bottom: 28px;
+    }
+    label { font-weight:600; margin:14px 0 7px; display:block; }
+    input[type=text], select {
+      width:100%;
+      padding:10px 12px;
+      font-size:1.04em;
+      border-radius:7px;
+      border:1.4px solid #bbb;
+      background:#f9f9fb;
+    }
+    #startBtn {
+      margin-top:20px;
+      padding:14px 40px;
+      font-size:1.12em;
+      font-weight:700;
+      border-radius:8px;
+      background:#1e90ff;
+      color:white;
+      border:none;
+      cursor:pointer;
+    }
+    #startBtn:disabled { background:#a0bbd9; cursor:not-allowed; }
+    #startBtn:not(:disabled):hover { background:#1970dd; }
+    #quiz-section { display:none; margin-top:22px; gap:25px; }
+    #progress { text-align:center; margin-bottom:16px; font-size:1.1em; color:#555; }
+    .question-text { font-weight:700; font-size:1.22em; margin-bottom:17px; }
+    .options { margin-bottom:25px; }
+    .options label.option-label {
+      display:flex; align-items:center; gap:13px;
+      background:#f9f9f9;
+      border:2px solid #eaeaea;
+      border-radius:9px;
+      margin-bottom:14px;
+      font-size:1.08em;
+      font-weight:500;
+      cursor:pointer;
+      transition:all 0.18s;
+      min-height:48px;
+      padding:0 20px;
+    }
+    .options label.option-label:hover {
+      border:2px solid #1976d2;
+      background:#f0f9ff;
+      box-shadow:0 2px 8px #1976d215;
+    }
+    .options input[type="radio"] {
+      accent-color:#1976d2;
+      appearance:none;
+      width:22px; height:22px;
+      border:2px solid #bbb;
+      border-radius:50%;
+      background:#fff;
+      margin-right:10px;
+    }
+    .options input[type="radio"]:checked {
+      border:7px solid #1976d2;
+      background:#f3f8fd;
+    }
+    .options label.option-label.selected {
+      border:2.5px solid #1976d2;
+      background:#eef6fb;
+    }
+    .options .option-letter {
+      font-weight:700;
+      color:#1976d2;
+      font-size:1.13em;
+      padding-right:10px;
+    }
+    #navigation { text-align:center; margin-top:12px; }
+    .nav-btn {
+      padding:12px 26px;
+      border-radius:8px;
+      border:none;
+      font-weight:700;
+      font-size:1.1em;
+      margin:0 10px;
+      background:#1976d2;
+      color:white;
+    }
+    .nav-btn:hover:not(:disabled) { background:#065ab1; }
+    .nav-btn:disabled { background:#b9cce1; }
+    #submitBtn {
+      margin-top:22px;
+      padding:14px 42px;
+      font-weight:700;
+      font-size:1.2em;
+      background:#238823;
+      color:white;
+      border:none;
+      border-radius:9px;
+    }
+    #submitBtn:disabled { background:#a8d1b7; }
+    #finish-section { display:none; margin-top:25px; }
+    .card {
+      width:470px;
+      max-width:96vw;
+      background:white;
+      border:3px solid #1e90ff;
+      border-radius:22px;
+      box-shadow:0 0 18px #7bb9fd;
+      padding:30px 20px;
+      text-align:center;
+      margin:0 auto;
+    }
+    .card h1 { font-size:1.4rem; margin-bottom:20px; color:#1c416b; }
+    .trophy { font-size:2.3rem; margin-bottom:15px; color:#ffbb1f; }
+    .details { font-size:1rem; font-weight:600; color:#444; margin-bottom:20px; }
+    .score { font-size:1.25rem; font-weight:800; margin-bottom:20px; }
+    .stats {
+      display:flex; justify-content:center; gap:10px;
+      flex-wrap:wrap; margin-bottom:20px;
+    }
+    .stat { flex:1; background:#f5f8fa; border-radius:10px; padding:10px; text-align:center; min-width:80px; }
+    .stat-number {
+      width:44px; height:44px; margin:0 auto 8px;
+      border-radius:8px; display:flex; align-items:center;
+      justify-content:center; font-weight:700; font-size:1.2em;
+    }
+    .stat.attempted .stat-number { background:#197fd6; color:white; }
+    .stat.correct .stat-number { background:#08ad6c; color:white; }
+    .stat.wrong .stat-number { background:#d64541; color:white; }
+    .stat.notattempted .stat-number { background:#ddd; color:#333; }
+    #question-navigator {
+      margin-left:24px; width:210px;
+      display:grid; grid-template-columns:repeat(5,36px);
+      grid-auto-rows:36px; gap:10px;
+    }
+    .q-nav-btn { border-radius:6px; border:none; cursor:pointer; color:white; font-weight:700; }
+    .q-nav-btn.not-attempted { background:#d64541; }
+    .q-nav-btn.skipped { background:#197fd6; }
+    .q-nav-btn.attempted { background:#08ad6c; }
+    .q-nav-btn.current { outline:2px solid #000; }
+    table.review-table {
+      width:100%; border-collapse:collapse; margin-top:15px;
+    }
+    table.review-table th, table.review-table td {
+      border:1px solid #ccc; padding:6px;
+    }
+    .correct{color:#08ad6c;font-weight:bold;}
+    .incorrect{color:#d64541;font-weight:bold;}
+    .skipped{color:#1976d2;font-weight:bold;}
+    .export-btns {
+      margin:22px auto 0 auto;
+      display:flex; gap:15px; flex-wrap:wrap;
+      justify-content:center;
+    }
+  </style>
+  <!-- Pacifico font for enhanced author style -->
+  <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+<div class="page-border">
+  <div class="container">
+    <h2 class="main-title">VISHWAJEET SCIENCE ACADEMY</h2>
+    <img src="Vsa logo.JPEG" alt="VSA logo" class="logo-img"></img>
+    <h3 class="sub-title">BIOLOGY: LOCOMOTION AND MOVEMENT</h3>
+    <h4 class="special-author">&copy; By WAHULE SIR</h4>
+    <div id="login-section">
+      <label for="rollno">Enter Roll Number (01-200)</label>
+      <input type="text" id="rollno" maxlength="3" placeholder="e.g. 01" />
+      <label for="batch">Select Batch</label>
+      <select id="batch">
+        <option value="">-- Select Batch --</option>
+        <option value="11th">11th</option>
+        <option value="12th">12th</option>
+        <option value="NEET Repeater">NEET Repeater</option>
+      </select>
+      <button id="startBtn" disabled>Start Test</button>
+    </div>
+    <section id="quiz-section">
+      <div style="flex:1">
+        <div id="progress"></div>
+        <div id="question-block">
+          <div class="question-text" id="question-text"></div>
+          <form id="options-form" class="options"></form>
+        </div>
+        <div id="navigation">
+          <button id="prevBtn" class="nav-btn" disabled>Previous</button>
+          <button id="skipBtn" class="nav-btn">Skip</button>
+          <button id="nextBtn" class="nav-btn" disabled>Next</button>
+        </div>
+        <button id="submitBtn" disabled>Submit Test</button>
+      </div>
+      <nav id="question-navigator"></nav>
+    </section>
+    <section id="finish-section">
+      <div style="display:flex; flex-direction:column; align-items:center;">
+        <div class="card">
+          <h1><span class="trophy">&#x1F3C6;</span> Congratulations! Your Test has been Submitted <span class="trophy">&#x1F3C6;</span></h1>
+          <div class="details" id="resultDetails"></div>
+          <div id="resultScore" class="score"></div>
+          <div class="stats">
+            <div class="stat attempted"><div class="stat-number" id="attemptedCount">0</div><p>Attempted</p></div>
+            <div class="stat correct"><div class="stat-number" id="correctCount">0</div><p>Correct</p></div>
+            <div class="stat wrong"><div class="stat-number" id="wrongCount">0</div><p>Wrong</p></div>
+            <div class="stat notattempted"><div class="stat-number" id="notAttemptedCount">0</div><p>Not Attempted</p></div>
+          </div>
+          <canvas id="piechart" width="220" height="220"></canvas>
+          <div class="footer">© 2025 Vishwajeet Science Academy</div>
+        </div>
+        <div class="export-btns">
+          <button class="nav-btn" id="printBtn" type="button">🖨️ Print Report</button>
+          <button class="nav-btn" id="pdfBtn" type="button">⬇️ Download PDF</button>
+          <button class="nav-btn" id="excelBtn" type="button">⬇️ Export to Excel</button>
+        </div>
+      </div>
+      <h2 id="review-heading" style="margin-top:36px;">Review Your Answers</h2>
+      <div id="review-section"></div>
+    </section>
+  </div>
+</div>
+<script>
+const mcqs = [
+{
+    "q": "Which of these do not involve flagellar movement?",
+    "a": "Swimming of spermatozoa",
+    "b": "Maintenance of water current in sponges",
+    "c": "Locomotion of some protozoans",
+    "d": "Movement of macrophages in blood",
+    "ans": "d",
+    "expl": "Macrophages exhibit amoeboid movement, not flagellar."
+  },
+  {
+    "q": "What percentage of body weight of an adult human is contributed by muscles?",
+    "a": "20-30%",
+    "b": "10-20%",
+    "c": "40-50%",
+    "d": "30-40%",
+    "ans": "c",
+    "expl": "Muscles constitute approximately 40-50% of body weight."
+  },
+  {
+    "q": "Which of these is not a property of muscles?",
+    "a": "Contractility",
+    "b": "Extensibility",
+    "c": "Rigidity",
+    "d": "Elasticity",
+    "ans": "c",
+    "expl": "Muscles exhibit contractility, extensibility, and elasticity, not rigidity."
+  },
+  {
+    "q": "Largest muscle in the human body is?",
+    "a": "Quadriceps femoris",
+    "b": "Gluteus maximus",
+    "c": "Deltoid",
+    "d": "Biceps brachii",
+    "ans": "b",
+    "expl": "Gluteus maximus is the largest muscle."
+  },
+  {
+    "q": "Lower jaw of man is formed of?",
+    "a": "Maxilla",
+    "b": "Mandible",
+    "c": "Palatine",
+    "d": "Zygomatic",
+    "ans": "b",
+    "expl": "Mandible forms the lower jaw."
+  },
+  {
+    "q": "Functional unit of muscle is?",
+    "a": "Myofibril",
+    "b": "Sarcomere",
+    "c": "Muscle fiber",
+    "d": "Muscle fascicle",
+    "ans": "b",
+    "expl": "Sarcomere is the contractile unit of muscle."
+  },
+  {
+    "q": "Glenoid cavity is found in?",
+    "a": "Pelvic girdle",
+    "b": "Pectoral girdle",
+    "c": "Skull",
+    "d": "Vertebral column",
+    "ans": "b",
+    "expl": "Glenoid cavity is part of the scapula in the pectoral girdle."
+  },
+  {
+    "q": "Bones become fragile in which of the following?",
+    "a": "Osteoporosis",
+    "b": "Arthritis",
+    "c": "Rickets",
+    "d": "Osteomalacia",
+    "ans": "a",
+    "expl": "Osteoporosis leads to fragile bones."
+  },
+  {
+    "q": "A sesamoid bone is?",
+    "a": "Small bone embedded in tendons",
+    "b": "Flat bone of skull",
+    "c": "Long bone",
+    "d": "Irregular bone",
+    "ans": "a",
+    "expl": "Sesamoid bones form inside tendons, e.g., patella."
+  },
+  {
+    "q": "Which joint is present between the atlas and axis?",
+    "a": "Hinge joint",
+    "b": "Ball and socket joint",
+    "c": "Pivot joint",
+    "d": "Gliding joint",
+    "ans": "c",
+    "expl": "Atlanto-axial joint is a pivot joint allowing head rotation."
+  },
+  {
+    "q": "ATPase of the muscle is located in?",
+    "a": "Myosin head",
+    "b": "Actin filament",
+    "c": "Sarcoplasmic reticulum",
+    "d": "Tropomyosin",
+    "ans": "a",
+    "expl": "ATPase enzyme is part of the myosin head, hydrolyzing ATP."
+  },
+  {
+    "q": "Knee joint and elbow joint are examples of?",
+    "a": "Saddle joint",
+    "b": "Ball and socket joint",
+    "c": "Pivot joint",
+    "d": "Hinge joint",
+    "ans": "d",
+    "expl": "Both are hinge joints allowing movement in one plane."
+  },
+  {
+    "q": "Macrophages exhibit which type of movement?",
+    "a": "Ciliary movement",
+    "b": "Flagellar movement",
+    "c": "Amoeboid movement",
+    "d": "Gliding movement",
+    "ans": "c",
+    "expl": "Macrophages move using amoeboid motion via pseudopodia."
+  },
+  {
+    "q": "Which of these is not a disorder of bone?",
+    "a": "Arthritis",
+    "b": "Osteoporosis",
+    "c": "Rickets",
+    "d": "Atherosclerosis",
+    "ans": "d",
+    "expl": "Atherosclerosis affects blood vessels, not bones."
+  },
+  {
+    "q": "Which statement is incorrect?",
+    "a": "Heart muscles are striated and involuntary",
+    "b": "Muscles of hands and legs are striated and voluntary",
+    "c": "Muscles of inner walls of alimentary canal are striated and involuntary",
+    "d": "Reproductive tract muscles are unstriated and involuntary",
+    "ans": "c",
+    "expl": "Alimentary canal muscles are smooth (unstriated) and involuntary."
+  },
+  {
+    "q": "The skull is made up of how many bones?",
+    "a": "22",
+    "b": "24",
+    "c": "20",
+    "d": "26",
+    "ans": "a",
+    "expl": "Human skull contains 22 bones: 8 cranial and 14 facial."
+  },
+  {
+    "q": "The clavicle articulates with?",
+    "a": "Humerus",
+    "b": "Acromion of scapula",
+    "c": "Sternum only",
+    "d": "Sternum and scapula",
+    "ans": "d",
+    "expl": "Clavicle articulates medially with sternum and laterally with scapula."
+  },
+  {
+    "q": "Hypocalcemia may lead to?",
+    "a": "Muscle paralysis",
+    "b": "Tetany",
+    "c": "Muscle fatigue",
+    "d": "Loss of tendon elasticity",
+    "ans": "b",
+    "expl": "Hypocalcemia causes tetany due to increased nerve excitability."
+  },
+  {
+    "q": "Dark bands in muscle are due to presence of?",
+    "a": "Actin filaments",
+    "b": "Myosin filaments",
+    "c": "Troponin",
+    "d": "Tropomyosin",
+    "ans": "b",
+    "expl": "A bands (dark) are formed by thick myosin filaments."
+  },
+  {
+    "q": "The type of bone found in the limbs is?",
+    "a": "Long bone",
+    "b": "Short bone",
+    "c": "Flat bone",
+    "d": "Irregular bone",
+    "ans": "a",
+    "expl": "Long bones like femur and humerus are found in limbs."
+  },
+  {"q":"Which type of movement helps in the transport of the egg in the female reproductive tract?",
+   "a":"Amoeboid movement",
+   "b":"Ciliary movement",
+   "c":"Muscular contraction",
+   "d":"None of the above",
+   "ans":"b",
+   "expl":"Ciliary movement by ciliated epithelium in fallopian tubes transports the egg."},
+
+  {"q":"Assertion (A): Skeletal muscles are attached to bones through tendons. Reason (R): Tendons are elastic cords that connect muscles to bones.",
+   "a":"Both A and R are true and R is the correct explanation of A",
+   "b":"Both A and R are true but R is not the correct explanation of A",
+   "c":"A is true but R is false",
+   "d":"A is false but R is true",
+   "ans":"c",
+   "expl":"Tendons are inelastic; they connect skeletal muscles to bones."},
+
+  {"q":"Match the type of muscle with its characteristic: 1. Skeletal muscle, 2. Smooth muscle, 3. Cardiac muscle",
+   "a":"1-(a), 2-(b), 3-(c)",
+   "b":"1-(b), 2-(c), 3-(a)",
+   "c":"1-(c), 2-(a), 3-(b)",
+   "d":"1-(b), 2-(a), 3-(c)",
+   "ans":"a",
+   "expl":"Skeletal: voluntary, striated; Smooth: involuntary, non-striated; Cardiac: branched, striated, involuntary."},
+
+  {"q":"Which of the following joints allows movement in all directions?",
+   "a":"Hinge joint",
+   "b":"Pivot joint",
+   "c":"Ball and socket joint",
+   "d":"Fixed joint",
+   "ans":"c",
+   "expl":"Ball and socket joints like shoulder and hip allow multidirectional movement."},
+
+  {"q":"Select the incorrect statement about the skeletal system:",
+   "a":"It provides shape and support to the body",
+   "b":"It stores calcium and phosphorus",
+   "c":"It produces hormones",
+   "d":"It protects vital organs",
+   "ans":"c",
+   "expl":"Skeletal system produces blood cells, not hormones."},
+
+  {"q":"Which connective tissue attaches muscle to bone?",
+   "a":"Ligament",
+   "b":"Tendon",
+   "c":"Cartilage",
+   "d":"Fascia",
+   "ans":"b",
+   "expl":"Tendons connect muscles to bones."},
+
+  {"q":"Name the type of joint where no movement is possible:",
+   "a":"Fibrous joint",
+   "b":"Synovial joint",
+   "c":"Cartilaginous joint",
+   "d":"Pivot joint",
+   "ans":"a",
+   "expl":"Fibrous joints like sutures in skull are immovable."},
+
+  {"q":"Assertion (A): Cardiac muscles have branching fibers. Reason (R): They are voluntary muscles.",
+   "a":"Both A and R are true and R explains A",
+   "b":"Both A and R are true but R does not explain A",
+   "c":"A is true, R is false",
+   "d":"Both are false",
+   "ans":"c",
+   "expl":"Cardiac muscles are involuntary despite having branching fibers."},
+
+  {"q":"Which movement is exhibited by white blood cells?",
+   "a":"Ciliary",
+   "b":"Muscular",
+   "c":"Amoeboid",
+   "d":"Syncytial",
+   "ans":"c",
+   "expl":"White blood cells move by amoeboid movement using pseudopodia."},
+
+  {"q":"Four statements about skeletal muscles are given; select the true ones: (1) They are voluntary, (2) Found in intestines, (3) Have striations, (4) Are involuntary.",
+   "a":"1 and 3",
+   "b":"2 and 4",
+   "c":"1 and 4",
+   "d":"2 and 3",
+   "ans":"a",
+   "expl":"Skeletal muscles are voluntary and striated; smooth muscles (intestines) are involuntary and non-striated."},
+
+  {"q":"Which type of joint is the elbow joint?",
+   "a":"Ball and socket joint",
+   "b":"Hinge joint",
+   "c":"Gliding joint",
+   "d":"Pivot joint",
+   "ans":"b",
+   "expl":"Elbow is a hinge joint allowing flexion and extension."},
+
+  {"q":"What movement moves limb bones towards the body’s midline?",
+   "a":"Extension",
+   "b":"Abduction",
+   "c":"Adduction",
+   "d":"Circumduction",
+   "ans":"c",
+   "expl":"Adduction moves limbs towards the midline."},
+
+  {"q":"Assertion (A): Ligaments connect bones together. Reason (R): Ligaments are tough fibrous connective tissue.",
+   "a":"Both A and R are true and R explains A",
+   "b":"Both A and R are true but R does not explain A",
+   "c":"A is true but R is false",
+   "d":"A is false but R is true",
+   "ans":"a",
+   "expl":"Ligaments are fibrous tissue connecting bones and sustaining joints."},
+
+  {"q":"Sequence of muscle contraction events (sliding filament theory):",
+   "a":"ATP hydrolysis → myosin attaches actin → power stroke → detachment",
+   "b":"Cross-bridge detachment → ATP hydrolysis → power stroke → attachment",
+   "c":"Power stroke → ATP hydrolysis → attachment → detachment",
+   "d":"ATP hydrolysis → power stroke → detaches → attaches",
+   "ans":"a",
+   "expl":"ATP energizes myosin head for attachment, power stroke, then detachment."},
+
+  {"q":"Match muscle types to features: 1. Skeletal, 2. Cardiac, 3. Smooth",
+   "a":"1-Voluntary striated, 2-Branched striated involuntary, 3-Nonstriated involuntary",
+   "b":"1-Nonstriated, 2-Voluntary, 3-Branched striated",
+   "c":"1-Branched, 2-Nonstriated, 3-Voluntary",
+   "d":"1-Voluntary, 2-Nonstriated, 3-Branched striated",
+   "ans":"a",
+   "expl":"Standard muscle type characteristics match option (a)."},
+
+  {"q":"Which is NOT a skeletal system function?",
+   "a":"Protect vital organs",
+   "b":"Provide shape and support",
+   "c":"Muscle attachment",
+   "d":"Hormone secretion",
+   "ans":"d",
+   "expl":"Skeleton doesn't secrete hormones; that’s an endocrine function."},
+
+  {"q":"Connective tissue reducing friction between bones:",
+   "a":"Cartilage",
+   "b":"Ligament",
+   "c":"Tendon",
+   "d":"Fascia",
+   "ans":"a",
+   "expl":"Cartilage cushions bones at joints to prevent friction."},
+
+  {"q":"Assertion (A): Cardiac muscle cells have intercalated discs. Reason (R): These discs allow rapid nerve impulse transmission.",
+   "a":"Both A and R are true, and R explains A",
+   "b":"Both true but R doesn’t explain A",
+   "c":"A true, R false",
+   "d":"Both false",
+   "ans":"a",
+   "expl":"Intercalated discs facilitate electrical connectivity for synchronized contraction."},
+
+  {"q":"Calcium ion release site triggering skeletal muscle contraction:",
+   "a":"Sarcoplasmic reticulum",
+   "b":"Mitochondria",
+   "c":"Nucleus",
+   "d":"Golgi apparatus",
+   "ans":"a",
+   "expl":"Sarcoplasmic reticulum releases Ca²⁺ to start contraction."},
+
+  {"q":"Correct matching of muscle components and roles:",
+   "a":"Myosin - thin filament",
+   "b":"Actin - thick filament",
+   "c":"Troponin - regulates actin-myosin interaction",
+   "d":"Tropomyosin - hydrolyzes ATP",
+   "ans":"c",
+   "expl":"Troponin regulates binding; myosin is thick, actin thin filament."},
+
+  {"q":"Joint allowing rotation around a single axis:",
+   "a":"Ball and socket joint",
+   "b":"Hinge joint",
+   "c":"Pivot joint",
+   "d":"Gliding joint",
+   "ans":"c",
+   "expl":"Pivot joints, e.g., atlas-axis vertebrae, allow rotational movement."},
+
+  {"q":"Type of movement that involves bending a joint:",
+   "a":"Extension",
+   "b":"Flexion",
+   "c":"Rotation",
+   "d":"Abduction",
+   "ans":"b",
+   "expl":"Flexion decreases the angle between bones at a joint."},
+
+  {"q":"Tendon connects muscle to: ",
+   "a":"Muscle",
+   "b":"Bone",
+   "c":"Skin",
+   "d":"Ligament",
+   "ans":"b",
+   "expl":"Tendons connect muscles to bones for movement."},
+
+  {"q":"The only movable bone of the skull is: ",
+   "a":"Frontal bone",
+   "b":"Mandible",
+   "c":"Sphenoid",
+   "d":"Parietal bone",
+   "ans":"b",
+   "expl":"Mandible (lower jaw) is movable, connected by TMJ."},
+
+  {"q":"The protein responsible for muscle contraction is: ",
+   "a":"Myosin",
+   "b":"Collagen",
+   "c":"Elastin",
+   "d":"Actin",
+   "ans":"a",
+   "expl":"Myosin forms thick filaments pulling actin thin filaments to contract muscles."},
+
+  {"q":"Which of the following muscles is involuntary and striated?",
+   "a":"Cardiac muscle",
+   "b":"Skeletal muscle",
+   "c":"Smooth muscle",
+   "d":"None of the above",
+   "ans":"a",
+   "expl":"Cardiac muscle is involuntary but striated."},
+
+  {"q":"Muscle fatigue is mainly caused by: ",
+   "a":"Lactic acid accumulation",
+   "b":"Oxygen surplus",
+   "c":"Glucose buildup",
+   "d":"Excess calcium",
+   "ans":"a",
+   "expl":"Lactic acid buildup reduces muscle contraction efficiency."},
+
+  {"q":"Which is NOT a function of the vertebral column?",
+   "a":"Supports the head",
+   "b":"Protects spinal cord",
+   "c":"Produces blood cells",
+   "d":"Point of attachment for ribs",
+   "ans":"c",
+   "expl":"Blood cells are produced mainly in bone marrow, not vertebral column itself."},
+
+  {"q":"Ligaments are composed mostly of:",
+   "a":"Elastic fibers",
+   "b":"Collagen fibers",
+   "c":"Reticular fibers",
+   "d":"Muscular tissue",
+   "ans":"b",
+   "expl":"Ligaments mainly consist of collagen fibers, giving strength."},
+
+  {"q":"Muscle cells in skeletal muscles are multinucleated because:",
+   "a":"They fuse during development",
+   "b":"They undergo repeated mitosis",
+   "c":"They are smaller than cardiac muscles",
+   "d":"None of the above",
+   "ans":"a",
+   "expl":"Multinucleated fibers form by fusion of precursor myoblasts."},
+
+  {"q":"Which of the following bones is part of the axial skeleton?",
+   "a":"Femur",
+   "b":"Scapula",
+   "c":"Sternum",
+   "d":"Clavicle",
+   "ans":"c",
+   "expl":"Sternum is part of axial skeleton protecting thoracic organs."},
+
+  {"q":"Movement away from the body's midline is called:",
+   "a":"Adduction",
+   "b":"Abduction",
+   "c":"Flexion",
+   "d":"Extension",
+   "ans":"b",
+   "expl":"Abduction moves limbs away from midline."},
+
+  {"q":"Which of these is a smooth muscle?",
+   "a":"Muscle in the wall of intestine",
+   "b":"Biceps brachii",
+   "c":"Heart muscle",
+   "d":"Quadriceps",
+   "ans":"a",
+   "expl":"Smooth muscles are nonstriated, involuntary muscles in internal organs."},
+
+  {"q":"Which structure stores calcium ions essential for muscle contraction?",
+   "a":"Mitochondria",
+   "b":"Sarcoplasmic reticulum",
+   "c":"Nucleus",
+   "d":"Golgi apparatus",
+   "ans":"b",
+   "expl":"Sarcoplasmic reticulum stores and releases Ca²⁺ ions during contraction."},
+
+  {"q":"Tendons connect muscles to:",
+   "a":"Other muscles",
+   "b":"Bones",
+   "c":"Ligaments",
+   "d":"Cartilage",
+   "ans":"b",
+   "expl":"Tendons attach muscles to bones enabling skeletal movement."},
+
+  {"q":"The thick filament in muscle fibers is primarily composed of:",
+   "a":"Actin",
+   "b":"Myosin",
+   "c":"Troponin",
+   "d":"Tropomyosin",
+   "ans":"b",
+   "expl":"Myosin forms thick filaments involved in contraction."},
+
+  {"q":"Bone marrow is responsible for:",
+   "a":"Protecting organs",
+   "b":"Producing blood cells",
+   "c":"Storing calcium",
+   "d":"Lubricating joints",
+   "ans":"b",
+   "expl":"Bone marrow produces red and white blood cells."},
+
+  {"q":"Ligaments are designed to:",
+   "a":"Connect muscle to bone",
+   "b":"Connect bone to bone",
+   "c":"Protect muscles",
+   "d":"Line joints",
+   "ans":"b",
+   "expl":"Ligaments connect bones at joints to maintain stability."},
+
+  {"q":"In skeletal muscle, the functional unit is called:",
+   "a":"Sarcolemma",
+   "b":"Sarcomere",
+   "c":"Myofibril",
+   "d":"Myosin",
+   "ans":"b",
+   "expl":"Sarcomere is the repeating contractile unit of muscle fibers."},
+
+  {"q":"Which of the following bones is part of the appendicular skeleton?",
+   "a":"Vertebra",
+   "b":"Scapula",
+   "c":"Sternum",
+   "d":"Skull",
+   "ans":"b",
+   "expl":"Scapula is a shoulder bone of the appendicular skeleton."}
+];
+const rollInput=document.getElementById('rollno');
+const batchSelect=document.getElementById('batch');
+const startBtn=document.getElementById('startBtn');
+const quizSection=document.getElementById('quiz-section');
+const progressDiv=document.getElementById('progress');
+const questionText=document.getElementById('question-text');
+const optionsForm=document.getElementById('options-form');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const skipBtn=document.getElementById('skipBtn');
+const submitBtn=document.getElementById('submitBtn');
+const finishSection=document.getElementById('finish-section');
+const resultDetails=document.getElementById('resultDetails');
+const resultScore=document.getElementById('resultScore');
+const attemptedCount=document.getElementById('attemptedCount');
+const correctCount=document.getElementById('correctCount');
+const wrongCount=document.getElementById('wrongCount');
+const notAttemptedCount=document.getElementById('notAttemptedCount');
+const reviewSection=document.getElementById('review-section');
+const pieCanvas=document.getElementById('piechart');
+const questionNavigator=document.getElementById('question-navigator');
+let currentQuestionIndex=0;
+let answers=new Array(mcqs.length).fill(undefined);
+function validateInput(){
+  const roll=parseInt(rollInput.value.trim(),10);
+  startBtn.disabled=!(roll>=1 && roll<=200 && batchSelect.value);
+}
+rollInput.addEventListener('input',()=>{rollInput.value=rollInput.value.replace(/\D/g,'');validateInput();});
+batchSelect.addEventListener('change',validateInput);
+startBtn.onclick=()=>{ document.getElementById('login-section').style.display='none'; quizSection.style.display='flex'; renderNavigator(); loadQuestion(0); };
+function renderNavigator(){
+  questionNavigator.innerHTML='';
+  mcqs.forEach((q,i)=>{
+    let btn=document.createElement('button');
+    btn.textContent=i+1;
+    btn.className='q-nav-btn not-attempted';
+    btn.dataset.index=i;
+    btn.onclick=()=>loadQuestion(i);
+    questionNavigator.appendChild(btn);
+  });
+}
+function updateNavigatorColors(){
+  questionNavigator.querySelectorAll('.q-nav-btn').forEach(btn=>{
+    const idx=+btn.dataset.index;
+    btn.classList.remove('attempted','skipped','not-attempted','current');
+    if(idx===currentQuestionIndex) btn.classList.add('current');
+    if(answers[idx]===undefined) btn.classList.add('not-attempted');
+    else if(answers[idx]===null) btn.classList.add('skipped');
+    else btn.classList.add('attempted');
+  });
+}
+function loadQuestion(i){
+  currentQuestionIndex=i;
+  const q=mcqs[i];
+  questionText.textContent=`Q${i+1}. ${q.q}`;
+  optionsForm.innerHTML='';
+  ['a','b','c','d'].forEach(key=>{
+    const lbl=document.createElement('label');
+    lbl.className='option-label';
+    lbl.innerHTML=`<input type="radio" name="option" value="${key}"><span class="option-letter">(${key.toUpperCase()})</span>${q[key]}`;
+    optionsForm.appendChild(lbl);
+  });
+  optionsForm.querySelectorAll('input[type="radio"]').forEach(radio=>{
+    radio.addEventListener('change',()=>{
+      optionsForm.querySelectorAll('label.option-label').forEach(lbl=>lbl.classList.remove('selected'));
+      radio.closest('label').classList.add('selected');
+      nextBtn.disabled=false;
+    });
+  });
+  if (answers[i]) {
+    const sel=optionsForm.querySelector(`input[value="${answers[i]}"]`);
+    if(sel){ sel.checked=true; sel.closest('label').classList.add('selected'); nextBtn.disabled=false; }
+    else { nextBtn.disabled=true;}
+  } else { nextBtn.disabled=true; }
+  prevBtn.disabled=(i===0);
+  progressDiv.textContent=`Question ${i+1} of ${mcqs.length}`;
+  updateNavigatorColors();
+}
+prevBtn.onclick=()=>{ if(currentQuestionIndex>0) loadQuestion(currentQuestionIndex-1); };
+nextBtn.onclick=()=>{ const sel=optionsForm.querySelector('input[name="option"]:checked'); if(sel) answers[currentQuestionIndex]=sel.value; submitBtn.disabled=false; if(currentQuestionIndex<mcqs.length-1) loadQuestion(currentQuestionIndex+1); };
+skipBtn.onclick=()=>{ answers[currentQuestionIndex]=null; submitBtn.disabled=false; if(currentQuestionIndex<mcqs.length-1) loadQuestion(currentQuestionIndex+1); };
+submitBtn.onclick=()=>{ if(confirm('Submit test?')) finalizeTest(); };
+function finalizeTest(){
+  quizSection.style.display='none';
+  finishSection.style.display='block';
+  const total = mcqs.length;
+  const correct = answers.filter((a,i)=>a === mcqs[i].ans).length;
+  const wrong = answers.filter((a,i)=>a !== null && a !== undefined && a !== mcqs[i].ans).length;
+  const attempted = answers.filter(a=>a !== null && a !== undefined).length;
+  const skipped = answers.filter(a=>a === null).length;
+  const notAttempted = answers.filter(a=>a === undefined).length;
+  const score = correct*4 - wrong;
+  const pct = ((score/(total*4))*100).toFixed(2);
+  resultDetails.innerHTML=`<strong>Roll Number:</strong> ${rollInput.value.padStart(2,'0')}<br><strong>Batch:</strong> ${batchSelect.value}`;
+  resultScore.textContent=`Score: ${score} / ${total*4} (${pct}%)`;
+  resultScore.style.color=score>=0 ? '#08ad6c' : '#d64541';
+  attemptedCount.textContent=attempted;
+  correctCount.textContent=correct;
+  wrongCount.textContent=wrong;
+  notAttemptedCount.textContent=notAttempted;
+  drawPieChart(correct, wrong, skipped);
+  renderReview();
+}
+function drawPieChart(c,w,s){
+  const ctx=pieCanvas.getContext('2d');
+  const total=c+w+s || 1; const cx=110, cy=110, r=100;
+  ctx.clearRect(0,0,pieCanvas.width,pieCanvas.height);
+  let start=-Math.PI/2;
+  const slices=[{v:c,col:'#08ad6c'},{v:w,col:'#d64541'},{v:s,col:'#197fd6'}];
+  slices.forEach(sl=>{ if(!sl.v) return; const ang=(sl.v/total)*2*Math.PI; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,start+ang); ctx.closePath(); ctx.fillStyle=sl.col; ctx.fill(); start+=ang; });
+}
+function renderReview(){
+  let html='<table class="review-table"><thead><tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct</th><th>Status</th><th>Explanation</th></tr></thead><tbody>';
+  mcqs.forEach((q,i)=>{
+    const a = answers[i];
+    const yourAns=(a===null)?'Skipped':(a!==undefined)?`(${a}) ${q[a]}`:'Not Attempted';
+    const correctAns=`(${q.ans}) ${q[q.ans]}`;
+    const status=(a===null)?'<span class="skipped">Skipped</span>':(a===q.ans)?'<span class="correct">Correct</span>':'<span class="incorrect">Wrong</span>';
+    html+=`<tr><td>${i+1}</td><td>${q.q}</td><td>${yourAns}</td><td>${correctAns}</td><td>${status}</td><td>${q.expl}</td></tr>`;
+  });
+  html+='</tbody></table>'; reviewSection.innerHTML=html;
+}
+document.getElementById("printBtn").onclick=()=>{
+  const fs=document.getElementById('finish-section');
+  let original=document.body.innerHTML;
+  document.body.innerHTML=fs.innerHTML;
+  window.print();
+  document.body.innerHTML=original;
+  location.reload();
+};
+document.getElementById("pdfBtn").onclick=()=>{
+  const { jsPDF }=window.jspdf;
+  const doc=new jsPDF();
+  doc.setFontSize(15);
+  doc.text("BIOLOGY TEST - VISHWAJEET SCIENCE ACADEMY",105,16,{align:"center"});
+  doc.setFontSize(10);
+  doc.text(resultDetails.innerText,14,26);
+  doc.text(resultScore.innerText,14,32);
+  doc.autoTable({html:"#review-section table",startY:40,theme:"grid",headStyles:{fillColor:[30,144,255]}});
+  doc.save("LOCOMOTION AND MOVEMENT.pdf");
+};
+document.getElementById("excelBtn").onclick=()=>{
+  let table=document.querySelector("#review-section table");
+  if(!table){alert("No review table.");return;}
+  let html=table.outerHTML.replace(/ /g,"%20");
+  let blob=new Blob([html],{type:'application/vnd.ms-excel'});
+  let link=document.createElement("a");
+  link.href=URL.createObjectURL(blob);
+  link.download="Biology_Test_Result.xls";
+  link.click();
+  setTimeout(()=>URL.revokeObjectURL(link.href),1000);
+};
+</script>
+</body>
+</html>
