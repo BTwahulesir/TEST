@@ -293,7 +293,7 @@
     <div class="container">
       <h2 class="main-title">VISHWAJEET SCIENCE ACADEMY</h2>
       <img src="vsa-logo.jpg" alt="VSA logo" class="logo-img" />
-      <h3 class="sub-title">BIOLOGY: Photosyntesis</h3>
+      <h3 class="sub-title">BIOLOGY: Plant kingdom</h3>
       <h4 class="special-author">&copy; By WAHULE SIR</h4>
 <div id="login-section">
   <label for="rollno">Enter Roll Number (01-200)</label>
@@ -545,8 +545,9 @@ function renderReview(){
   html+='</tbody></table>'; reviewSection.innerHTML=html;
 }
 document.getElementById("printBtn").onclick=()=>{const fs=document.getElementById('finish-section');let original=document.body.innerHTML;document.body.innerHTML=fs.innerHTML;window.print();document.body.innerHTML=original;location.reload();};
-document.getElementById("pdfBtn").onclick=()=>{const { jsPDF }=window.jspdf;const doc=new jsPDF();doc.setFontSize(15);doc.text("BIOLOGY TEST - VISHWAJEET SCIENCE ACADEMY",105,16,{align:"center"});doc.setFontSize(10);doc.text(resultDetails.innerText,14,26);doc.text(resultScore.innerText,14,32);doc.autoTable({html:"#review-section table",startY:40,theme:"grid",headStyles:{fillColor:[30,144,255]}});doc.save("Biology_Test_Result.pdf");};
+document.getElementById("pdfBtn").onclick=()=>{const { jsPDF }=window.jspdf;const doc=new jsPDF();doc.setFontSize(15);doc.text("BIOLOGY TEST - VISHWAJEET SCIENCE ACADEMY",105,16,{align:"center"});doc.setFontSize(10);doc.text(resultDetails.innerText,14,26);doc.text(resultScore.innerText,14,32);doc.autoTable({html:"#review-section table",startY:40,theme:"grid",headStyles:{fillColor:[30,144,255]}});doc.save("plant kingdom.pdf");};
 document.getElementById("excelBtn").onclick=()=>{let table=document.querySelector("#review-section table");if(!table){alert("No review table.");return;}let html=table.outerHTML.replace(/ /g,"%20");let blob=new Blob([html],{type:'application/vnd.ms-excel'});let link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download="Biology_Test_Result.xls";link.click();setTimeout(()=>URL.revokeObjectURL(link.href),1000);};
 </script>
 </body>
 </html>
+
