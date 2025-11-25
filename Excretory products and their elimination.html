@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vishwajeet Science Academy</title>
+  <style>
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: #f4f7fc;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .page-border {
+      min-height: 100vh;
+      border: 6px solid #1e90ff;
+      border-radius: 20px;
+      margin: 0;
+      background: white;
+      box-shadow: 0 0 35px #a0befd;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 0;
+    }
+    .container {
+      width: 97%;
+      max-width: 950px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    h2.main-title {
+      text-align: center;
+      margin-bottom: 12px;
+      font-size: 2.65rem;
+      color: #E2008A;
+      font-weight: 800;
+    }
+    .logo-img {
+      display: block;
+      margin: 0 auto 18px auto;
+      max-width: 160px;
+      width: 100%;
+      height: auto;
+      border-radius: 50%;
+      box-shadow: 0 0 14px #a0befd;
+      border: 3px solid #1e90ff;
+      background: #fff;
+    }
+    .sub-title {
+      text-align: center;
+      font-size: 2.1rem;
+      margin: 0 0 28px 0;
+      font-family: 'cambria', serif, cursive;
+      color: #047020;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    h4.special-author {
+      text-align: center;
+      font-family: 'Pacifico', 'Brush Script MT', cursive, sans-serif;
+      font-size: 2rem;
+      color: #6316D7;
+      font-weight: 600;
+      letter-spacing: 3px;
+      font-style: italic;
+      margin-top: 3px;
+      margin-bottom: 28px;
+    }
+    label { font-weight:600; margin:14px 0 7px; display:block; }
+    input[type=text], select {
+      width:100%;
+      padding:10px 12px;
+      font-size:1.04em;
+      border-radius:7px;
+      border:1.4px solid #bbb;
+      background:#f9f9fb;
+      box-sizing: border-box;
+    }
+    #startBtn {
+      margin-top:20px;
+      padding:14px 40px;
+      font-size:1.12em;
+      font-weight:700;
+      border-radius:8px;
+      background:#1e90ff;
+      color:white;
+      border:none;
+      cursor:pointer;
+      transition: background-color 0.3s ease;
+    }
+    #startBtn:disabled { background:#a0bbd9; cursor:not-allowed; }
+    #startBtn:not(:disabled):hover { background:#1970dd; }
+    #quiz-section { display:none; margin-top:22px; gap:25px; flex-wrap: wrap; }
+    #progress { text-align:center; margin-bottom:16px; font-size:1.1em; color:#555; }
+    .question-text { font-weight:700; font-size:1.22em; margin-bottom:17px; }
+    .options { margin-bottom:25px; }
+    .options label.option-label {
+      display:flex; align-items:center; gap:13px;
+      background:#f9f9f9;
+      border:2px solid #eaeaea;
+      border-radius:9px;
+      margin-bottom:14px;
+      font-size:1.08em;
+      font-weight:500;
+      cursor:pointer;
+      transition:all 0.18s;
+      min-height:48px;
+      padding:0 20px;
+      box-sizing: border-box;
+    }
+    .options label.option-label:hover {
+      border:2px solid #1976d2;
+      background:#f0f9ff;
+      box-shadow:0 2px 8px #1976d215;
+    }
+    .options input[type="radio"] {
+      accent-color:#1976d2;
+      appearance:none;
+      width:22px; height:22px;
+      border:2px solid #bbb;
+      border-radius:50%;
+      background:#fff;
+      margin-right:10px;
+      cursor: pointer;
+    }
+    .options input[type="radio"]:checked {
+      border:7px solid #1976d2;
+      background:#f3f8fd;
+    }
+    .options label.option-label.selected {
+      border:2.5px solid #1976d2;
+      background:#eef6fb;
+    }
+    .options .option-letter {
+      font-weight:700;
+      color:#1976d2;
+      font-size:1.13em;
+      padding-right:10px;
+      user-select: none;
+    }
+    #navigation { text-align:center; margin-top:12px; }
+    .nav-btn {
+      padding:12px 26px;
+      border-radius:8px;
+      border:none;
+      font-weight:700;
+      font-size:1.1em;
+      margin:0 10px;
+      background:#1976d2;
+      color:white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .nav-btn:hover:not(:disabled) { background:#065ab1; }
+    .nav-btn:disabled { background:#b9cce1; cursor: not-allowed; }
+    #submitBtn {
+      margin-top:22px;
+      padding:14px 42px;
+      font-weight:700;
+      font-size:1.2em;
+      background:#238823;
+      color:white;
+      border:none;
+      border-radius:9px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #submitBtn:disabled { background:#a8d1b7; cursor: not-allowed; }
+    #finish-section { display:none; margin-top:25px; }
+    .card {
+      width: 470px;
+      max-width: 96vw;
+      background:white;
+      border:3px solid #1e90ff;
+      border-radius:22px;
+      box-shadow:0 0 18px #7bb9fd;
+      padding:30px 20px;
+      text-align:center;
+      margin:0 auto;
+      box-sizing: border-box;
+    }
+    .card h1 { font-size:1.4rem; margin-bottom:20px; color:#1c416b; }
+    .trophy { font-size:2.3rem; margin-bottom:15px; color:#ffbb1f; }
+    .details { font-size:1rem; font-weight:600; color:#444; margin-bottom:20px; }
+    .score { font-size:1.25rem; font-weight:800; margin-bottom:20px; }
+    .stats {
+      display:flex; justify-content:center; gap:10px;
+      flex-wrap:wrap; margin-bottom:20px;
+    }
+    .stat { flex:1; background:#f5f8fa; border-radius:10px; padding:10px; text-align:center; min-width:80px; box-sizing: border-box; }
+    .stat-number {
+      width:44px; height:44px; margin:0 auto 8px;
+      border-radius:8px; display:flex; align-items:center;
+      justify-content:center; font-weight:700; font-size:1.2em;
+    }
+    .stat.attempted .stat-number { background:#197fd6; color:white; }
+    .stat.correct .stat-number { background:#08ad6c; color:white; }
+    .stat.wrong .stat-number { background:#d64541; color:white; }
+    .stat.notattempted .stat-number { background:#ddd; color:#333; }
+    #question-navigator {
+      margin-left:24px; width:210px;
+      display:grid; grid-template-columns:repeat(5,36px);
+      grid-auto-rows:36px; gap:10px;
+    }
+    .q-nav-btn { border-radius:6px; border:none; cursor:pointer; color:white; font-weight:700; }
+    .q-nav-btn.not-attempted { background:#d64541; }
+    .q-nav-btn.skipped { background:#197fd6; }
+    .q-nav-btn.attempted { background:#08ad6c; }
+    .q-nav-btn.current { outline:2px solid #000; }
+    table.review-table {
+      width:100%; border-collapse:collapse; margin-top:15px;
+      table-layout: fixed;
+      word-wrap: break-word;
+    }
+    table.review-table th, table.review-table td {
+      border:1px solid #ccc; padding:6px;
+      vertical-align: top;
+    }
+    .correct{color:#08ad6c;font-weight:bold;}
+    .incorrect{color:#d64541;font-weight:bold;}
+    .skipped{color:#1976d2;font-weight:bold;}
+    .export-btns {
+      margin:22px auto 0 auto;
+      display:flex; gap:15px; flex-wrap:wrap;
+      justify-content:center;
+    }
+    @media screen and (max-width: 600px) {
+      h2.main-title { font-size: 1.8rem; margin-bottom: 8px; }
+      .sub-title { font-size: 1.5rem; margin-bottom: 20px; }
+      h4.special-author { font-size: 1.4rem; letter-spacing: 1.5px; margin-bottom: 20px; }
+      .page-border { padding: 15px 5px; }
+      .container { width: 95%; max-width: 100%; padding: 0 10px; }
+      #startBtn, #submitBtn, .nav-btn {
+        font-size: 1em;
+        padding: 12px 20px;
+        margin: 10px 5px;
+      }
+      input[type=text], select {
+        font-size: 1em;
+        padding: 8px 10px;
+      }
+      #quiz-section { flex-direction: column; }
+      #navigation { margin-top: 15px; }
+      .card {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 15px;
+      }
+      #question-navigator {
+        margin-left: 0;
+        width: 100%;
+        grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+      }
+      .options label.option-label {
+        font-size: 1em;
+        padding: 0 15px;
+        min-height: 44px;
+      }
+      .options input[type="radio"] {
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+      }
+      .stat {
+        min-width: 60px;
+        padding: 8px;
+        font-size: 0.85rem;
+      }
+      .stat-number {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+      }
+      table.review-table th, table.review-table td {
+        font-size: 0.9rem;
+        padding: 4px;
+      }
+      .export-btns {
+        gap: 8px;
+        margin: 15px auto 0 auto;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+  <div class="page-border">
+    <div class="container">
+      <h2 class="main-title">VISHWAJEET SCIENCE ACADEMY</h2>
+      <img src="vsa-logo.jpg" alt="VSA logo" class="logo-img" />
+      <h3 class="sub-title">BIOLOGY: Excretory Products and their Elimination</h3>
+      <h4 class="special-author">&copy; By WAHULE SIR</h4>
+      <div id="login-section">
+        <label for="rollno">Enter Roll Number (01-200)</label>
+        <input type="text" id="rollno" maxlength="3" placeholder="e.g. 01" />
+        <label for="batch">Select Batch</label>
+        <select id="batch">
+          <option value="">-- Select Batch --</option>
+          <option value="11th">11th</option>
+          <option value="12th">12th</option>
+          <option value="NEET Repeater">NEET Repeater</option>
+        </select>
+        <button id="startBtn" disabled>Start Test</button>
+      </div>
+
+      <section id="quiz-section">
+        <div style="flex:1;">
+          <div id="progress"></div>
+          <div id="question-block">
+            <div class="question-text" id="question-text"></div>
+            <form id="options-form" class="options"></form>
+          </div>
+          <div id="navigation">
+            <button id="prevBtn" class="nav-btn" disabled>Previous</button>
+            <button id="skipBtn" class="nav-btn">Skip</button>
+            <button id="nextBtn" class="nav-btn" disabled>Next</button>
+          </div>
+          <button id="submitBtn" disabled>Submit Test</button>
+        </div>
+        <nav id="question-navigator"></nav>
+      </section>
+
+      <section id="finish-section">
+        <div style="display:flex; flex-direction:column; align-items:center;">
+          <div class="card">
+            <h1>
+              <span class="trophy">&#x1F3C6;</span>
+              Congratulations! Your Test has been Submitted
+              <span class="trophy">&#x1F3C6;</span>
+            </h1>
+            <div class="details" id="resultDetails"></div>
+            <div id="resultScore" class="score"></div>
+            <div class="stats">
+              <div class="stat attempted"><div class="stat-number" id="attemptedCount">0</div><p>Attempted</p></div>
+              <div class="stat correct"><div class="stat-number" id="correctCount">0</div><p>Correct</p></div>
+              <div class="stat wrong"><div class="stat-number" id="wrongCount">0</div><p>Wrong</p></div>
+              <div class="stat notattempted"><div class="stat-number" id="notAttemptedCount">0</div><p>Not Attempted</p></div>
+            </div>
+            <canvas id="piechart" width="220" height="220"></canvas>
+            <div class="footer">© 2025 Vishwajeet Science Academy</div>
+          </div>
+          <div class="export-btns">
+            <button class="nav-btn" id="printBtn" type="button">🖨️ Print Report</button>
+            <button class="nav-btn" id="pdfBtn" type="button">⬇️ Download PDF</button>
+            <button class="nav-btn" id="excelBtn" type="button">⬇️ Export to Excel</button>
+          </div>
+        </div>
+        <h2 id="review-heading" style="margin-top:36px;">Review Your Answers</h2>
+        <div id="review-section"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const mcqs = [
+  { 
+    q: "Excretory means —",
+    a: "Removal of substances which have never been a part of body",
+    b: "Removal of substances not required by the body",
+    c: "Formation of useful substances in the body",
+    d: "All of the above",
+    ans: "b",
+    expl: "Excretion is specifically the process of removing metabolic wastes and substances not required by the body."
+  },
+  { 
+    q: "Ammonia and urea are waste products derived from the metabolic breakdown of —",
+    a: "Lipids",
+    b: "Carbohydrates",
+    c: "Proteins",
+    d: "Sugars",
+    ans: "c",
+    expl: "Deamination of amino acids during protein metabolism produces ammonia, which is then often converted to urea."
+  },
+  { 
+    q: "Which of the following molecules is the most toxic to the cells?",
+    a: "NaCl",
+    b: "Urea",
+    c: "Uric acid",
+    d: "Ammonia",
+    ans: "d",
+    expl: "Ammonia is highly toxic because it rapidly disturbs cellular pH and neuronal function, so it must be removed or converted quickly."
+  },
+  { 
+    q: "The terms \"ammonotelic\", \"ureotelic\" and \"uricotelic\" are used to describe —",
+    a: "Modes of excretory system development",
+    b: "The actions of hormones on the excretory systems",
+    c: "The types of nitrogenous waste produced by various classes of vertebrates",
+    d: "Modification of kidney tubules to enhance excretion",
+    ans: "c",
+    expl: "These terms classify animals based on whether they mainly excrete ammonia, urea, or uric acid as nitrogenous waste."
+  },
+  { 
+    q: "Which of the following statements is correct?",
+    a: "Many bony fishes, aquatic amphibia and aquatic insects are ammonotelic",
+    b: "Ammonia is readily soluble",
+    c: "NH3 is generally excreted by the body surface or through gills (in fishes) as NH4+",
+    d: "All of the above",
+    ans: "d",
+    expl: "Aquatic ammonotelic animals excrete highly soluble ammonia directly into surrounding water, often across body surface or gills."
+  },
+  { 
+    q: "Which of the following statements is wrong?",
+    a: "Kidney does not play any significant role in the removal of ammonia",
+    b: "Ureotelic animals excrete most of the nitrogenous waste as urea",
+    c: "Ammonia and urea are the waste products derived from the metabolic breakdown of proteins",
+    d: "None of the above is wrong",
+    ans: "d",
+    expl: "All statements are correct as kidneys remove ammonia and ureotelic animals excrete urea."
+  },
+  { 
+    q: "Urea and uric acid are —",
+    a: "More toxic than NH3",
+    b: "Less toxic than NH3",
+    c: "Equally toxic to NH3",
+    d: "Non-toxic",
+    ans: "b",
+    expl: "Urea and uric acid are less toxic nitrogenous wastes than ammonia."
+  },
+  { 
+    q: "Which of the following group of animals is ureotelic?",
+    a: "Many terrestrial amphibians",
+    b: "Mammals",
+    c: "Marine fishes",
+    d: "All",
+    ans: "d",
+    expl: "Ureotelic animals include mammals and many terrestrial species excreting primarily urea."
+  },
+  { 
+    q: "NH3 is converted into urea in —",
+    a: "Kidney",
+    b: "Liver",
+    c: "Spleen",
+    d: "Intestine",
+    ans: "b",
+    expl: "The liver converts toxic ammonia into urea in the urea cycle."
+  },
+  { 
+    q: "Which of the following groups of animals is uricotelic?",
+    a: "Reptiles",
+    b: "Insects",
+    c: "Birds and land snail",
+    d: "All",
+    ans: "d",
+    expl: "Uricotelic animals like birds, reptiles, and some insects excrete uric acid."
+  },
+  { 
+    q: "Excretion of nitrogenous products in semisolid forms by —",
+    a: "Uricotelic animals",
+    b: "Ureotelic animals",
+    c: "Ammonotelic animals",
+    d: "Amniotes",
+    ans: "a",
+    expl: "Uricotelic animals excrete nitrogenous wastes as semisolid uric acid."
+  },
+  { 
+    q: "Least toxic nitrogenous waste is —",
+    a: "NH3",
+    b: "Urea",
+    c: "Uric acid",
+    d: "NH3 and urea",
+    ans: "c",
+    expl: "Uric acid is the least toxic nitrogenous waste among these."
+  },
+  { 
+    q: "Which of following in small amount is retained in kidney matrix of some animals to maintain desired osmolarity?",
+    a: "NH3",
+    b: "Urea",
+    c: "Uric acid",
+    d: "NH3 and uric acid",
+    ans: "b",
+    expl: "Some animals retain urea in kidney matrix to help maintain osmotic balance."
+  },
+  { 
+    q: "Terrestrial organisms must conserve water. The least amount of water is lost with the excretion of which nitrogenous waste product?",
+    a: "NH3",
+    b: "Uric acid",
+    c: "Urea",
+    d: "CO2",
+    ans: "b",
+    expl: "Uric acid excretion conserves water as it is excreted in semi-solid form."
+  },
+  { 
+    q: "The less amount of water is lost with the excretion of which nitrogenous product?",
+    a: "NH3 and urea",
+    b: "NH3 and uric acid",
+    c: "NH3",
+    d: "Urea and uric acid",
+    ans: "d",
+    expl: "Urea and uric acid excretion results in less water loss compared to ammonia."
+  },
+  { 
+    q: "Which of the following is correct about protonephridia / flame cells?",
+    a: "Protonephridia are the excretory structures in platyhelminthes (e.g Planaria), rotifers and some annelids",
+    b: "Protonephridia are the excretory structures in cephalochordates e.g. Amphioxus",
+    c: "Protonephridia are primarily concerned with ionic and fluid volume regulation i.e. osmoregulation",
+    d: "All",
+    ans: "d",
+    expl: "Protonephridia serve as excretory and osmoregulatory structures in these invertebrates."
+  },
+  { 
+    q: "Match the Column I with Column II: A. Nephridia, B. Malpighian tubules, C. Antennal gland or Green glands",
+    a: "A - I, B - II, C - III",
+    b: "A - III, B - II, C - I",
+    c: "A - II, B - III, C - I",
+    d: "A - II, B - I, C - III",
+    ans: "c",
+    expl: "Nephridia are in annelids, Malpighian tubules in insects, and green glands in crustaceans."
+  },
+  { 
+    q: "Which of the following statements is wrong about the human excretory system?",
+    a: "Excretory system consists of one pair of bean shaped kidneys, one pair of ureter, a urinary bladder and a urethra",
+    b: "Kidneys are situated between the 12th thoracic and 3rd lumbar vertebrae close to the dorsal wall",
+    c: "Right kidney is a little higher level than the left one",
+    d: "All",
+    ans: "c",
+    expl: "Right kidney is lower than the left kidney due to liver positioning."
+  },
+  { 
+    q: "Each kidney of an adult human measures —",
+    a: "10-12cm length, 5-7cm width, 2-3cm thickness, 120-170gm weight",
+    b: "10-12cm length, 10-12cm width, 6-12 cm thickness, 40-50gm weight",
+    c: "2-6 cm length, 10-12cm width, 6-12cm thickness, 40-50gm weight",
+    d: "10-12mm length, 5-7 mm width, 2-3 mm thickness, 120-170 mg weight",
+    ans: "a",
+    expl: "Adult human kidney dimensions are approximately 10-12 cm by 5-7 cm by 2-3 cm."
+  },
+  { 
+    q: "The part of kidney, gateway for ureter, nerves and blood vessels is —",
+    a: "Hilum",
+    b: "Renal pore",
+    c: "Minor calyx",
+    d: "Major calyx",
+    ans: "a",
+    expl: "The hilum is the entry/exit site for ureter, vessels, and nerves."
+  },
+  { 
+    q: "Inner to the hilum of kidney is a broad funnel shaped space called:",
+    a: "Cortex",
+    b: "Medulla",
+    c: "Pelvis",
+    d: "Calyx",
+    ans: "c",
+    expl: "The renal pelvis is the funnel-shaped cavity that collects urine."
+  },
+  { 
+    q: "Which of the following statements is false? Outer cortex and inner medulla are the two zones in kidney; Medulla is divided into renal pyramids; Pyramid projects into calyx; Inwards extension of cortex between pyramids is called renal column of Bertini.",
+    a: "I and IV",
+    b: "II and IV",
+    c: "IV",
+    d: "None",
+    ans: "d",
+    expl: "All the statements are correct regarding kidney anatomy."
+  },
+  { 
+    q: "Each Kidney has how many nephrons?",
+    a: "About 2 million",
+    b: "About 1 million",
+    c: "About 5000",
+    d: "About 50000",
+    ans: "b",
+    expl: "Each adult human kidney contains approximately 1 million nephrons."
+  },
+  { 
+    q: "Which one of the following is the structural and functional unit of kidney?",
+    a: "Urethra",
+    b: "Urinary bladder",
+    c: "Renal column",
+    d: "Nephron",
+    ans: "d",
+    expl: "The nephron is the fundamental unit involved in urine formation."
+  },
+  { 
+    q: "Renal corpuscle or Malpighian body is —",
+    a: "Glomerulus only",
+    b: "Glomerulus along with Bowman's capsule",
+    c: "Bowman's capsule",
+    d: "Glomerulus with afferent arteriole",
+    ans: "b",
+    expl: "Renal corpuscle consists of glomerulus and Bowman's capsule."
+  },
+  { 
+    q: "Which one of the following is a tube that carries urine from kidney to the urinary bladder?",
+    a: "Loop of Henle",
+    b: "Ureter",
+    c: "Urethra",
+    d: "Uvula",
+    ans: "b",
+    expl: "Ureter transports urine from kidney to urinary bladder."
+  },
+  { 
+    q: "The bed of capillaries in the vertebrate kidney where water, urea and salts are filtered out of the blood is the —",
+    a: "Bowman's capsule",
+    b: "Collecting duct",
+    c: "Glomerulus",
+    d: "Loop of Henle",
+    ans: "c",
+    expl: "Filtration occurs in the glomerulus capillary bed."
+  },
+  { 
+    q: "All of the following structures are situated in the renal cortex except —",
+    a: "Loop of Henle",
+    b: "Malpighian corpuscle",
+    c: "PCT",
+    d: "DCT",
+    ans: "a",
+    expl: "Loop of Henle extends into the medulla, not cortex."
+  },
+  { 
+    q: "The DCTs of many nephrons open into a straight tube called —",
+    a: "PCT",
+    b: "Loop of Henle",
+    c: "Collecting duct",
+    d: "Bowman's capsule",
+    ans: "c",
+    expl: "Collecting duct receives filtrate from distal convoluted tubules."
+  },
+  { 
+    q: "Which of the following statements is false? (a) Renal tubule starts with Bowman's capsule; (b) Majority of nephrons have short loop of Henle; (c) Juxtamedullary nephron has long loop of Henle; (d) None",
+    a: "a",
+    b: "b",
+    c: "c",
+    d: "d",
+    ans: "d",
+    expl: "All statements about nephrons are correct."
+  },
+  { 
+    q: "Which is the correct pathway for passage of urine in humans?",
+    a: "Collecting tubule → ureter → bladder → urethra",
+    b: "Renal vein → renal ureter → bladder → urethra",
+    c: "Pelvis → Medulla → bladder → urethra",
+    d: "Cortex → Medulla → bladder → ureter",
+    ans: "a",
+    expl: "Urine flows from collecting tubules to ureter, bladder, then urethra."
+  },
+  { 
+    q: "Match the Column I with Column II: A. Delivers blood to glomerulus; B. Carries urine to pelvis; C. Collects filtrate from Bowman's capsule; D. Loop of Henle",
+    a: "A-II, B-III, C-IV, D-I",
+    b: "A-I, B-III, C-II, D-IV",
+    c: "A-II, B-IV, C-I, D-III",
+    d: "A-IV, B-III, C-II, D-I",
+    ans: "a",
+    expl: "Matching blood/urine flow structures with functions is as stated."
+  },
+  { 
+    q: "Which of the following is correct about juxta medullary nephrons?",
+    a: "Vasa recta is prominent",
+    b: "Loop of Henle is long",
+    c: "NaCl is returned to the interstitium by ascending limb of vasa recta",
+    d: "All",
+    ans: "d",
+    expl: "Juxtamedullary nephrons have these features for urine concentration."
+  },
+  { 
+    q: "Which one of the following places the region of nephron in their correct sequence with respect to flow of tubular fluid?",
+    a: "PCT → Descending limb → Ascending limb → DCT → Collecting duct",
+    b: "PCT → Ascending limb → Descending limb → DCT → Collecting duct",
+    c: "Ascending limb → Descending limb → PCT → DCT → Collecting duct",
+    d: "DCT → Ascending limb → Descending limb → PCT → Collecting duct",
+    ans: "a",
+    expl: "Correct flow of filtrate goes from PCT to collecting duct via Henle's loop and DCT."
+  },
+  { 
+    q: "Vasa recta is —",
+    a: "L-shaped",
+    b: "S-shaped",
+    c: "U-shaped",
+    d: "J-shaped",
+    ans: "c",
+    expl: "Vasa recta capillaries form a U-shaped loop around nephron."
+  },
+  { 
+    q: "In glomerulus, afferent arteriole —",
+    a: "Is wider than efferent arteriole",
+    b: "Is narrower than efferent arteriole",
+    c: "Both have similar diameter",
+    d: "Is narrow than efferent capillaries",
+    ans: "a",
+    expl: "Afferent arteriole is wider to maintain blood flow pressure for filtration."
+  },
+  { 
+    q: "Which of the following is incorrect?",
+    a: "Blood vessel leading to glomerulus is called efferent arteriole",
+    b: "Vasa recta, peritubular capillaries, glomerulus all have blood",
+    c: "Cortical nephron has no or highly reduced vasa recta",
+    d: "Vasa recta runs parallel to the Henle's loop in juxtamedullary nephrons",
+    ans: "a",
+    expl: "Blood vessel to glomerulus is afferent arteriole, not efferent."
+  },
+  { 
+    q: "Urine formation involves —",
+    a: "Ultrafiltration and reabsorption in different parts",
+    b: "Ultrafiltration and reabsorption in same part",
+    c: "Ultrafiltration, reabsorption and secretion in different parts",
+    d: "Ultrafiltration, reabsorption and secretion in same part",
+    ans: "c",
+    expl: "Urine formation includes ultrafiltration, reabsorption, and secretion in various nephron parts."
+  },
+  { 
+    q: "Match column I with column II: A. PCT, B. DCT, C. Loop of Henle, D. Counter-current mechanism, E. Renal corpuscle",
+    a: "III, IV, I, V, II",
+    b: "III, V, IV, II, I",
+    c: "I, III, II, V, IV",
+    d: "III, I, IV, V, II",
+    ans: "a",
+    expl: "Various nephron parts correlate with their functions as matched."
+  },
+  { 
+    q: "Which of the following statements is correct? (I) Renal vein takes blood away from kidney; (II) Loop of Henle conserves water; (III) Podocytes occur in inner wall of Bowman's capsule; (IV) Ultrafiltrate is plasma minus proteins.",
+    a: "I and II",
+    b: "I and III",
+    c: "III and IV",
+    d: "I, II, III, IV",
+    ans: "d",
+    expl: "All statements about kidney function and structure are accurate."
+  },
+  { 
+    q: "The glomerular capillaries cause filtration of blood through how many layers?",
+    a: "1",
+    b: "2",
+    c: "3",
+    d: "6",
+    ans: "c",
+    expl: "Filtration occurs through three layers: endothelium, basement membrane, and epithelium."
+  },
+  { 
+    q: "The layers between blood in glomerular blood and Bowman's space are —",
+    a: "Tunica media + Cuboidal epithelium + Basement's membrane",
+    b: "Endothelium + Epithelium of Bowman's capsule + Basement membrane",
+    c: "Endothelium of glomerular blood vessel + Endothelium of Bowman's capsule + Parietal layer of Bowman's",
+    d: "None of the above",
+    ans: "b",
+    expl: "These three layers form the filtration barrier in the renal corpuscle."
+  },
+  { 
+    q: "On average, ___ ml of blood is filtered by the kidney per minute which constitutes roughly ___ of the blood pumped by heart.",
+    a: "125 ml, 1/6th",
+    b: "100-125 ml, 1/6th",
+    c: "1100-1200 ml, 1/5th",
+    d: "5 L, 1/10th",
+    ans: "c",
+    expl: "Kidneys filter about 1100-1200 ml blood per minute, about one-fifth of cardiac output."
+  },
+  { 
+    q: "The amount of filtrate formed by kidney per minute is called GFR. The GFR of healthy adult is —",
+    a: "80 ml/min",
+    b: "125 ml/min",
+    c: "300 ml/min",
+    d: "20 ml/min",
+    ans: "b",
+    expl: "Normal glomerular filtration rate is approximately 125 ml/min."
+  },
+  { 
+    q: "The GFR per day in healthy adult is —",
+    a: "5 L",
+    b: "180 L",
+    c: "200 L",
+    d: "20 L",
+    ans: "b",
+    expl: "Daily glomerular filtration rate is about 180 liters."
+  },
+  { 
+    q: "Juxtaglomerular apparatus is formed in —",
+    a: "PCT and OCT",
+    b: "PCT and DCT at location of contact",
+    c: "PCT and loop of Henle at location of contact",
+    d: "DCT and afferent arteriole at location of contact",
+    ans: "d",
+    expl: "JGA is located at the DCT and afferent arteriole contact."
+  },
+  { 
+    q: "Of the filtrate, nearly how much is reabsorbed by renal tubules?",
+    a: "5%",
+    b: "99%",
+    c: "50%",
+    d: "25%",
+    ans: "b",
+    expl: "About 99% of filtrate is reabsorbed back into the blood."
+  },
+  { 
+    q: "Which of the following statements is false?",
+    a: "Kidney has built-in mechanism for GFR regulation",
+    b: "Tubular secretion does not play significant role in urine formation",
+    c: "Normal urine output is about 1.5 L/day",
+    d: "Tubular cells secrete H+, K+, and NH3 in filtrate",
+    ans: "b",
+    expl: "Tubular secretion is an important process in urine formation."
+  },
+  { 
+    q: "Which statement about proximal convoluted tubule (PCT) is false?",
+    a: "Lined by simple cuboidal brush border epithelium",
+    b: "Reabsorbs nearly all essential nutrients and 70% water",
+    c: "PCT is not site of selective secretion",
+    d: "Helps maintain pH and ionic balance",
+    ans: "c",
+    expl: "PCT does perform selective secretion besides reabsorption."
+  },
+  { 
+    q: "PCT helps maintain pH and ionic balance by —",
+    a: "Selective secretion of H+, NH3 and K+ ions",
+    b: "Reabsorption of HCO3- from filtrate",
+    c: "Both a and b",
+    d: "Secreting hormones like renin",
+    ans: "c",
+    expl: "PCT uses both secretion and reabsorption mechanisms for balance."
+  },
+  { 
+    q: "If Loop of Henle were absent from mammalian nephrons, expected is —",
+    a: "More dilute urine",
+    b: "No urine formation",
+    c: "More concentrated urine",
+    d: "Little change in urine quality and quantity",
+    ans: "a",
+    expl: "Loop of Henle establishes medullary gradient for urine concentration."
+  },
+  { 
+    q: "Each kidney has about how many nephrons?",
+    a: "About 1 million",
+    b: "About 2 million",
+    c: "5000",
+    d: "50,000",
+    ans: "a",
+    expl: "Adult human kidneys contain roughly 1 million nephrons each."
+  },
+  { 
+    q: "Which of the following statements about proximal convoluted tubule (PCT) is false?",
+    a: "It is lined by simple cuboidal brush border epithelium which increases the surface area",
+    b: "Nearly all the essential nutrients, 70 - 80% electrolytes, 70% H2O are reabsorbed by PCT.",
+    c: "PCT is not the site of selective secretion",
+    d: "PCT helps to maintain the pH and ionic balance of body fluids",
+    ans: "c",
+    expl: "PCT is indeed a site of selective secretion besides reabsorption."
+  },
+  { 
+    q: "PCT helps to maintain the pH and ionic balance of body fluids by ---",
+    a: "Selective secretion of H+, NH3 and K+ ions in filtrate",
+    b: "Reabsorption of HCO3- from filtrate",
+    c: "Both a and b",
+    d: "Secreting regulatory hormones like renin and angiotensinogen",
+    ans: "c",
+    expl: "PCT maintains pH and ion balance by secretion and reabsorption processes."
+  },
+  { 
+    q: "If Loop of Henle were absent from mammalian nephrons, which would be expected?",
+    a: "The urine will be more dilute",
+    b: "There will be no urine formation",
+    c: "The urine will be more concentrated",
+    d: "Little change in quality and quantity of urine",
+    ans: "a",
+    expl: "Loop of Henle creates medullary gradient essential for urine concentration; without it urine is dilute."
+  },
+  { 
+    q: "Which of the following is the function of the juxtaglomerular apparatus?",
+    a: "Formation of glomerular filtrate",
+    b: "Formation of renin secretion",
+    c: "Formation of erythropoietin",
+    d: "Storage of urine",
+    ans: "b",
+    expl: "JGA regulates blood pressure by secreting renin."
+  },
+  { 
+    q: "Which of the following blood vessels is wider in diameter?",
+    a: "Afferent arteriole",
+    b: "Efferent arteriole",
+    c: "Vasa recta",
+    d: "Peritubular capillaries",
+    ans: "a",
+    expl: "Afferent arteriole has wider diameter to maintain filtration pressure."
+  },
+  { 
+    q: "Which hormone increases reabsorption of Na+ in kidneys?",
+    a: "Vasopressin",
+    b: "Aldosterone",
+    c: "Renin",
+    d: "ADH",
+    ans: "b",
+    expl: "Aldosterone promotes Na+ reabsorption in distal tubules."
+  },
+  { 
+    q: "Which hormone controls reabsorption of water in kidneys?",
+    a: "ACTH",
+    b: "LH",
+    c: "ADH (Vasopressin)",
+    d: "STH",
+    ans: "c",
+    expl: "ADH increases water permeability of collecting ducts."
+  },
+  { 
+    q: "Atrial Natriuretic Factor (ANF) primarily acts to ---",
+    a: "Increase blood volume",
+    b: "Decrease blood pressure",
+    c: "Promote vasoconstriction",
+    d: "Stimulate aldosterone secretion",
+    ans: "b",
+    expl: "ANF promotes vasodilation and sodium excretion, reducing blood pressure."
+  },
+  { 
+    q: "What is the term for expulsion of urine from the bladder?",
+    a: "Uricolysis",
+    b: "Micturition",
+    c: "Uremia",
+    d: "Anuria",
+    ans: "b",
+    expl: "Micturition is the reflex action of urine expulsion."
+  },
+  { 
+    q: "The typical pH of human urine is approximately ---",
+    a: "9",
+    b: "3",
+    c: "7",
+    d: "6",
+    ans: "d",
+    expl: "Normal urine pH is slightly acidic, around 6."
+  },
+  { 
+    q: "Which excretory disease is associated with inflammation of glomeruli?",
+    a: "Glycosuria",
+    b: "Cystitis",
+    c: "Bright's disease (Glomerulonephritis)",
+    d: "Ketonuria",
+    ans: "c",
+    expl: "Bright's disease is inflammation of the glomeruli in kidneys."
+  },
+  { 
+    q: "Human kidneys produce urine that can be concentrated up to how many times compared to initial filtrate?",
+    a: "2 times",
+    b: "4 times",
+    c: "10 times",
+    d: "100 times",
+    ans: "b",
+    expl: "Human kidneys concentrate urine approximately 4 times the filtrate concentration."
+  },
+  { 
+    q: "The excretory organ in earthworms are called ---",
+    a: "Malpighian tubules",
+    b: "Metanephridia",
+    c: "Nephridia",
+    d: "Flame cells",
+    ans: "c",
+    expl: "Earthworms have nephridia as excretory structures."
+  },
+  { 
+    q: "Which of the following nitrogenous wastes requires the least water for excretion?",
+    a: "Ammonia",
+    b: "Urea",
+    c: "Uric acid",
+    d: "All require equal water",
+    ans: "c",
+    expl: "Uric acid is excreted as semi-solid, conserving water."
+  },
+  { 
+    q: "Which of these involves the counter-current mechanism in kidneys?",
+    a: "Collecting ducts",
+    b: "Loop of Henle and vasa recta",
+    c: "Proximal convoluted tubule",
+    d: "Distal convoluted tubule",
+    ans: "b",
+    expl: "Counter-current exchange occurs between Loop of Henle and vasa recta."
+  },
+  { 
+    q: "Which structure collects filtrate from Bowman's capsule?",
+    a: "Afferent arteriole",
+    b: "Glomerulus",
+    c: "Proximal convoluted tubule",
+    d: "Distal convoluted tubule",
+    ans: "c",
+    expl: "Proximal convoluted tubule receives filtrate from Bowman's capsule."
+  },
+  { 
+    q: "The functional unit of the kidney is ---",
+    a: "Ureter",
+    b: "Nephron",
+    c: "Renal pelvis",
+    d: "Collecting duct",
+    ans: "b",
+    expl: "Nephron is the structural and functional unit of kidney."
+  },
+  { 
+    q: "Bright's disease affects which part of the kidney?",
+    a: "Glomeruli",
+    b: "Tubules",
+    c: "Collecting ducts",
+    d: "Ureter",
+    ans: "a",
+    expl: "Inflammation of glomerulus is characteristic of Bright's disease."
+  },
+  { 
+    q: "Which hormone stimulates release of aldosterone?",
+    a: "Angiotensin II",
+    b: "Atrial Natriuretic Factor",
+    c: "Renin",
+    d: "ADH",
+    ans: "a",
+    expl: "Angiotensin II stimulates adrenal cortex to release aldosterone."
+  },
+  { 
+    q: "Diabetes mellitus is characterized by ---",
+    a: "Oliguria",
+    b: "Ketonuria and glycosuria",
+    c: "Anuria",
+    d: "Hematuria",
+    ans: "b",
+    expl: "High glucose and ketone bodies appear in urine in diabetes mellitus."
+  },
+  { 
+    q: "Which of the following is a nitrogenous waste?",
+    a: "Ureotelic",
+    b: "Ammonotelic",
+    c: "Uricotelic",
+    d: "Urea",
+    ans: "d",
+    expl: "Urea is a nitrogenous waste product generated from protein metabolism."
+  },
+  { 
+    q: "Which hormone increases water permeability in kidneys?",
+    a: "Aldosterone",
+    b: "ADH",
+    c: "Renin",
+    d: "Erythropoietin",
+    ans: "b",
+    expl: "ADH increases water permeability in distal tubules and collecting ducts."
+  },
+  { 
+    q: "The hormone secreted by juxtaglomerular cells is ---",
+    a: "Renin",
+    b: "Aldosterone",
+    c: "ADH",
+    d: "Erythropoietin",
+    ans: "a",
+    expl: "JGA cells secrete renin to regulate blood pressure."
+  },
+  { 
+    q: "What term describes the urine formation process?",
+    a: "Filtration",
+    b: "Reabsorption",
+    c: "Secretion",
+    d: "Ultrafiltration, reabsorption, and secretion",
+    ans: "d",
+    expl: "Urine formation involves all three processes in nephron."
+  },
+  { 
+    q: "The medullary concentration gradient is mainly caused by ---",
+    a: "NaCl and urea",
+    b: "NaCl and potassium",
+    c: "Urea and hydrogen ions",
+    d: "Urea and potassium",
+    ans: "a",
+    expl: "NaCl and urea create osmotic gradient for water reabsorption."
+  },
+  { 
+    q: "The term for nitrogenous wastes excreted by aquatic amphibians is ---",
+    a: "Ureotelic",
+    b: "Ammonotelic",
+    c: "Uricotelic",
+    d: "Nephrotelic",
+    ans: "b",
+    expl: "Aquatic amphibians excrete nitrogenous waste primarily as ammonia."
+  },
+  { 
+    q: "Which of these is an excretory organ in insects?",
+    a: "Nephridia",
+    b: "Malpighian tubules",
+    c: "Green glands",
+    d: "Flame cells",
+    ans: "b",
+    expl: "Malpighian tubules are insect excretory structures."
+  },
+  { 
+    q: "Which of these produces erythropoietin?",
+    a: "Adrenal gland",
+    b: "Kidneys",
+    c: "Hypothalamus",
+    d: "Pancreas",
+    ans: "b",
+    expl: "Kidneys produce erythropoietin to stimulate red blood cell production."
+  },
+  { 
+    q: "Which hormone promotes increased water reabsorption during dehydration?",
+    a: "ANF",
+    b: "Aldosterone",
+    c: "ADH",
+    d: "Renin",
+    ans: "c",
+    expl: "ADH helps conserve water by increasing kidney tubules' permeability."
+  },
+  { 
+    q: "Which hormone acts as a check on RAAS?",
+    a: "Aldosterone",
+    b: "Angiotensin II",
+    c: "ANF",
+    d: "Renin",
+    ans: "c",
+    expl: "Atrial natriuretic factor opposes RAAS to reduce blood pressure."
+  },
+  { 
+    q: "Function of renal corpuscle is ---",
+    a: "Filtration of blood",
+    b: "Formation of urine",
+    c: "Reabsorption of salt",
+    d: "Transport of urine",
+    ans: "a",
+    expl: "Renal corpuscle filters blood to form filtrate."
+  },
+  { 
+    q: "Which structure carries urine from kidney to bladder?",
+    a: "Ureter",
+    b: "Urethra",
+    c: "Collecting duct",
+    d: "Loop of Henle",
+    ans: "a",
+    expl: "Ureter transports urine to urinary bladder."
+  },
+  { 
+    q: "Glomerular filtration occurs in ---",
+    a: "Collecting duct",
+    b: "Bowman's capsule and glomerulus",
+    c: "Loop of Henle",
+    d: "Distal convoluted tubule",
+    ans: "b",
+    expl: "Filtration occurs at renal corpuscle composed of glomerulus and Bowman's capsule."
+  },
+  { 
+    q: "The process of ultrafiltration depends on ---",
+    a: "Blood pressure",
+    b: "Osmosis",
+    c: "Active transport",
+    d: "Facilitated diffusion",
+    ans: "a",
+    expl: "High blood pressure in glomerulus forces fluid into Bowman's capsule."
+  },
+  { 
+    q: "Which organ removes most CO2 from the body?",
+    a: "Kidney",
+    b: "Skin",
+    c: "Lung",
+    d: "Liver",
+    ans: "c",
+    expl: "Lungs excrete carbon dioxide during respiration."
+  },
+  { 
+    q: "Which of the following is excreted by sweat glands?",
+    a: "Urea and NaCl",
+    b: "Only water",
+    c: "Only urea",
+    d: "Only salt",
+    ans: "a",
+    expl: "Sweat glands excrete urea, salts, and water."
+  },
+  { 
+    q: "Kidney stones are mostly formed by ---",
+    a: "Uric acid",
+    b: "Ca-oxalate crystals",
+    c: "Urea crystals",
+    d: "Proteins",
+    ans: "b",
+    expl: "Calcium oxalate crystal precipitations cause kidney stones."
+  },
+  { 
+    q: "Process of removing waste from blood artificially is called ---",
+    a: "Hemodialysis",
+    b: "Micturition",
+    c: "Osmoregulation",
+    d: "Proteinuria",
+    ans: "a",
+    expl: "Hemodialysis filters wastes when kidneys fail."
+  },
+  { 
+    q: "Which animal class is primarily ureotelic?",
+    a: "Amphibians",
+    b: "Reptiles",
+    c: "Mammals",
+    d: "Birds",
+    ans: "c",
+    expl: "Most mammals excrete nitrogen as urea."
+  },
+  { 
+    q: "Glucose in urine is called ---",
+    a: "Glycosuria",
+    b: "Ketonuria",
+    c: "Uremia",
+    d: "Hematuria",
+    ans: "a",
+    expl: "Presence of glucose in urine is called glycosuria."
+  },
+  { 
+    q: "Which type of nephron has a longer loop of Henle?",
+    a: "Juxtamedullary nephron",
+    b: "Cortical nephron",
+    c: "Both equal",
+    d: "None",
+    ans: "a",
+    expl: "Juxtamedullary nephrons have long loops for concentration gradient."
+  },
+  { 
+    q: "The kidney is located beneath which organs?",
+    a: "Liver and spleen",
+    b: "Stomach and pancreas",
+    c: "Liver and stomach",
+    d: "Spleen and pancreas",
+    ans: "a",
+    expl: "Right kidney is below liver; left kidney near spleen."
+  },
+  { 
+    q: "Blood in the kidney is filtered through ---",
+    a: "Peritubular capillaries",
+    b: "Glomerulus",
+    c: "Loop of Henle",
+    d: "Vasa recta",
+    ans: "b",
+    expl: "Filtration occurs in the glomerulus."
+  },
+  { 
+    q: "Highly toxic nitrogenous waste is ---",
+    a: "Ammonia",
+    b: "Urea",
+    c: "Uric acid",
+    d: "Creatinine",
+    ans: "a",
+    expl: "Ammonia is highly toxic and must be quickly removed."
+  },
+  { 
+    q: "Which organ synthesizes urea?",
+    a: "Kidney",
+    b: "Liver",
+    c: "Spleen",
+    d: "Lung",
+    ans: "b",
+    expl: "Liver converts ammonia to urea."
+  },
+  { 
+    q: "Which statement about nephron is true?",
+    a: "Nephron filters blood and forms urine",
+    b: "Nephron stores urine",
+    c: "Nephron transports urine",
+    d: "Nephron removes CO2",
+    ans: "a",
+    expl: "Nephron is the functional kidney unit for urine formation."
+  },
+  { 
+    q: "Which hormone inhibits ADH release?",
+    a: "Aldosterone",
+    b: "Atrial natriuretic factor (ANF)",
+    c: "Renin",
+    d: "Angiotensin II",
+    ans: "b",
+    expl: "ANF decreases ADH secretion to lower blood volume."
+  },
+  { 
+    q: "Which enzyme converts angiotensinogen to angiotensin I?",
+    a: "Renin",
+    b: "ACE",
+    c: "Aldosterone",
+    d: "ADH",
+    ans: "a",
+    expl: "Renin initiates renin-angiotensin pathway by converting angiotensinogen."
+  },
+  { 
+    q: "Which part of nephron is impermeable to water?",
+    a: "Ascending limb of loop of Henle",
+    b: "Descending limb of loop of Henle",
+    c: "Proximal convoluted tubule",
+    d: "Collecting duct",
+    ans: "a",
+    expl: "Ascending limb actively transports ions but is water impermeable."
+  },
+  { 
+    q: "Which is true of glomerular filtrate?",
+    a: "Contains proteins",
+    b: "Contains blood cells",
+    c: "Lacks proteins and blood cells",
+    d: "Contains RBCs",
+    ans: "c",
+    expl: "Filtrate lacks large proteins and blood cells."
+  },
+  { 
+    q: "In artificial kidney dialysing fluid contains all the constituents as in plasma except ---",
+    a: "Na",
+    b: "Water",
+    c: "Glucose",
+    d: "Nitrogenous wastes",
+    ans: "d",
+    expl: "Dialysing fluid excludes nitrogenous wastes to enable their removal from blood."
+  },
+  { 
+    q: "Kidney stone is produced by ---",
+    a: "Deposition of sand particles",
+    b: "Crystallization of Ca-oxalate",
+    c: "Precipitation of protein",
+    d: "KCl or NaCl",
+    ans: "b",
+    expl: "Most kidney stones are calcium oxalate crystals precipitating in the kidney."
+  },
+  { 
+    q: "Bright's disease/Glomerulonephritis is ---",
+    a: "Glycosuria",
+    b: "Cystitis",
+    c: "Inflammation of glomeruli",
+    d: "Ketonuria",
+    ans: "c",
+    expl: "Bright's disease is characterized by inflammation of the glomeruli."
+  },
+  { 
+    q: "Which of the following statements is correct about kidney transplantation?",
+    a: "Kidney transplantation is the ultimate method when drugs or dialysis fail",
+    b: "Close relatives are often used as donors to minimize rejection risk",
+    c: "Cyclosporin A is used as an immunosuppressive agent in transplant patients",
+    d: "All of the above",
+    ans: "d",
+    expl: "All statements accurately describe kidney transplantation facts."
+  },
+  { 
+    q: "Which process comes first in dialysis steps?",
+    a: "Blood is passed into a vein",
+    b: "Blood is mixed with heparin",
+    c: "Blood is drained from convenient artery",
+    d: "Blood is passed through porous cellophane tube",
+    ans: "c",
+    expl: "Blood is first drained from artery before dialysis steps."
+  },
+  { 
+    q: "The excretory organ in earthworms are called ---",
+    a: "Malpighian tubules",
+    b: "Metanephridia",
+    c: "Nephridia",
+    d: "Flame cells",
+    ans: "c",
+    expl: "Earthworms possess nephridia for waste excretion."
+  },
+  { 
+    q: "Which of the following nitrogenous wastes requires the least water for excretion?",
+    a: "Ammonia",
+    b: "Urea",
+    c: "Uric acid",
+    d: "All require equal water",
+    ans: "c",
+    expl: "Uric acid is excreted as a semi-solid, conserving water."
+  },
+  { 
+    q: "Which of these involves the counter-current mechanism in kidneys?",
+    a: "Collecting ducts",
+    b: "Loop of Henle and vasa recta",
+    c: "Proximal convoluted tubule",
+    d: "Distal convoluted tubule",
+    ans: "b",
+    expl: "Counter-current exchange occurs between Loop of Henle and vasa recta."
+  },
+  { 
+    q: "Which structure collects filtrate from Bowman's capsule?",
+    a: "Afferent arteriole",
+    b: "Glomerulus",
+    c: "Proximal convoluted tubule",
+    d: "Distal convoluted tubule",
+    ans: "c",
+    expl: "Proximal convoluted tubule receives filtrate directly from Bowman's capsule."
+  },
+  { 
+    q: "The functional unit of the kidney is ---",
+    a: "Ureter",
+    b: "Nephron",
+    c: "Renal pelvis",
+    d: "Collecting duct",
+    ans: "b",
+    expl: "Nephron is the structural and functional unit of the kidney."
+  },
+  { 
+    q: "Bright's disease affects which part of the kidney?",
+    a: "Glomeruli",
+    b: "Tubules",
+    c: "Collecting ducts",
+    d: "Ureter",
+    ans: "a",
+    expl: "It is inflammation of the glomeruli causing Bright's disease."
+  },
+  { 
+    q: "Which hormone stimulates release of aldosterone?",
+    a: "Angiotensin II",
+    b: "Atrial Natriuretic Factor",
+    c: "Renin",
+    d: "ADH",
+    ans: "a",
+    expl: "Angiotensin II stimulates adrenal cortex to secrete aldosterone."
+  },
+  { 
+    q: "Diabetes mellitus is characterized by ---",
+    a: "Oliguria",
+    b: "Ketonuria and glycosuria",
+    c: "Anuria",
+    d: "Hematuria",
+    ans: "b",
+    expl: "Presence of glucose and ketones in urine indicates diabetes mellitus."
+  },
+  { 
+    q: "Which of the following is a nitrogenous waste?",
+    a: "Ureotelic",
+    b: "Ammonotelic",
+    c: "Uricotelic",
+    d: "Urea",
+    ans: "d",
+    expl: "Urea is a primary nitrogenous waste product."
+  },
+  { 
+    q: "Which hormone increases water permeability in kidneys?",
+    a: "Aldosterone",
+    b: "ADH",
+    c: "Renin",
+    d: "Erythropoietin",
+    ans: "b",
+    expl: "ADH increases permeability of kidney tubules to water."
+  },
+  { 
+    q: "The hormone secreted by juxtaglomerular cells is ---",
+    a: "Renin",
+    b: "Aldosterone",
+    c: "ADH",
+    d: "Erythropoietin",
+    ans: "a",
+    expl: "Juxtaglomerular cells secrete renin to regulate blood pressure."
+  },
+  { 
+    q: "What term describes the urine formation process?",
+    a: "Filtration",
+    b: "Reabsorption",
+    c: "Secretion",
+    d: "Ultrafiltration, reabsorption, and secretion",
+    ans: "d",
+    expl: "Urine formation involves all three processes."
+  },
+  { 
+    q: "The medullary concentration gradient is mainly caused by ---",
+    a: "NaCl and urea",
+    b: "NaCl and potassium",
+    c: "Urea and hydrogen ions",
+    d: "Urea and potassium",
+    ans: "a",
+    expl: "NaCl and urea create osmotic gradients for water reabsorption."
+  },
+  { 
+    q: "The term for nitrogenous wastes excreted by aquatic amphibians is ---",
+    a: "Ureotelic",
+    b: "Ammonotelic",
+    c: "Uricotelic",
+    d: "Nephrotelic",
+    ans: "b",
+    expl: "Aquatic amphibians excrete ammonia, so they are ammonotelic."
+  },
+  { 
+    q: "Which of these is an excretory organ in insects?",
+    a: "Nephridia",
+    b: "Malpighian tubules",
+    c: "Green glands",
+    d: "Flame cells",
+    ans: "b",
+    expl: "Malpighian tubules serve as insect excretory organs."
+  },
+  { 
+    q: "Which of these produces erythropoietin?",
+    a: "Adrenal gland",
+    b: "Kidneys",
+    c: "Hypothalamus",
+    d: "Pancreas",
+    ans: "b",
+    expl: "Kidneys secrete erythropoietin to stimulate RBC production."
+  },
+  { 
+    q: "Which hormone promotes increased water reabsorption during dehydration?",
+    a: "ANF",
+    b: "Aldosterone",
+    c: "ADH",
+    d: "Renin",
+    ans: "c",
+    expl: "ADH increases water reabsorption to conserve water."
+  },
+  { 
+    q: "Which hormone acts as a check on RAAS?",
+    a: "Aldosterone",
+    b: "Angiotensin II",
+    c: "ANF",
+    d: "Renin",
+    ans: "c",
+    expl: "Atrial natriuretic factor opposes RAAS effects to reduce BP."
+  },
+  { 
+    q: "Function of renal corpuscle is ---",
+    a: "Filtration of blood",
+    b: "Formation of urine",
+    c: "Reabsorption of salt",
+    d: "Transport of urine",
+    ans: "a",
+    expl: "Renal corpuscle is site of blood filtration."
+  },
+  { 
+    q: "Which structure carries urine from kidney to bladder?",
+    a: "Ureter",
+    b: "Urethra",
+    c: "Collecting duct",
+    d: "Loop of Henle",
+    ans: "a",
+    expl: "Ureter transports urine to urinary bladder."
+  },
+  { 
+    q: "Glomerular filtration occurs in ---",
+    a: "Collecting duct",
+    b: "Bowman's capsule and glomerulus",
+    c: "Loop of Henle",
+    d: "Distal convoluted tubule",
+    ans: "b",
+    expl: "Filtration occurs in the renal corpuscle."
+  },
+  { 
+    q: "The process of ultrafiltration depends on ---",
+    a: "Blood pressure",
+    b: "Osmosis",
+    c: "Active transport",
+    d: "Facilitated diffusion",
+    ans: "a",
+    expl: "High blood pressure in glomerulus drives ultrafiltration."
+  },
+  { 
+    q: "Which organ removes most CO2 from the body?",
+    a: "Kidney",
+    b: "Skin",
+    c: "Lung",
+    d: "Liver",
+    ans: "c",
+    expl: "Lungs excrete CO2 produced during respiration."
+  },
+  { 
+    q: "Which of the following is excreted by sweat glands?",
+    a: "Urea and NaCl",
+    b: "Only water",
+    c: "Only urea",
+    d: "Only salt",
+    ans: "a",
+    expl: "Sweat contains urea, salts, and water."
+  },
+  { 
+    q: "Kidney stones are mostly formed by ---",
+    a: "Uric acid",
+    b: "Ca-oxalate crystals",
+    c: "Urea crystals",
+    d: "Proteins",
+    ans: "b",
+    expl: "Calcium oxalate crystals form majority of kidney stones."
+  },
+  { 
+    q: "Process of removing waste from blood artificially is called ---",
+    a: "Hemodialysis",
+    b: "Micturition",
+    c: "Osmoregulation",
+    d: "Proteinuria",
+    ans: "a",
+    expl: "Hemodialysis replaces kidney function in removing wastes."
+  },
+  { 
+    q: "Which animal class is primarily ureotelic?",
+    a: "Amphibians",
+    b: "Reptiles",
+    c: "Mammals",
+    d: "Birds",
+    ans: "c",
+    expl: "Mammals primarily excrete nitrogen as urea."
+  },
+  { 
+    q: "Glucose in urine is called ---",
+    a: "Glycosuria",
+    b: "Ketonuria",
+    c: "Uremia",
+    d: "Hematuria",
+    ans: "a",
+    expl: "Presence of glucose in urine is termed glycosuria."
+  },
+  { 
+    q: "Which type of nephron has a longer loop of Henle?",
+    a: "Juxtamedullary nephron",
+    b: "Cortical nephron",
+    c: "Both equal",
+    d: "None",
+    ans: "a",
+    expl: "Juxtamedullary nephrons have longer loops to concentrate urine."
+  },
+  { 
+    q: "The kidney is located beneath which organs?",
+    a: "Liver and spleen",
+    b: "Stomach and pancreas",
+    c: "Liver and stomach",
+    d: "Spleen and pancreas",
+    ans: "a",
+    expl: "Right kidney is beneath liver; left near spleen."
+  },
+  { 
+    q: "Blood in the kidney is filtered through ---",
+    a: "Peritubular capillaries",
+    b: "Glomerulus",
+    c: "Loop of Henle",
+    d: "Vasa recta",
+    ans: "b",
+    expl: "Filtration occurs in the glomerulus."
+  }  
+      // Add further MCQs if needed in similar structure...
+    ];
+
+    const rollInput = document.getElementById('rollno');
+    const batchSelect = document.getElementById('batch');
+    const startBtn = document.getElementById('startBtn');
+    const quizSection = document.getElementById('quiz-section');
+    const progressDiv = document.getElementById('progress');
+    const questionText = document.getElementById('question-text');
+    const optionsForm = document.getElementById('options-form');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const finishSection = document.getElementById('finish-section');
+    const resultDetails = document.getElementById('resultDetails');
+    const resultScore = document.getElementById('resultScore');
+    const attemptedCount = document.getElementById('attemptedCount');
+    const correctCount = document.getElementById('correctCount');
+    const wrongCount = document.getElementById('wrongCount');
+    const notAttemptedCount = document.getElementById('notAttemptedCount');
+    const reviewSection = document.getElementById('review-section');
+    const pieCanvas = document.getElementById('piechart');
+    const questionNavigator = document.getElementById('question-navigator');
+
+    let currentQuestionIndex = 0;
+    let answers = new Array(mcqs.length).fill(undefined);
+
+    function validateInput() {
+      const roll = parseInt(rollInput.value.trim(), 10);
+      startBtn.disabled = !(roll >= 1 && roll <= 200 && batchSelect.value);
+    }
+    rollInput.addEventListener('input', () => {
+      rollInput.value = rollInput.value.replace(/\D/g, '');
+      validateInput();
+    });
+    batchSelect.addEventListener('change', validateInput);
+
+    startBtn.onclick = () => {
+      document.getElementById('login-section').style.display = 'none';
+      quizSection.style.display = 'flex';
+      renderNavigator();
+      loadQuestion(0);
+    };
+
+    function renderNavigator() {
+      questionNavigator.innerHTML = '';
+      mcqs.forEach((q, i) => {
+        let btn = document.createElement('button');
+        btn.textContent = i + 1;
+        btn.className = 'q-nav-btn not-attempted';
+        btn.dataset.index = i;
+        btn.onclick = () => loadQuestion(i);
+        questionNavigator.appendChild(btn);
+      });
+    }
+
+    function updateNavigatorColors() {
+      questionNavigator.querySelectorAll('.q-nav-btn').forEach(btn => {
+        const idx = +btn.dataset.index;
+        btn.classList.remove('attempted', 'skipped', 'not-attempted', 'current');
+        if (idx === currentQuestionIndex) btn.classList.add('current');
+        if (answers[idx] === undefined) btn.classList.add('not-attempted');
+        else if (answers[idx] === null) btn.classList.add('skipped');
+        else btn.classList.add('attempted');
+      });
+    }
+
+    function loadQuestion(i) {
+      currentQuestionIndex = i;
+      const q = mcqs[i];
+      questionText.textContent = `Q${i + 1}. ${q.q}`;
+      optionsForm.innerHTML = '';
+      ['a', 'b', 'c', 'd'].forEach(key => {
+        const lbl = document.createElement('label');
+        lbl.className = 'option-label';
+        lbl.innerHTML = `<input type="radio" name="option" value="${key}"><span class="option-letter">(${key.toUpperCase()})</span>${q[key]}`;
+        optionsForm.appendChild(lbl);
+      });
+      optionsForm.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+          optionsForm.querySelectorAll('label.option-label').forEach(lbl => lbl.classList.remove('selected'));
+          radio.closest('label').classList.add('selected');
+          nextBtn.disabled = false;
+        });
+      });
+      if (answers[i]) {
+        const sel = optionsForm.querySelector(`input[value="${answers[i]}"]`);
+        if (sel) {
+          sel.checked = true;
+          sel.closest('label').classList.add('selected');
+          nextBtn.disabled = false;
+        } else {
+          nextBtn.disabled = true;
+        }
+      } else {
+        nextBtn.disabled = true;
+      }
+      prevBtn.disabled = (i === 0);
+      progressDiv.textContent = `Question ${i + 1} of ${mcqs.length}`;
+      updateNavigatorColors();
+    }
+
+    prevBtn.onclick = () => {
+      if (currentQuestionIndex > 0) loadQuestion(currentQuestionIndex - 1);
+    };
+
+    nextBtn.onclick = () => {
+      const sel = optionsForm.querySelector('input[name="option"]:checked');
+      if (sel) {
+        answers[currentQuestionIndex] = sel.value;
+        submitBtn.disabled = false;
+        if (currentQuestionIndex < mcqs.length - 1) loadQuestion(currentQuestionIndex + 1);
+      }
+    };
+
+    skipBtn.onclick = () => {
+      answers[currentQuestionIndex] = null;
+      submitBtn.disabled = false;
+      if (currentQuestionIndex < mcqs.length - 1) loadQuestion(currentQuestionIndex + 1);
+    };
+
+    submitBtn.onclick = () => {
+      if (confirm('Submit test?')) finalizeTest();
+    };
+
+    function finalizeTest() {
+      quizSection.style.display = 'none';
+      finishSection.style.display = 'block';
+
+      const total = mcqs.length;
+      const correct = answers.filter((a, i) => a === mcqs[i].ans).length;
+      const wrong = answers.filter((a, i) => a !== null && a !== undefined && a !== mcqs[i].ans).length;
+      const attempted = answers.filter(a => a !== null && a !== undefined).length;
+      const skipped = answers.filter(a => a === null).length;
+      const notAttempted = answers.filter(a => a === undefined).length;
+      const score = correct * 4 - wrong;
+      const pct = ((score / (total * 4)) * 100).toFixed(2);
+
+      resultDetails.innerHTML = `<strong>Roll Number:</strong> ${rollInput.value.padStart(2, '0')}<br><strong>Batch:</strong> ${batchSelect.value}`;
+      resultScore.textContent = `Score: ${score} / ${total * 4} (${pct}%)`;
+      resultScore.style.color = score >= 0 ? '#08ad6c' : '#d64541';
+
+      attemptedCount.textContent = attempted;
+      correctCount.textContent = correct;
+      wrongCount.textContent = wrong;
+      notAttemptedCount.textContent = notAttempted;
+
+      drawPieChart(correct, wrong, skipped);
+      renderReview();
+    }
+
+    function drawPieChart(c, w, s) {
+      const ctx = pieCanvas.getContext('2d');
+      const total = c + w + s || 1;
+      const cx = 110, cy = 110, r = 100;
+      ctx.clearRect(0, 0, pieCanvas.width, pieCanvas.height);
+      let start = -Math.PI / 2;
+      const slices = [
+        { v: c, col: '#08ad6c' },
+        { v: w, col: '#d64541' },
+        { v: s, col: '#197fd6' }
+      ];
+      slices.forEach(sl => {
+        if (!sl.v) return;
+        const ang = (sl.v / total) * 2 * Math.PI;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, r, start, start + ang);
+        ctx.closePath();
+        ctx.fillStyle = sl.col;
+        ctx.fill();
+        start += ang;
+      });
+    }
+
+    function renderReview() {
+      let html = '<table class="review-table"><thead><tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct</th><th>Status</th><th>Explanation</th></tr></thead><tbody>';
+      mcqs.forEach((q, i) => {
+        const a = answers[i];
+        const yourAns = (a === null) ? 'Skipped' : (a !== undefined) ? `(${a}) ${q[a]}` : 'Not Attempted';
+        const correctAns = `(${q.ans}) ${q[q.ans]}`;
+        const status = (a === null) ? '<span class="skipped">Skipped</span>' : (a === q.ans) ? '<span class="correct">Correct</span>' : '<span class="incorrect">Wrong</span>';
+        html += `<tr><td>${i + 1}</td><td>${q.q}</td><td>${yourAns}</td><td>${correctAns}</td><td>${status}</td><td>${q.expl}</td></tr>`;
+      });
+      html += '</tbody></table>';
+      reviewSection.innerHTML = html;
+    }
+
+    document.getElementById("printBtn").onclick = () => {
+      const fs = document.getElementById('finish-section');
+      let original = document.body.innerHTML;
+      document.body.innerHTML = fs.innerHTML;
+      window.print();
+      document.body.innerHTML = original;
+      location.reload();
+    };
+
+    document.getElementById("pdfBtn").onclick = () => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(15);
+      doc.text("BIOLOGY TEST - VISHWAJEET SCIENCE ACADEMY", 105, 16, { align: "center" });
+      doc.setFontSize(10);
+      doc.text(resultDetails.innerText, 14, 26);
+      doc.text(resultScore.innerText, 14, 32);
+      doc.autoTable({ html: "#review-section table", startY: 40, theme: "grid", headStyles: { fillColor: [30, 144, 255] } });
+      doc.save("Ecretory product and their elimination.pdf");
+    };
+
+    document.getElementById("excelBtn").onclick = () => {
+      let table = document.querySelector("#review-section table");
+      if (!table) {
+        alert("No review table.");
+        return;
+      }
+      let html = table.outerHTML.replace(/ /g, "%20");
+      let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+      let link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "Ecretory product and their elimination.xls";
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    };
+  </script>
+</body>
+</html>
