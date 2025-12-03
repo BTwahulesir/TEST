@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vishwajeet Science Academy</title>
+  <style>
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: #f4f7fc;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .page-border {
+      min-height: 100vh;
+      border: 6px solid #1e90ff;
+      border-radius: 20px;
+      margin: 0;
+      background: white;
+      box-shadow: 0 0 35px #a0befd;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 0;
+    }
+    .container {
+      width: 97%;
+      max-width: 950px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    h2.main-title {
+      text-align: center;
+      margin-bottom: 12px;
+      font-size: 2.65rem;
+      color: #E2008A;
+      font-weight: 800;
+    }
+    .logo-img {
+      display: block;
+      margin: 0 auto 18px auto;
+      max-width: 160px;
+      width: 100%;
+      height: auto;
+      border-radius: 50%;
+      box-shadow: 0 0 14px #a0befd;
+      border: 3px solid #1e90ff;
+      background: #fff;
+    }
+    .sub-title {
+      text-align: center;
+      font-size: 2.1rem;
+      margin: 0 0 28px 0;
+      font-family: 'cambria', serif, cursive;
+      color: #047020;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    h4.special-author {
+      text-align: center;
+      font-family: 'Pacifico', 'Brush Script MT', cursive, sans-serif;
+      font-size: 2rem;
+      color: #6316D7;
+      font-weight: 600;
+      letter-spacing: 3px;
+      font-style: italic;
+      margin-top: 3px;
+      margin-bottom: 28px;
+    }
+    label { font-weight:600; margin:14px 0 7px; display:block; }
+    input[type=text], select {
+      width:100%;
+      padding:10px 12px;
+      font-size:1.04em;
+      border-radius:7px;
+      border:1.4px solid #bbb;
+      background:#f9f9fb;
+      box-sizing: border-box;
+    }
+    #startBtn {
+      margin-top:20px;
+      padding:14px 40px;
+      font-size:1.12em;
+      font-weight:700;
+      border-radius:8px;
+      background:#1e90ff;
+      color:white;
+      border:none;
+      cursor:pointer;
+      transition: background-color 0.3s ease;
+    }
+    #startBtn:disabled { background:#a0bbd9; cursor:not-allowed; }
+    #startBtn:not(:disabled):hover { background:#1970dd; }
+    #quiz-section { display:none; margin-top:22px; gap:25px; flex-wrap: wrap; }
+    #progress { text-align:center; margin-bottom:16px; font-size:1.1em; color:#555; }
+    .question-text { font-weight:700; font-size:1.22em; margin-bottom:17px; }
+    .options { margin-bottom:25px; }
+    .options label.option-label {
+      display:flex; align-items:center; gap:13px;
+      background:#f9f9f9;
+      border:2px solid #eaeaea;
+      border-radius:9px;
+      margin-bottom:14px;
+      font-size:1.08em;
+      font-weight:500;
+      cursor:pointer;
+      transition:all 0.18s;
+      min-height:48px;
+      padding:0 20px;
+      box-sizing: border-box;
+    }
+    .options label.option-label:hover {
+      border:2px solid #1976d2;
+      background:#f0f9ff;
+      box-shadow:0 2px 8px #1976d215;
+    }
+    .options input[type="radio"] {
+      accent-color:#1976d2;
+      appearance:none;
+      width:22px; height:22px;
+      border:2px solid #bbb;
+      border-radius:50%;
+      background:#fff;
+      margin-right:10px;
+      cursor: pointer;
+    }
+    .options input[type="radio"]:checked {
+      border:7px solid #1976d2;
+      background:#f3f8fd;
+    }
+    .options label.option-label.selected {
+      border:2.5px solid #1976d2;
+      background:#eef6fb;
+    }
+    .options .option-letter {
+      font-weight:700;
+      color:#1976d2;
+      font-size:1.13em;
+      padding-right:10px;
+      user-select: none;
+    }
+    #navigation { text-align:center; margin-top:12px; }
+    .nav-btn {
+      padding:12px 26px;
+      border-radius:8px;
+      border:none;
+      font-weight:700;
+      font-size:1.1em;
+      margin:0 10px;
+      background:#1976d2;
+      color:white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .nav-btn:hover:not(:disabled) { background:#065ab1; }
+    .nav-btn:disabled { background:#b9cce1; cursor: not-allowed; }
+    #submitBtn {
+      margin-top:22px;
+      padding:14px 42px;
+      font-weight:700;
+      font-size:1.2em;
+      background:#238823;
+      color:white;
+      border:none;
+      border-radius:9px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #submitBtn:disabled { background:#a8d1b7; cursor: not-allowed; }
+    #finish-section { display:none; margin-top:25px; }
+    .card {
+      width: 470px;
+      max-width: 96vw;
+      background:white;
+      border:3px solid #1e90ff;
+      border-radius:22px;
+      box-shadow:0 0 18px #7bb9fd;
+      padding:30px 20px;
+      text-align:center;
+      margin:0 auto;
+      box-sizing: border-box;
+    }
+    .card h1 { font-size:1.4rem; margin-bottom:20px; color:#1c416b; }
+    .trophy { font-size:2.3rem; margin-bottom:15px; color:#ffbb1f; }
+    .details { font-size:1rem; font-weight:600; color:#444; margin-bottom:20px; }
+    .score { font-size:1.25rem; font-weight:800; margin-bottom:20px; }
+    .stats {
+      display:flex; justify-content:center; gap:10px;
+      flex-wrap:wrap; margin-bottom:20px;
+    }
+    .stat { flex:1; background:#f5f8fa; border-radius:10px; padding:10px; text-align:center; min-width:80px; box-sizing: border-box; }
+    .stat-number {
+      width:44px; height:44px; margin:0 auto 8px;
+      border-radius:8px; display:flex; align-items:center;
+      justify-content:center; font-weight:700; font-size:1.2em;
+    }
+    .stat.attempted .stat-number { background:#197fd6; color:white; }
+    .stat.correct .stat-number { background:#08ad6c; color:white; }
+    .stat.wrong .stat-number { background:#d64541; color:white; }
+    .stat.notattempted .stat-number { background:#ddd; color:#333; }
+    #question-navigator {
+      margin-left:24px; width:210px;
+      display:grid; grid-template-columns:repeat(5,36px);
+      grid-auto-rows:36px; gap:10px;
+    }
+    .q-nav-btn { border-radius:6px; border:none; cursor:pointer; color:white; font-weight:700; }
+    .q-nav-btn.not-attempted { background:#d64541; }
+    .q-nav-btn.skipped { background:#197fd6; }
+    .q-nav-btn.attempted { background:#08ad6c; }
+    .q-nav-btn.current { outline:2px solid #000; }
+    table.review-table {
+      width:100%; border-collapse:collapse; margin-top:15px;
+      table-layout: fixed;
+      word-wrap: break-word;
+    }
+    table.review-table th, table.review-table td {
+      border:1px solid #ccc; padding:6px;
+      vertical-align: top;
+    }
+    .correct{color:#08ad6c;font-weight:bold;}
+    .incorrect{color:#d64541;font-weight:bold;}
+    .skipped{color:#1976d2;font-weight:bold;}
+    .export-btns {
+      margin:22px auto 0 auto;
+      display:flex; gap:15px; flex-wrap:wrap;
+      justify-content:center;
+    }
+    @media screen and (max-width: 600px) {
+      h2.main-title { font-size: 1.8rem; margin-bottom: 8px; }
+      .sub-title { font-size: 1.5rem; margin-bottom: 20px; }
+      h4.special-author { font-size: 1.4rem; letter-spacing: 1.5px; margin-bottom: 20px; }
+      .page-border { padding: 15px 5px; }
+      .container { width: 95%; max-width: 100%; padding: 0 10px; }
+      #startBtn, #submitBtn, .nav-btn {
+        font-size: 1em;
+        padding: 12px 20px;
+        margin: 10px 5px;
+      }
+      input[type=text], select {
+        font-size: 1em;
+        padding: 8px 10px;
+      }
+      #quiz-section { flex-direction: column; }
+      #navigation { margin-top: 15px; }
+      .card {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 15px;
+      }
+      #question-navigator {
+        margin-left: 0;
+        width: 100%;
+        grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+      }
+      .options label.option-label {
+        font-size: 1em;
+        padding: 0 15px;
+        min-height: 44px;
+      }
+      .options input[type="radio"] {
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+      }
+      .stat {
+        min-width: 60px;
+        padding: 8px;
+        font-size: 0.85rem;
+      }
+      .stat-number {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+      }
+      table.review-table th, table.review-table td {
+        font-size: 0.9rem;
+        padding: 4px;
+      }
+      .export-btns {
+        gap: 8px;
+        margin: 15px auto 0 auto;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+  <div class="page-border">
+    <div class="container">
+      <h2 class="main-title">VISHWAJEET SCIENCE ACADEMY</h2>
+      <img src="vsa-logo.jpg" alt="VSA logo" class="logo-img" />
+      <h3 class="sub-title">BIOLOGY: Body fluids and circulation</h3>
+      <h4 class="special-author">&copy; By WAHULE SIR</h4>
+      <div id="login-section">
+        <label for="rollno">Enter Roll Number (01-200)</label>
+        <input type="text" id="rollno" maxlength="3" placeholder="e.g. 01" />
+        <label for="batch">Select Batch</label>
+        <select id="batch">
+          <option value="">-- Select Batch --</option>
+          <option value="11th">11th</option>
+          <option value="12th">12th</option>
+          <option value="NEET Repeater">NEET Repeater</option>
+        </select>
+        <button id="startBtn" disabled>Start Test</button>
+      </div>
+
+      <section id="quiz-section">
+        <div style="flex:1;">
+          <div id="progress"></div>
+          <div id="question-block">
+            <div class="question-text" id="question-text"></div>
+            <form id="options-form" class="options"></form>
+          </div>
+          <div id="navigation">
+            <button id="prevBtn" class="nav-btn" disabled>Previous</button>
+            <button id="skipBtn" class="nav-btn">Skip</button>
+            <button id="nextBtn" class="nav-btn" disabled>Next</button>
+          </div>
+          <button id="submitBtn" disabled>Submit Test</button>
+        </div>
+        <nav id="question-navigator"></nav>
+      </section>
+
+      <section id="finish-section">
+        <div style="display:flex; flex-direction:column; align-items:center;">
+          <div class="card">
+            <h1>
+              <span class="trophy">&#x1F3C6;</span>
+              Congratulations! Your Test has been Submitted
+              <span class="trophy">&#x1F3C6;</span>
+            </h1>
+            <div class="details" id="resultDetails"></div>
+            <div id="resultScore" class="score"></div>
+            <div class="stats">
+              <div class="stat attempted"><div class="stat-number" id="attemptedCount">0</div><p>Attempted</p></div>
+              <div class="stat correct"><div class="stat-number" id="correctCount">0</div><p>Correct</p></div>
+              <div class="stat wrong"><div class="stat-number" id="wrongCount">0</div><p>Wrong</p></div>
+              <div class="stat notattempted"><div class="stat-number" id="notAttemptedCount">0</div><p>Not Attempted</p></div>
+            </div>
+            <canvas id="piechart" width="220" height="220"></canvas>
+            <div class="footer">© 2025 Vishwajeet Science Academy</div>
+          </div>
+          <div class="export-btns">
+            <button class="nav-btn" id="printBtn" type="button">🖨️ Print Report</button>
+            <button class="nav-btn" id="pdfBtn" type="button">⬇️ Download PDF</button>
+            <button class="nav-btn" id="excelBtn" type="button">⬇️ Export to Excel</button>
+          </div>
+        </div>
+        <h2 id="review-heading" style="margin-top:36px;">Review Your Answers</h2>
+        <div id="review-section"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const mcqs = [
+  { 
+    q: "Which of the following use water from their environment as circulating fluid?",
+    a: "Sponges",
+    b: "Coelenterates",
+    c: "a and b",
+    d: "Fishes",
+    ans: "c",
+    expl: "In simple aquatic animals like sponges and coelenterates, surrounding water itself circulates through their body cavities, serving as the circulating fluid instead of a specialized blood vascular system.[file:1]"
+  },
+  { 
+    q: "Blood, a special type of connective tissue, has which of the following characteristics?",
+    a: "Consists of a fluid matrix (plasma)",
+    b: "Has formed elements",
+    c: "Is the most commonly used body fluid by most higher organisms",
+    d: "All",
+    ans: "d",
+    expl: "Blood is a connective tissue with a liquid matrix called plasma and cellular components called formed elements, and it is the main body fluid used for transport in higher organisms.[file:1]"
+  },
+  { 
+    q: "Plasma is a straw-coloured, viscous fluid constituting nearly what percentage of blood?",
+    a: "55%",
+    b: "45%",
+    c: "90%",
+    d: "10%",
+    ans: "a",
+    expl: "In human blood, plasma makes up about 55% of the total blood volume, with the remaining 45% being formed elements such as RBCs, WBCs, and platelets.[file:1]"
+  },
+  { 
+    q: "What is the amount of water present in blood plasma?",
+    a: "99%",
+    b: "90–92%",
+    c: "10%",
+    d: "55%",
+    ans: "b",
+    expl: "Blood plasma is mainly water, with about 90–92% water content, which allows it to dissolve and transport various solutes.[file:1]"
+  },
+  { 
+    q: "Consider the following statements about plasma: I. Proteins contribute 6–8% of blood plasma II. Plasma contains very high amount of minerals III. Plasma without clotting factors is called serum IV. Glucose, amino acids, lipids, etc., are also present in plasma. Which option is correct?",
+    a: "All are correct",
+    b: "Only II is false",
+    c: "Only I is correct",
+    d: "All are false",
+    ans: "b",
+    expl: "Plasma proteins indeed form about 6–8% of plasma, serum is plasma without clotting factors, and nutrients circulate in plasma, but mineral concentration is moderate, not 'very high', so statement II is false while others are correct.[file:1]"
+  },
+  { 
+    q: "Formed elements of blood include:",
+    a: "RBC, WBC and blood platelets",
+    b: "Proteins present in blood",
+    c: "All solutes present in blood",
+    d: "All minerals (elements)",
+    ans: "a",
+    expl: "Formed elements refer specifically to the cellular components of blood: red blood cells, white blood cells and platelets, not dissolved proteins or minerals.[file:1]"
+  },
+  { 
+    q: "Which of the following statements is false about RBCs?",
+    a: "Erythrocytes/RBC are the least abundant of all the cells in blood",
+    b: "The number of RBCs in adult man per mm³ of blood is 5–5.5 million",
+    c: "RBC are formed in the red bone marrow in adults",
+    d: "RBCs are enucleate in most mammals",
+    ans: "a",
+    expl: "RBCs are actually the most abundant blood cells, with about 5–5.5 million per mm³ in adult males, produced in red bone marrow and lacking nuclei in most mammals.[file:1]"
+  },
+  { 
+    q: "Life span of human RBC is:",
+    a: "120 hours",
+    b: "120 months",
+    c: "120 days",
+    d: "102 days",
+    ans: "c",
+    expl: "Human erythrocytes circulate for about 120 days before they are removed and destroyed, mainly in the spleen and liver.[file:1]"
+  },
+  { 
+    q: "What is the normal amount of haemoglobin present in 100 ml of human blood?",
+    a: "45 g",
+    b: "18–20 g",
+    c: "12–16 g",
+    d: "10–12 g",
+    ans: "c",
+    expl: "Normal adult haemoglobin concentration is roughly 12–16 g per 100 ml of blood, which ensures adequate oxygen-carrying capacity.[file:1]"
+  },
+  { 
+    q: "Mammalian RBCs are ______ in shape.",
+    a: "Oval",
+    b: "Biconvex",
+    c: "Biconcave",
+    d: "Sickle-like",
+    ans: "c",
+    expl: "Typical mammalian erythrocytes are biconcave discs, a shape that increases surface area for gas exchange and allows flexibility in capillaries.[file:1]"
+  },
+  { 
+    q: "All of the following statements are correct about WBCs except:",
+    a: "They are nucleate and variable in shape",
+    b: "They are lesser in number (6000–8000 per mm³ blood)",
+    c: "They are generally short-lived",
+    d: "They help in blood clotting",
+    ans: "d",
+    expl: "WBCs are nucleated, fewer than RBCs and often short-lived, but blood clotting is mainly the function of platelets and clotting factors, not WBCs.[file:1]"
+  },
+  { 
+    q: "All of the following are granulocytes except:",
+    a: "Neutrophils",
+    b: "Eosinophils",
+    c: "Basophils only",
+    d: "Lymphocytes and monocytes",
+    ans: "d",
+    expl: "Neutrophils, eosinophils and basophils are granulocytes, whereas lymphocytes and monocytes are agranulocytes lacking prominent cytoplasmic granules.[file:1]"
+  },
+  { 
+    q: "Match the types of leucocytes with their percentage of total WBCs: I. Neutrophils II. Basophils III. Monocytes IV. Eosinophils V. Lymphocytes A. 20–25 B. 2–3 C. 6–8 D. 0.5–1 E. 60–65. Choose the correct option.",
+    a: "I-E, II-D, III-C, IV-A, V-B",
+    b: "I-A, II-B, III-C, IV-E, V-D",
+    c: "I-E, II-D, III-C, IV-B, V-A",
+    d: "I-B, II-D, III-A, IV-C, V-D",
+    ans: "c",
+    expl: "Neutrophils are about 60–65%, basophils 0.5–1%, monocytes 6–8%, eosinophils 2–3% and lymphocytes 20–25% of total WBCs.[file:1]"
+  },
+  { 
+    q: "Match the following: I. Basophils II. Neutrophils III. Monocytes IV. Eosinophils V. Lymphocytes A. Phagocytes B. Secrete histamine, serotonin, heparin, involved in inflammatory response C. Resist infections and involved in allergic reactions D. Immunity. Choose the correct option.",
+    a: "I-B, II and III-A, IV-C, V-D",
+    b: "I-B, II and III-C, IV-A, V-D",
+    c: "I-C, II and III-A, IV-B, V-D",
+    d: "I-D, II and III-C, IV-A, V-B",
+    ans: "a",
+    expl: "Basophils secrete histamine, serotonin and heparin in inflammation; neutrophils and monocytes act as phagocytes; eosinophils participate in allergy and parasite defence; lymphocytes mediate specific immunity.[file:1]"
+  },
+  { 
+    q: "Megakaryocytes produce:",
+    a: "Leucocytes",
+    b: "Lymphocytes",
+    c: "Bone cells",
+    d: "Blood platelets",
+    ans: "d",
+    expl: "Large bone marrow cells called megakaryocytes fragment cytoplasm to form platelets, which are essential for blood clotting.[file:1]"
+  },
+  { 
+    q: "Which of the following are cell fragments?",
+    a: "Leucocytes",
+    b: "RBCs",
+    c: "Blood platelets",
+    d: "None",
+    ans: "c",
+    expl: "Platelets are not complete cells but small anucleate cytoplasmic fragments derived from megakaryocytes, unlike RBCs and WBCs which are whole cells.[file:1]"
+  },
+  { 
+    q: "1 mm³ of blood has how many blood platelets?",
+    a: "150000–350000",
+    b: "1.5 million to 3.5 million",
+    c: "1500–3000",
+    d: "10 to 15 lakhs",
+    ans: "a",
+    expl: "Normal platelet count ranges roughly between 1.5–3.5 × 10⁵ per mm³, commonly expressed as 150000–350000 per mm³.[file:1]"
+  },
+  { 
+    q: "During blood clotting, platelets release:",
+    a: "Thrombin",
+    b: "Fibrinogen",
+    c: "Prothrombin",
+    d: "Thromboplastin (thrombokinase) and other clotting factors",
+    ans: "d",
+    expl: "When platelets are activated, they release thromboplastin and various factors that trigger the coagulation cascade leading to thrombin and fibrin formation.[file:1]"
+  },
+  { 
+    q: "ABO blood grouping is based on the presence or absence of how many surface antigens?",
+    a: "2",
+    b: "3",
+    c: "6",
+    d: "12",
+    ans: "a",
+    expl: "ABO grouping depends mainly on two antigens, A and B, present or absent on RBC surfaces, giving four major blood groups.[file:1]"
+  },
+  { 
+    q: "In the ABO blood group table, which option correctly fills the blanks for blood group O (antigen on RBCs, antibody in plasma, donor groups)?",
+    a: "Nil, Nil, Nil, O",
+    b: "Nil, Nil, Anti-A,B, AB",
+    c: "Nil, Anti-A,B, Nil, O",
+    d: "Nil, Nil, Anti-A,B, O",
+    ans: "d",
+    expl: "Group O blood has no A or B antigens, has both anti-A and anti-B antibodies in plasma, and can donate to all ABO groups, so its donor group is effectively O for self and universal donation with caution.[file:1]"
+  },
+  { 
+    q: "Which of the following blood groups is universal donor and universal acceptor respectively?",
+    a: "AB, O",
+    b: "O, AB",
+    c: "AB, A",
+    d: "A, AB",
+    ans: "b",
+    expl: "Group O (especially O negative) is universal donor as it lacks A and B antigens, while AB is universal recipient because it lacks anti-A and anti-B antibodies.[file:1]"
+  },
+  { 
+    q: "Rh factor is concerned with blood grouping. It derives its name from:",
+    a: "Man",
+    b: "Chimpanzee",
+    c: "Monkey",
+    d: "Rat",
+    ans: "c",
+    expl: "The Rh factor was first discovered in experiments on Rhesus monkeys, hence the name 'Rh'.[file:1]"
+  },
+  { 
+    q: "Rh factor is responsible for which condition?",
+    a: "Sickle cell anaemia",
+    b: "Erythroblastosis foetalis",
+    c: "AIDS",
+    d: "Turner syndrome",
+    ans: "b",
+    expl: "Incompatibility between Rh-negative mother and Rh-positive fetus can cause erythroblastosis fetalis, where maternal antibodies destroy fetal RBCs.[file:1]"
+  },
+  { 
+    q: "In developing foetus, erythroblastosis foetalis is primarily caused by:",
+    a: "Haemolysis",
+    b: "Clumping of RBCs",
+    c: "Failure of blood clotting",
+    d: "Phagocytosis by WBC",
+    ans: "a",
+    expl: "Maternal anti-Rh antibodies cross the placenta and cause haemolysis of fetal RBCs, leading to erythroblastosis fetalis.[file:1]"
+  },
+  { 
+    q: "In erythroblastosis foetalis, which of the following factors passes through placenta into foetus?",
+    a: "Rh antigens",
+    b: "Rh antibodies",
+    c: "Agglutinins of ABO system",
+    d: "ABO antibodies only",
+    ans: "b",
+    expl: "IgG-type anti-Rh antibodies produced in the Rh-negative mother cross the placenta and attack fetal Rh-positive RBCs.[file:1]"
+  },
+  { 
+    q: "A doctor suggested to a couple not to have more than one child because of which Rh combination?",
+    a: "Rh⁺ male and Rh⁻ female",
+    b: "Rh⁻ male and Rh⁺ female",
+    c: "Rh⁻ male and Rh⁻ female",
+    d: "Rh⁺ male and Rh⁺ female",
+    ans: "a",
+    expl: "An Rh⁺ husband and Rh⁻ wife risk sensitization of the mother during the first Rh⁺ pregnancy, increasing chances of erythroblastosis fetalis in subsequent Rh⁺ pregnancies.[file:1]"
+  },
+  { 
+    q: "Find the correct descending order of percentage proportion of leucocytes in human blood.",
+    a: "Neutrophils → Basophils → Lymphocytes → Eosinophils → Monocytes",
+    b: "Neutrophils → Monocytes → Lymphocytes → Eosinophils → Basophils",
+    c: "Neutrophils → Lymphocytes → Monocytes → Eosinophils → Basophils",
+    d: "Neutrophils → Eosinophils → Basophils → Lymphocytes → Monocytes",
+    ans: "c",
+    expl: "The typical descending order is Neutrophils (highest), then Lymphocytes, Monocytes, Eosinophils and Basophils (lowest).[^file1]",
+  },
+  { 
+    q: "In case of emergency, which blood group could be most safely transfused?",
+    a: "AB Rh⁻",
+    b: "AB Rh⁺",
+    c: "O Rh⁻",
+    d: "O Rh⁺",
+    ans: "c",
+    expl: "O Rh-negative blood lacks A, B and Rh antigens, so it is least likely to be attacked by recipient antibodies and is used as universal donor in emergencies.[file:1]"
+  },
+  { 
+    q: "If husband is Rh⁺ and wife is Rh⁻, which of the following is expected?",
+    a: "No problem with first pregnancy",
+    b: "Problem would be expected with future pregnancies",
+    c: "Both",
+    d: "No problem in any pregnancy",
+    ans: "c",
+    expl: "The first Rh⁺ fetus usually sensitizes the Rh⁻ mother, so first pregnancy is often normal but subsequent Rh⁺ pregnancies are at risk of erythroblastosis fetalis.[file:1]"
+  },
+  { 
+    q: "Which of the following statements is correct regarding Rh factor and pregnancy?",
+    a: "Rh compatibility must be tested before pregnancy and transfusion",
+    b: "Rh antibodies can cross placenta",
+    c: "At first delivery some Rh⁺ fetal RBCs mix with Rh⁻ mother's blood and stimulate antibody formation",
+    d: "All",
+    ans: "d",
+    expl: "Testing Rh status, recognizing that anti-Rh antibodies cross the placenta, and understanding sensitization at first delivery are all important features of Rh incompatibility.[file:1]"
+  },
+  { 
+    q: "What is the correct order of events in blood clotting?",
+    a: "3,2,1,4",
+    b: "3,4,1,2",
+    c: "3,4,2,1",
+    d: "4,1,3,2",
+    expl: "Here 3 = thromboplastin formation, 4 = conversion of prothrombin to thrombin, 1 = conversion of fibrinogen to fibrin, 2 = clot retraction and serum leakage; physiologically thromboplastin first activates prothrombin, then fibrin forms, then the clot retracts.",
+    ans: "b"
+  },
+  { 
+    q: "Which of the following statements about coagulation are correct?",
+    a: "I, III, IV",
+    b: "II, IV",
+    c: "I, II, III",
+    d: "III, IV",
+    expl: "Statements given: I. Ca²⁺ is necessary for coagulation II. Heparin prevents coagulation in vessels under normal conditions III. Fibrinogen to fibrin conversion by thrombin is part of clotting IV. Clotting factors are always present in active form; the incorrect part is IV, so I, II and III are correct.",
+    ans: "c"
+  },
+  { 
+    q: "Which of the following statements is wrong about lymph?",
+    a: "Only I",
+    b: "III and IV",
+    c: "II and III",
+    d: "Only IV",
+    ans: "a",
+    expl: "The statements listed show lymph as colourless fluid with lymphocytes, important in transport and fat absorption; only the claim that lymph is colourful because it has haemoglobin is wrong, as lymph lacks RBCs and haemoglobin.[file:1]"
+  },
+  { 
+    q: "Which of the following statements about lymph and interstitial fluid is correct?",
+    a: "All",
+    b: "Only III and IV",
+    c: "V and VI",
+    d: "I, III, V",
+    ans: "a",
+    expl: "Lymphatic system drains tissue fluid, lymph and interstitial fluid have similar composition, lack large proteins and RBCs, exchange with cells occurs via tissue fluid, minerals mirror plasma and lymph is essentially plasma minus RBCs plus lymphocytes.[file:1]"
+  },
+  { 
+    q: "Blood clotting pathways cause:",
+    a: "Conversion of vitamin K to prothrombin",
+    b: "Conversion of fibrin to fibrinogen",
+    c: "Conversion of thrombin to prothrombin",
+    d: "None of the above",
+    ans: "d",
+    expl: "Coagulation converts prothrombin to thrombin and fibrinogen to fibrin with vitamin K acting as a cofactor, so none of the listed conversions are correct.[file:1]"
+  },
+  { 
+    q: "Open circulatory system is found in:",
+    a: "Arthropods and molluscs",
+    b: "Annelids and chordates",
+    c: "Annelids and arthropods",
+    d: "Fishes and molluscs",
+    ans: "a",
+    expl: "Typical open circulatory systems occur in arthropods and many molluscs, where haemolymph directly bathes tissues in sinuses.[file:1]"
+  },
+  { 
+    q: "Closed circulatory system is found in:",
+    a: "Arthropods and chordates",
+    b: "Molluscs and chordates",
+    c: "Amphibians and molluscs",
+    d: "Annelids and chordates",
+    ans: "d",
+    expl: "Annelids such as earthworms and all vertebrate chordates possess closed vascular systems where blood remains within vessels.[file:1]"
+  },
+  { 
+    q: "In an open circulatory system:",
+    a: "There is no heart",
+    b: "There is no need of blood vessels",
+    c: "There is no distinction between blood and tissue fluid",
+    d: "There are no open spaces or sinuses",
+    ans: "c",
+    expl: "In open systems, haemolymph is not separated into blood and interstitial fluid and circulates through body sinuses rather than a complete vessel network.[file:1]"
+  },
+  { 
+    q: "Advantages of closed circulatory system over open circulatory system include which of the following?",
+    a: "Closed system can direct blood to specific tissues",
+    b: "Exchange occurs more rapidly",
+    c: "Closed system can support higher metabolic activity",
+    d: "All",
+    ans: "d",
+    expl: "Closed systems allow precise regulation of flow, rapid exchange due to high pressure and support for high metabolic rates as in active animals.[file:1]"
+  },
+  { 
+    q: "Which of the following statements is wrong about the closed circulatory system?",
+    a: "Blood remains within blood vessels and never comes in direct contact with body cells",
+    b: "Flow of fluid can be more precisely regulated",
+    c: "There is no blood capillary",
+    d: "Blood flow is more rapid due to higher pressure",
+    ans: "c",
+    expl: "Capillaries are an essential feature of closed systems for exchange, so claiming their absence is incorrect, while the other statements describe true advantages.[file:1]"
+  },
+  { 
+    q: "In the figure of hearts labelled I–IV (A = auricle, V = ventricle), which option correctly identifies them?",
+    a: "Fishes; Reptiles; All reptiles; Birds and mammals",
+    b: "Fishes; Birds; Reptiles and birds; Mammals",
+    c: "Fishes; Amphibians; Reptiles; Crocodile, birds, mammals",
+    d: "Fishes; Crocodile; Amphibians and reptiles; Birds and mammals",
+    ans: "c",
+    expl: "Fish have two-chambered hearts, amphibians three-chambered, most reptiles partly divided hearts, and crocodiles, birds, and mammals have fully four-chambered hearts.[file:1]"
+  },
+  { 
+    q: "In fishes the given blood flow diagram represents:",
+    a: "Double circulation",
+    b: "Single circulation",
+    c: "Incomplete single circulation",
+    d: "Incomplete double circulation",
+    ans: "b",
+    expl: "Fish have single circulation where blood passes through the heart once per complete circuit, from heart to gills to body and back.[file:1]"
+  },
+  { 
+    q: "Incomplete double circulation is found in which of the following animals?",
+    a: "Birds",
+    b: "Mammals",
+    c: "Birds and mammals",
+    d: "Amphibians and reptiles",
+    ans: "d",
+    expl: "Amphibians and most reptiles have three-chambered hearts with partial mixing of oxygenated and deoxygenated blood, giving incomplete double circulation.[file:1]"
+  },
+  { 
+    q: "Which of the following statements is not true about the human heart?",
+    a: "Heart is ectodermal in origin",
+    b: "In humans heart lies in thoracic cavity between lungs, slightly to the left",
+    c: "Human heart is about the size of a clenched fist",
+    d: "Pericardial sac with fluid protects the heart",
+    ans: "a",
+    expl: "The heart develops from mesodermal tissue, not ectoderm, while its position, size and pericardial protection are correctly described.[file:1]"
+  },
+  { 
+    q: "Which of the following is correct about human heart chambers?",
+    a: "The volume of both atria > the volume of both ventricles",
+    b: "The volume of both ventricles > the volume of both atria",
+    c: "The volume of both atria = the volume of both ventricles",
+    d: "Ventricles are upper chambers and atria are lower chambers",
+    ans: "b",
+    expl: "Ventricles have thicker walls and larger capacity because they pump blood out of the heart, whereas atria mainly receive blood.[file:1]"
+  },
+  { 
+    q: "Bicuspid (mitral) valve is found between:",
+    a: "Left atrium and left ventricle",
+    b: "Right atrium and right ventricle",
+    c: "Right atrium and left ventricle",
+    d: "Left atrium and right ventricle",
+    ans: "a",
+    expl: "The left atrioventricular valve has two cusps and is called mitral or bicuspid, guarding flow from left atrium to left ventricle.[file:1]"
+  },
+  { 
+    q: "Tricuspid valve is present between the:",
+    a: "Two atria",
+    b: "Two ventricles",
+    c: "Left atrium and left ventricle",
+    d: "Right atrium and right ventricle",
+    ans: "d",
+    expl: "The right atrioventricular or tricuspid valve lies between right atrium and right ventricle, preventing backflow during ventricular systole.[file:1]"
+  },
+  { 
+    q: "Chordae tendineae are found in:",
+    a: "Joints",
+    b: "Atria of heart",
+    c: "Ventricles of heart",
+    d: "Ventricles of brain",
+    ans: "c",
+    expl: "Chordae tendineae are fibrous cords in the ventricles that attach valve cusps to papillary muscles, stabilizing AV valves during contraction.[file:1]"
+  },
+  { 
+    q: "Ventricles are thick-walled as compared to atria because:",
+    a: "They receive blood from atria",
+    b: "They are present on posterior side",
+    c: "They have to pump blood",
+    d: "None",
+    ans: "c",
+    expl: "Ventricular myocardium is thicker to generate higher pressure required to pump blood into systemic and pulmonary circuits.[file:1]"
+  },
+  { 
+    q: "Which of the following has the thickest wall?",
+    a: "Left atrium",
+    b: "Left ventricle",
+    c: "Right atrium",
+    d: "Right ventricle",
+    ans: "b",
+    expl: "The left ventricle has the thickest wall because it must pump blood at high pressure throughout the systemic circulation.[file:1]"
+  },
+  { 
+    q: "Match the vessels with their functions: A. Superior vena cava B. Inferior vena cava C. Pulmonary artery D. Pulmonary vein p. Carries deoxygenated blood to lungs q. Carries oxygenated blood from lungs r. Brings deoxygenated blood from lower body to right atrium s. Brings deoxygenated blood from upper body to right atrium. Choose the correct option.",
+    a: "A-q, B-s, C-r, D-p",
+    b: "A-s, B-p, C-q, D-r",
+    c: "A-s, B-r, C-p, D-q",
+    d: "A-s, B-p, C-r, D-q",
+    ans: "c",
+    expl: "Superior vena cava brings deoxygenated blood from upper body (s), inferior vena cava from lower body (r), pulmonary artery carries deoxygenated blood to lungs (p), and pulmonary veins return oxygenated blood to the heart (q).[^file1]"
+  },
+  { 
+    q: "Which sequence correctly represents origin and conduction of heartbeat?",
+    a: "SA node → Purkinje fibres → AV node → Bundle of His",
+    b: "AV node → Bundle of His → SA node → Purkinje fibres",
+    c: "Purkinje fibres → AV node → SA node → Bundle of His",
+    d: "SA node → AV node → Bundle of His → Purkinje fibres",
+    ans: "d",
+    expl: "The sinoatrial node initiates the impulse, which passes to the AV node, then down the Bundle of His and finally through Purkinje fibres to ventricular myocardium.[file:1]"
+  }
+      
+      // Add further MCQs if needed in similar structure...
+    ];
+
+    const rollInput = document.getElementById('rollno');
+    const batchSelect = document.getElementById('batch');
+    const startBtn = document.getElementById('startBtn');
+    const quizSection = document.getElementById('quiz-section');
+    const progressDiv = document.getElementById('progress');
+    const questionText = document.getElementById('question-text');
+    const optionsForm = document.getElementById('options-form');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const finishSection = document.getElementById('finish-section');
+    const resultDetails = document.getElementById('resultDetails');
+    const resultScore = document.getElementById('resultScore');
+    const attemptedCount = document.getElementById('attemptedCount');
+    const correctCount = document.getElementById('correctCount');
+    const wrongCount = document.getElementById('wrongCount');
+    const notAttemptedCount = document.getElementById('notAttemptedCount');
+    const reviewSection = document.getElementById('review-section');
+    const pieCanvas = document.getElementById('piechart');
+    const questionNavigator = document.getElementById('question-navigator');
+
+    let currentQuestionIndex = 0;
+    let answers = new Array(mcqs.length).fill(undefined);
+
+    function validateInput() {
+      const roll = parseInt(rollInput.value.trim(), 10);
+      startBtn.disabled = !(roll >= 1 && roll <= 200 && batchSelect.value);
+    }
+    rollInput.addEventListener('input', () => {
+      rollInput.value = rollInput.value.replace(/\D/g, '');
+      validateInput();
+    });
+    batchSelect.addEventListener('change', validateInput);
+
+    startBtn.onclick = () => {
+      document.getElementById('login-section').style.display = 'none';
+      quizSection.style.display = 'flex';
+      renderNavigator();
+      loadQuestion(0);
+    };
+
+    function renderNavigator() {
+      questionNavigator.innerHTML = '';
+      mcqs.forEach((q, i) => {
+        let btn = document.createElement('button');
+        btn.textContent = i + 1;
+        btn.className = 'q-nav-btn not-attempted';
+        btn.dataset.index = i;
+        btn.onclick = () => loadQuestion(i);
+        questionNavigator.appendChild(btn);
+      });
+    }
+
+    function updateNavigatorColors() {
+      questionNavigator.querySelectorAll('.q-nav-btn').forEach(btn => {
+        const idx = +btn.dataset.index;
+        btn.classList.remove('attempted', 'skipped', 'not-attempted', 'current');
+        if (idx === currentQuestionIndex) btn.classList.add('current');
+        if (answers[idx] === undefined) btn.classList.add('not-attempted');
+        else if (answers[idx] === null) btn.classList.add('skipped');
+        else btn.classList.add('attempted');
+      });
+    }
+
+    function loadQuestion(i) {
+      currentQuestionIndex = i;
+      const q = mcqs[i];
+      questionText.textContent = `Q${i + 1}. ${q.q}`;
+      optionsForm.innerHTML = '';
+      ['a', 'b', 'c', 'd'].forEach(key => {
+        const lbl = document.createElement('label');
+        lbl.className = 'option-label';
+        lbl.innerHTML = `<input type="radio" name="option" value="${key}"><span class="option-letter">(${key.toUpperCase()})</span>${q[key]}`;
+        optionsForm.appendChild(lbl);
+      });
+      optionsForm.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+          optionsForm.querySelectorAll('label.option-label').forEach(lbl => lbl.classList.remove('selected'));
+          radio.closest('label').classList.add('selected');
+          nextBtn.disabled = false;
+        });
+      });
+      if (answers[i]) {
+        const sel = optionsForm.querySelector(`input[value="${answers[i]}"]`);
+        if (sel) {
+          sel.checked = true;
+          sel.closest('label').classList.add('selected');
+          nextBtn.disabled = false;
+        } else {
+          nextBtn.disabled = true;
+        }
+      } else {
+        nextBtn.disabled = true;
+      }
+      prevBtn.disabled = (i === 0);
+      progressDiv.textContent = `Question ${i + 1} of ${mcqs.length}`;
+      updateNavigatorColors();
+    }
+
+    prevBtn.onclick = () => {
+      if (currentQuestionIndex > 0) loadQuestion(currentQuestionIndex - 1);
+    };
+
+    nextBtn.onclick = () => {
+      const sel = optionsForm.querySelector('input[name="option"]:checked');
+      if (sel) {
+        answers[currentQuestionIndex] = sel.value;
+        submitBtn.disabled = false;
+        if (currentQuestionIndex < mcqs.length - 1) loadQuestion(currentQuestionIndex + 1);
+      }
+    };
+
+    skipBtn.onclick = () => {
+      answers[currentQuestionIndex] = null;
+      submitBtn.disabled = false;
+      if (currentQuestionIndex < mcqs.length - 1) loadQuestion(currentQuestionIndex + 1);
+    };
+
+    submitBtn.onclick = () => {
+      if (confirm('Submit test?')) finalizeTest();
+    };
+
+    function finalizeTest() {
+      quizSection.style.display = 'none';
+      finishSection.style.display = 'block';
+
+      const total = mcqs.length;
+      const correct = answers.filter((a, i) => a === mcqs[i].ans).length;
+      const wrong = answers.filter((a, i) => a !== null && a !== undefined && a !== mcqs[i].ans).length;
+      const attempted = answers.filter(a => a !== null && a !== undefined).length;
+      const skipped = answers.filter(a => a === null).length;
+      const notAttempted = answers.filter(a => a === undefined).length;
+      const score = correct * 4 - wrong;
+      const pct = ((score / (total * 4)) * 100).toFixed(2);
+
+      resultDetails.innerHTML = `<strong>Roll Number:</strong> ${rollInput.value.padStart(2, '0')}<br><strong>Batch:</strong> ${batchSelect.value}`;
+      resultScore.textContent = `Score: ${score} / ${total * 4} (${pct}%)`;
+      resultScore.style.color = score >= 0 ? '#08ad6c' : '#d64541';
+
+      attemptedCount.textContent = attempted;
+      correctCount.textContent = correct;
+      wrongCount.textContent = wrong;
+      notAttemptedCount.textContent = notAttempted;
+
+      drawPieChart(correct, wrong, skipped);
+      renderReview();
+    }
+
+    function drawPieChart(c, w, s) {
+      const ctx = pieCanvas.getContext('2d');
+      const total = c + w + s || 1;
+      const cx = 110, cy = 110, r = 100;
+      ctx.clearRect(0, 0, pieCanvas.width, pieCanvas.height);
+      let start = -Math.PI / 2;
+      const slices = [
+        { v: c, col: '#08ad6c' },
+        { v: w, col: '#d64541' },
+        { v: s, col: '#197fd6' }
+      ];
+      slices.forEach(sl => {
+        if (!sl.v) return;
+        const ang = (sl.v / total) * 2 * Math.PI;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, r, start, start + ang);
+        ctx.closePath();
+        ctx.fillStyle = sl.col;
+        ctx.fill();
+        start += ang;
+      });
+    }
+
+    function renderReview() {
+      let html = '<table class="review-table"><thead><tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct</th><th>Status</th><th>Explanation</th></tr></thead><tbody>';
+      mcqs.forEach((q, i) => {
+        const a = answers[i];
+        const yourAns = (a === null) ? 'Skipped' : (a !== undefined) ? `(${a}) ${q[a]}` : 'Not Attempted';
+        const correctAns = `(${q.ans}) ${q[q.ans]}`;
+        const status = (a === null) ? '<span class="skipped">Skipped</span>' : (a === q.ans) ? '<span class="correct">Correct</span>' : '<span class="incorrect">Wrong</span>';
+        html += `<tr><td>${i + 1}</td><td>${q.q}</td><td>${yourAns}</td><td>${correctAns}</td><td>${status}</td><td>${q.expl}</td></tr>`;
+      });
+      html += '</tbody></table>';
+      reviewSection.innerHTML = html;
+    }
+
+    document.getElementById("printBtn").onclick = () => {
+      const fs = document.getElementById('finish-section');
+      let original = document.body.innerHTML;
+      document.body.innerHTML = fs.innerHTML;
+      window.print();
+      document.body.innerHTML = original;
+      location.reload();
+    };
+
+    document.getElementById("pdfBtn").onclick = () => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(15);
+      doc.text("BIOLOGY TEST - VISHWAJEET SCIENCE ACADEMY", 105, 16, { align: "center" });
+      doc.setFontSize(10);
+      doc.text(resultDetails.innerText, 14, 26);
+      doc.text(resultScore.innerText, 14, 32);
+      doc.autoTable({ html: "#review-section table", startY: 40, theme: "grid", headStyles: { fillColor: [30, 144, 255] } });
+      doc.save("Body fluids and circulation.pdf");
+    };
+
+    document.getElementById("excelBtn").onclick = () => {
+      let table = document.querySelector("#review-section table");
+      if (!table) {
+        alert("No review table.");
+        return;
+      }
+      let html = table.outerHTML.replace(/ /g, "%20");
+      let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+      let link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "Body fluids and circulation.xls";
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    };
+  </script>
+</body>
+</html>
