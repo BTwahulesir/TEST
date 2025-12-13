@@ -3,311 +3,332 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pharma Solution India</title>
+  <title>Pharma Solution India – Pharmacology Test</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700|Pacifico&display=swap" rel="stylesheet" />
+
+  <!-- jsPDF + AutoTable for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+
   <style>
-    body {
-      font-family: 'Poppins', Arial, sans-serif;
-      background: #f4f7fc;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Poppins',Arial,sans-serif;
+      background:#f4f7fc;
+      min-height:100vh;
     }
-    .page-border {
-      min-height: 100vh;
-      border: 6px solid #1e90ff;
-      border-radius: 20px;
-      margin: 0;
-      background: white;
-      box-shadow: 0 0 35px #a0befd;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 20px 0;
+    .page-border{
+      min-height:100vh;
+      border:6px solid #1e90ff;
+      border-radius:20px;
+      margin:0;
+      background:#fff;
+      box-shadow:0 0 35px #a0befd;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:20px 0;
     }
-    .container {
-      width: 97%;
-      max-width: 950px;
-      margin: auto;
-      display: flex;
-      flex-direction: column;
+    .container{
+      width:97%;
+      max-width:950px;
+      margin:auto;
+      display:flex;
+      flex-direction:column;
     }
-    h2.main-title {
-      text-align: center;
-      margin-bottom: 12px;
-      font-size: 2.65rem;
-      color: #E2008A;
-      font-weight: 800;
+
+    /* HEADER */
+    h2.main-title{
+      text-align:center;
+      margin-bottom:8px;
+      font-size:2.4rem;
+      color:#E2008A;
+      font-weight:800;
     }
-    .logo-img {
-      display: block;
-      margin: 0 auto 18px auto;
-      max-width: 160px;
-      width: 100%;
-      height: auto;
-      border-radius: 50%;
-      box-shadow: 0 0 14px #a0befd;
-      border: 3px solid #1e90ff;
-      background: #fff;
+    .logo-img{
+      display:block;
+      margin:0 auto 12px auto;
+      max-width:150px;
+      width:100%;
+      height:auto;
     }
-    .sub-title {
-      text-align: center;
-      font-size: 2.1rem;
-      margin: 0 0 28px 0;
-      font-family: 'cambria', serif, cursive;
-      color: #047020;
-      font-weight: 700;
-      letter-spacing: 1px;
+    .sub-title{
+      text-align:center;
+      font-size:1.8rem;
+      margin:0 0 6px 0;
+      color:#047020;
+      font-weight:700;
     }
-    h4.special-author {
-      text-align: center;
-      font-family: 'Pacifico', 'Brush Script MT', cursive, sans-serif;
-      font-size: 2rem;
-      color: #6316D7;
-      font-weight: 600;
-      letter-spacing: 3px;
-      font-style: italic;
-      margin-top: 3px;
-      margin-bottom: 28px;
+    h4.special-author{
+      text-align:center;
+      font-family:'Pacifico','Brush Script MT',cursive;
+      font-size:1.7rem;
+      color:#6316D7;
+      font-weight:600;
+      margin:4px 0 18px 0;
     }
-    label { font-weight:600; margin:14px 0 7px; display:block; }
-    input[type=text], select {
+
+    /* LOGIN (mobile + batch) */
+    #login-section{
+      max-width:420px;
+      margin:12px auto 0 auto;
+    }
+    label{
+      font-weight:600;
+      margin:12px 0 6px;
+      display:block;
+    }
+    input[type=text],select{
       width:100%;
       padding:10px 12px;
-      font-size:1.04em;
+      font-size:1.02em;
       border-radius:7px;
       border:1.4px solid #bbb;
       background:#f9f9fb;
-      box-sizing: border-box;
     }
-    #startBtn {
-      margin-top:20px;
-      padding:14px 40px;
-      font-size:1.12em;
+    #startBtn{
+      margin-top:18px;
+      padding:13px 40px;
+      font-size:1.08em;
       font-weight:700;
       border-radius:8px;
       background:#1e90ff;
-      color:white;
+      color:#fff;
       border:none;
       cursor:pointer;
-      transition: background-color 0.3s ease;
+      width:100%;
+      transition:background-color .3s;
     }
-    #startBtn:disabled { background:#a0bbd9; cursor:not-allowed; }
-    #startBtn:not(:disabled):hover { background:#1970dd; }
-    #quiz-section { display:none; margin-top:22px; gap:25px; flex-wrap: wrap; }
-    #progress { text-align:center; margin-bottom:16px; font-size:1.1em; color:#555; }
-    .question-text { font-weight:700; font-size:1.22em; margin-bottom:17px; }
-    .options { margin-bottom:25px; }
-    .options label.option-label {
-      display:flex; align-items:center; gap:13px;
+    #startBtn:disabled{background:#a0bbd9;cursor:not-allowed;}
+    #startBtn:not(:disabled):hover{background:#1970dd;}
+
+    /* QUIZ LAYOUT */
+    #quiz-section{
+      display:none;
+      margin-top:18px;
+      gap:25px;
+      flex-wrap:wrap;
+    }
+    #progress{
+      text-align:center;
+      margin-bottom:14px;
+      font-size:1.05em;
+      color:#555;
+      font-weight:600;
+    }
+    .question-text{
+      font-weight:700;
+      font-size:1.18em;
+      margin-bottom:16px;
+    }
+
+    .options{margin-bottom:20px;}
+    .options label.option-label{
+      display:flex;
+      align-items:center;
+      gap:12px;
       background:#f9f9f9;
       border:2px solid #eaeaea;
       border-radius:9px;
-      margin-bottom:14px;
-      font-size:1.08em;
+      margin-bottom:12px;
+      font-size:1.02em;
       font-weight:500;
       cursor:pointer;
-      transition:all 0.18s;
-      min-height:48px;
-      padding:0 20px;
-      box-sizing: border-box;
+      transition:all .18s;
+      min-height:46px;
+      padding:0 18px;
     }
-    .options label.option-label:hover {
-      border:2px solid #1976d2;
+    .options label.option-label:hover{
+      border-color:#1976d2;
       background:#f0f9ff;
       box-shadow:0 2px 8px #1976d215;
     }
-    .options input[type="radio"] {
+    .options input[type="radio"]{
       accent-color:#1976d2;
       appearance:none;
-      width:22px; height:22px;
+      width:22px;height:22px;
       border:2px solid #bbb;
       border-radius:50%;
       background:#fff;
-      margin-right:10px;
-      cursor: pointer;
+      margin-right:8px;
+      cursor:pointer;
     }
-    .options input[type="radio"]:checked {
+    .options input[type="radio"]:checked{
       border:7px solid #1976d2;
       background:#f3f8fd;
     }
-    .options label.option-label.selected {
+    .options label.option-label.selected{
       border:2.5px solid #1976d2;
       background:#eef6fb;
     }
-    .options .option-letter {
+    .options .option-letter{
       font-weight:700;
       color:#1976d2;
-      font-size:1.13em;
-      padding-right:10px;
-      user-select: none;
+      font-size:1.12em;
+      padding-right:8px;
+      user-select:none;
     }
-    #navigation { text-align:center; margin-top:12px; }
-    .nav-btn {
-      padding:12px 26px;
+
+    #navigation{text-align:center;margin-top:10px;}
+    .nav-btn{
+      padding:11px 24px;
       border-radius:8px;
       border:none;
       font-weight:700;
-      font-size:1.1em;
-      margin:0 10px;
+      font-size:1.05em;
+      margin:0 8px;
       background:#1976d2;
-      color:white;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+      color:#fff;
+      cursor:pointer;
+      transition:background-color .3s;
     }
-    .nav-btn:hover:not(:disabled) { background:#065ab1; }
-    .nav-btn:disabled { background:#b9cce1; cursor: not-allowed; }
-    #submitBtn {
-      margin-top:22px;
-      padding:14px 42px;
+    .nav-btn:hover:not(:disabled){background:#065ab1;}
+    .nav-btn:disabled{background:#b9cce1;cursor:not-allowed;}
+    #skipBtn{background:#ff9800;}
+    #skipBtn:hover:not(:disabled){background:#fb8c00;}
+    #submitBtn{
+      margin-top:20px;
+      padding:13px 40px;
       font-weight:700;
-      font-size:1.2em;
+      font-size:1.12em;
       background:#238823;
-      color:white;
+      color:#fff;
       border:none;
       border-radius:9px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+      cursor:pointer;
+      transition:background-color .3s;
     }
-    #submitBtn:disabled { background:#a8d1b7; cursor: not-allowed; }
-    #finish-section { display:none; margin-top:25px; }
-    .card {
-      width: 470px;
-      max-width: 96vw;
-      background:white;
+    #submitBtn:disabled{background:#a8d1b7;cursor:not-allowed;}
+
+    /* Navigator right */
+    #question-navigator{
+      margin-left:24px;
+      width:210px;
+      display:grid;
+      grid-template-columns:repeat(5,36px);
+      grid-auto-rows:36px;
+      gap:10px;
+    }
+    .q-nav-btn{
+      border-radius:6px;
+      border:none;
+      cursor:pointer;
+      color:#fff;
+      font-weight:700;
+      font-size:.9em;
+    }
+    .q-nav-btn.not-attempted{background:#d64541;}
+    .q-nav-btn.skipped{background:#197fd6;}
+    .q-nav-btn.attempted{background:#08ad6c;}
+    .q-nav-btn.current{outline:2px solid #000;}
+
+    /* RESULT SECTION */
+    #finish-section{display:none;margin-top:24px;}
+    .card{
+      width:470px;
+      max-width:96vw;
+      background:#fff;
       border:3px solid #1e90ff;
       border-radius:22px;
       box-shadow:0 0 18px #7bb9fd;
-      padding:30px 20px;
+      padding:26px 20px;
       text-align:center;
       margin:0 auto;
-      box-sizing: border-box;
     }
-    .card h1 { font-size:1.4rem; margin-bottom:20px; color:#1c416b; }
-    .trophy { font-size:2.3rem; margin-bottom:15px; color:#ffbb1f; }
-    .details { font-size:1rem; font-weight:600; color:#444; margin-bottom:20px; }
-    .score { font-size:1.25rem; font-weight:800; margin-bottom:20px; }
-    .stats {
-      display:flex; justify-content:center; gap:10px;
-      flex-wrap:wrap; margin-bottom:20px;
+    .card h1{
+      font-size:1.35rem;
+      margin-bottom:18px;
+      color:#1c416b;
     }
-    .stat { flex:1; background:#f5f8fa; border-radius:10px; padding:10px; text-align:center; min-width:80px; box-sizing: border-box; }
-    .stat-number {
-      width:44px; height:44px; margin:0 auto 8px;
-      border-radius:8px; display:flex; align-items:center;
-      justify-content:center; font-weight:700; font-size:1.2em;
+    .trophy{font-size:2.2rem;margin-bottom:10px;color:#ffbb1f;}
+    .details{font-size:.98rem;font-weight:600;color:#444;margin-bottom:14px;}
+    .score{font-size:1.2rem;font-weight:800;margin-bottom:18px;}
+    .stats{
+      display:flex;justify-content:center;gap:10px;
+      flex-wrap:wrap;margin-bottom:16px;
     }
-    .stat.attempted .stat-number { background:#197fd6; color:white; }
-    .stat.correct .stat-number { background:#08ad6c; color:white; }
-    .stat.wrong .stat-number { background:#d64541; color:white; }
-    .stat.notattempted .stat-number { background:#ddd; color:#333; }
-    #question-navigator {
-      margin-left:24px; width:210px;
-      display:grid; grid-template-columns:repeat(5,36px);
-      grid-auto-rows:36px; gap:10px;
+    .stat{
+      flex:1;background:#f5f8fa;border-radius:10px;
+      padding:8px;text-align:center;min-width:80px;
+      font-size:.86rem;
     }
-    .q-nav-btn { border-radius:6px; border:none; cursor:pointer; color:white; font-weight:700; }
-    .q-nav-btn.not-attempted { background:#d64541; }
-    .q-nav-btn.skipped { background:#197fd6; }
-    .q-nav-btn.attempted { background:#08ad6c; }
-    .q-nav-btn.current { outline:2px solid #000; }
-    table.review-table {
-      width:100%; border-collapse:collapse; margin-top:15px;
-      table-layout: fixed;
-      word-wrap: break-word;
+    .stat-number{
+      width:44px;height:44px;margin:0 auto 6px;
+      border-radius:8px;display:flex;align-items:center;
+      justify-content:center;font-weight:700;font-size:1.1em;
     }
-    table.review-table th, table.review-table td {
-      border:1px solid #ccc; padding:6px;
-      vertical-align: top;
+    .stat.attempted .stat-number{background:#197fd6;color:#fff;}
+    .stat.correct .stat-number{background:#08ad6c;color:#fff;}
+    .stat.wrong .stat-number{background:#d64541;color:#fff;}
+    .stat.notattempted .stat-number{background:#ddd;color:#333;}
+
+    #piechart{margin-top:10px;}
+    .footer{margin-top:10px;font-size:.8rem;color:#666;}
+
+    /* Review table */
+    h2.review-heading{margin-top:32px;margin-bottom:8px;}
+    table.review-table{
+      width:100%;border-collapse:collapse;margin-top:10px;
+      table-layout:fixed;word-wrap:break-word;
     }
+    table.review-table th,table.review-table td{
+      border:1px solid #ccc;padding:6px;vertical-align:top;font-size:.9rem;
+    }
+    table.review-table th{background:#f5f5f5;}
     .correct{color:#08ad6c;font-weight:bold;}
     .incorrect{color:#d64541;font-weight:bold;}
-    .skipped{color:#1976d2;font-weight:bold;}
-    .export-btns {
-      margin:22px auto 0 auto;
-      display:flex; gap:15px; flex-wrap:wrap;
+    .skippedTxt{color:#1976d2;font-weight:bold;}
+
+    .export-btns{
+      margin:18px auto 0 auto;
+      display:flex;gap:12px;flex-wrap:wrap;
       justify-content:center;
     }
-    @media screen and (max-width: 600px) {
-      h2.main-title { font-size: 1.8rem; margin-bottom: 8px; }
-      .sub-title { font-size: 1.5rem; margin-bottom: 20px; }
-      h4.special-author { font-size: 1.4rem; letter-spacing: 1.5px; margin-bottom: 20px; }
-      .page-border { padding: 15px 5px; }
-      .container { width: 95%; max-width: 100%; padding: 0 10px; }
-      #startBtn, #submitBtn, .nav-btn {
-        font-size: 1em;
-        padding: 12px 20px;
-        margin: 10px 5px;
+
+    @media(max-width:600px){
+      h2.main-title{font-size:2rem;}
+      .sub-title{font-size:1.5rem;}
+      h4.special-author{font-size:1.35rem;margin-bottom:14px;}
+      .page-border{padding:15px 5px;}
+      .container{width:95%;padding:0 8px;}
+      #quiz-section{flex-direction:column;}
+      #question-navigator{
+        margin-left:0;width:100%;
+        grid-template-columns:repeat(auto-fit,minmax(30px,1fr));
       }
-      input[type=text], select {
-        font-size: 1em;
-        padding: 8px 10px;
+      .nav-btn,#submitBtn,#startBtn{
+        font-size:1em;padding:11px 18px;margin:8px 4px;
       }
-      #quiz-section { flex-direction: column; }
-      #navigation { margin-top: 15px; }
-      .card {
-        width: 100%;
-        max-width: 100%;
-        padding: 20px 15px;
-      }
-      #question-navigator {
-        margin-left: 0;
-        width: 100%;
-        grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
-      }
-      .options label.option-label {
-        font-size: 1em;
-        padding: 0 15px;
-        min-height: 44px;
-      }
-      .options input[type="radio"] {
-        width: 18px;
-        height: 18px;
-        margin-right: 8px;
-      }
-      .stat {
-        min-width: 60px;
-        padding: 8px;
-        font-size: 0.85rem;
-      }
-      .stat-number {
-        width: 36px;
-        height: 36px;
-        font-size: 1rem;
-      }
-      table.review-table th, table.review-table td {
-        font-size: 0.9rem;
-        padding: 4px;
-      }
-      .export-btns {
-        gap: 8px;
-        margin: 15px auto 0 auto;
-      }
+      .card{width:100%;max-width:100%;padding:20px 14px;}
     }
   </style>
-  <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
   <div class="page-border">
     <div class="container">
-      <h2 class="main-title">Pharma solution India</h2>
-       <img src="vsa logo.jpeg" alt="vsa logo" class="logo-img" />
+      <h2 class="main-title">Pharma Solution India</h2>
+      <!-- NEW LOGO -->
+      <img src="pharma-logo.jpg" alt="Pharma Solution India Logo" class="logo-img">
       <h3 class="sub-title">DRUG INSPECTOR</h3>
-      <h4 class="special-author">Pharmacology-Topic</h4>
+      <h4 class="special-author">Pharmacology – Topic Test</h4>
+
+      <!-- LOGIN -->
       <div id="login-section">
-        <label for="Mobno">Enter Mobile number (01-09)</label>
-        <input type="text" id="Mobno" maxlength="10" placeholder="e.g. 0000000000" />
+        <label for="Mobno">Enter Mobile Number</label>
+        <input type="text" id="Mobno" maxlength="10" placeholder="10 digit mobile" />
         <label for="batch">Select Batch</label>
         <select id="batch">
           <option value="">-- Select Batch --</option>
-          <option value="DMER">DMER</option>
-          <option value="MPSC">MPSC</option>
-          <option value="ZP Pharmacist">ZP Pharmacist</option>
+          <option>DMER</option>
+          <option>MPSC</option>
+          <option>ZP Pharmacist</option>
         </select>
         <button id="startBtn" disabled>Start Test</button>
       </div>
 
+      <!-- QUIZ SECTION -->
       <section id="quiz-section">
         <div style="flex:1;">
           <div id="progress"></div>
@@ -316,41 +337,56 @@
             <form id="options-form" class="options"></form>
           </div>
           <div id="navigation">
-            <button id="prevBtn" class="nav-btn" disabled>Previous</button>
-            <button id="skipBtn" class="nav-btn">Skip</button>
-            <button id="nextBtn" class="nav-btn" disabled>Next</button>
+            <button id="prevBtn" class="nav-btn" type="button" disabled>Previous</button>
+            <button id="skipBtn" class="nav-btn" type="button">Skip</button>
+            <button id="nextBtn" class="nav-btn" type="button" disabled>Next</button>
           </div>
-          <button id="submitBtn" disabled>Submit Test</button>
+          <button id="submitBtn" type="button" disabled>Submit Test</button>
         </div>
         <nav id="question-navigator"></nav>
       </section>
 
+      <!-- RESULT SECTION -->
       <section id="finish-section">
-        <div style="display:flex; flex-direction:column; align-items:center;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
           <div class="card">
             <h1>
-              <span class="trophy">&#x1F3C6;</span>
-              Congratulations! Your Test has been Submitted
-              <span class="trophy">&#x1F3C6;</span>
+              <span class="trophy">&#x1F389;</span>
+              Test Submitted
+              <span class="trophy">&#x1F389;</span>
             </h1>
             <div class="details" id="resultDetails"></div>
             <div id="resultScore" class="score"></div>
             <div class="stats">
-              <div class="stat attempted"><div class="stat-number" id="attemptedCount">0</div><p>Attempted</p></div>
-              <div class="stat correct"><div class="stat-number" id="correctCount">0</div><p>Correct</p></div>
-              <div class="stat wrong"><div class="stat-number" id="wrongCount">0</div><p>Wrong</p></div>
-              <div class="stat notattempted"><div class="stat-number" id="notAttemptedCount">0</div><p>Not Attempted</p></div>
+              <div class="stat attempted">
+                <div class="stat-number" id="attemptedCount">0</div>
+                <p>Attempted</p>
+              </div>
+              <div class="stat correct">
+                <div class="stat-number" id="correctCount">0</div>
+                <p>Correct</p>
+              </div>
+              <div class="stat wrong">
+                <div class="stat-number" id="wrongCount">0</div>
+                <p>Wrong</p>
+              </div>
+              <div class="stat notattempted">
+                <div class="stat-number" id="notAttemptedCount">0</div>
+                <p>Not Attempted</p>
+              </div>
             </div>
             <canvas id="piechart" width="220" height="220"></canvas>
-            <div class="footer">© 2025 Vishwajeet Science Academy</div>
+            <div class="footer">© 2025 Pharma Solution India</div>
           </div>
+
           <div class="export-btns">
             <button class="nav-btn" id="printBtn" type="button">🖨️ Print Report</button>
             <button class="nav-btn" id="pdfBtn" type="button">⬇️ Download PDF</button>
             <button class="nav-btn" id="excelBtn" type="button">⬇️ Export to Excel</button>
           </div>
         </div>
-        <h2 id="review-heading" style="margin-top:36px;">Review Your Answers</h2>
+
+        <h2 class="review-heading">Review Your Answers</h2>
         <div id="review-section"></div>
       </section>
     </div>
@@ -358,29 +394,27 @@
 
   <script>
     const mcqs = [
-      { 
-        q: "Where does photosynthesis mainly occur?",
-        a: "Mitochondria",
-        b: "Chloroplast",
-        c: "Cytoplasm",
-        d: "Nucleus",
-        ans: "b",
-        expl: "Chloroplast is the site containing chlorophyll for photosynthesis as per NCERT."
+      {
+        q:"Where does photosynthesis mainly occur?",
+        a:"Mitochondria",
+        b:"Chloroplast",
+        c:"Cytoplasm",
+        d:"Nucleus",
+        ans:"b",
+        expl:"Chloroplast is the organelle containing chlorophyll where photosynthesis occurs."
       },
       {
-        q: "Which pigment is the primary light-absorbing molecule?",
-        a: "Chlorophyll a",
-        b: "Carotenoids",
-        c: "Xanthophyll",
-        d: "Chlorophyll b",
-        ans: "a",
-        expl: "Chlorophyll a absorbs light for photochemistry and is the primary pigment."
-      },
-      
-      // Add further MCQs if needed in similar structure...
+        q:"Primary photosynthetic pigment is?",
+        a:"Chlorophyll a",
+        b:"Chlorophyll b",
+        c:"Carotene",
+        d:"Xanthophyll",
+        ans:"a",
+        expl:"Chlorophyll a is the main pigment that participates directly in photochemical reactions."
+      }
     ];
 
-    const rollInput = document.getElementById('rollno');
+    const rollInput = document.getElementById('Mobno');
     const batchSelect = document.getElementById('batch');
     const startBtn = document.getElementById('startBtn');
     const quizSection = document.getElementById('quiz-section');
@@ -405,15 +439,17 @@
     let currentQuestionIndex = 0;
     let answers = new Array(mcqs.length).fill(undefined);
 
-    function validateInput() {
-      const roll = parseInt(rollInput.value.trim(), 10);
-      startBtn.disabled = !(roll >= 1 && roll <= 200 && batchSelect.value);
+    function validateLogin(){
+      const mobile = rollInput.value.trim();
+      const mobileOk = /^\d{10}$/.test(mobile);
+      const batchOk = !!batchSelect.value;
+      startBtn.disabled = !(mobileOk && batchOk);
     }
     rollInput.addEventListener('input', () => {
-      rollInput.value = rollInput.value.replace(/\D/g, '');
-      validateInput();
+      rollInput.value = rollInput.value.replace(/\D/g,'');
+      validateLogin();
     });
-    batchSelect.addEventListener('change', validateInput);
+    batchSelect.addEventListener('change', validateLogin);
 
     startBtn.onclick = () => {
       document.getElementById('login-section').style.display = 'none';
@@ -422,50 +458,60 @@
       loadQuestion(0);
     };
 
-    function renderNavigator() {
+    function renderNavigator(){
       questionNavigator.innerHTML = '';
-      mcqs.forEach((q, i) => {
-        let btn = document.createElement('button');
-        btn.textContent = i + 1;
+      mcqs.forEach((_, i) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = i+1;
         btn.className = 'q-nav-btn not-attempted';
         btn.dataset.index = i;
         btn.onclick = () => loadQuestion(i);
         questionNavigator.appendChild(btn);
       });
+      updateNavigatorColors();
     }
 
-    function updateNavigatorColors() {
+    function updateNavigatorColors(){
       questionNavigator.querySelectorAll('.q-nav-btn').forEach(btn => {
         const idx = +btn.dataset.index;
-        btn.classList.remove('attempted', 'skipped', 'not-attempted', 'current');
-        if (idx === currentQuestionIndex) btn.classList.add('current');
-        if (answers[idx] === undefined) btn.classList.add('not-attempted');
-        else if (answers[idx] === null) btn.classList.add('skipped');
+        btn.classList.remove('attempted','skipped','not-attempted','current');
+        if(idx === currentQuestionIndex) btn.classList.add('current');
+        const a = answers[idx];
+        if(a === undefined) btn.classList.add('not-attempted');
+        else if(a === null) btn.classList.add('skipped');
         else btn.classList.add('attempted');
       });
     }
 
-    function loadQuestion(i) {
+    function loadQuestion(i){
       currentQuestionIndex = i;
       const q = mcqs[i];
-      questionText.textContent = `Q${i + 1}. ${q.q}`;
+      questionText.textContent = `Q${i+1}. ${q.q}`;
       optionsForm.innerHTML = '';
-      ['a', 'b', 'c', 'd'].forEach(key => {
+
+      ['a','b','c','d'].forEach(key => {
         const lbl = document.createElement('label');
         lbl.className = 'option-label';
-        lbl.innerHTML = `<input type="radio" name="option" value="${key}"><span class="option-letter">(${key.toUpperCase()})</span>${q[key]}`;
+        lbl.innerHTML =
+          `<input type="radio" name="option" value="${key}">
+           <span class="option-letter">(${key.toUpperCase()})</span>${q[key]}`;
         optionsForm.appendChild(lbl);
       });
+
       optionsForm.querySelectorAll('input[type="radio"]').forEach(radio => {
         radio.addEventListener('change', () => {
-          optionsForm.querySelectorAll('label.option-label').forEach(lbl => lbl.classList.remove('selected'));
+          optionsForm.querySelectorAll('label.option-label')
+            .forEach(l => l.classList.remove('selected'));
           radio.closest('label').classList.add('selected');
           nextBtn.disabled = false;
+          submitBtn.disabled = false;
         });
       });
-      if (answers[i]) {
+
+      if(answers[i] && answers[i] !== null){
         const sel = optionsForm.querySelector(`input[value="${answers[i]}"]`);
-        if (sel) {
+        if(sel){
           sel.checked = true;
           sel.closest('label').classList.add('selected');
           nextBtn.disabled = false;
@@ -475,49 +521,55 @@
       } else {
         nextBtn.disabled = true;
       }
+
       prevBtn.disabled = (i === 0);
-      progressDiv.textContent = `Question ${i + 1} of ${mcqs.length}`;
+      progressDiv.textContent = `Question ${i+1} of ${mcqs.length}`;
       updateNavigatorColors();
     }
 
     prevBtn.onclick = () => {
-      if (currentQuestionIndex > 0) loadQuestion(currentQuestionIndex - 1);
+      if(currentQuestionIndex > 0) loadQuestion(currentQuestionIndex - 1);
     };
 
     nextBtn.onclick = () => {
       const sel = optionsForm.querySelector('input[name="option"]:checked');
-      if (sel) {
+      if(sel){
         answers[currentQuestionIndex] = sel.value;
-        submitBtn.disabled = false;
-        if (currentQuestionIndex < mcqs.length - 1) loadQuestion(currentQuestionIndex + 1);
+        if(currentQuestionIndex < mcqs.length - 1){
+          loadQuestion(currentQuestionIndex + 1);
+        }
       }
     };
 
     skipBtn.onclick = () => {
       answers[currentQuestionIndex] = null;
       submitBtn.disabled = false;
-      if (currentQuestionIndex < mcqs.length - 1) loadQuestion(currentQuestionIndex + 1);
+      if(currentQuestionIndex < mcqs.length - 1){
+        loadQuestion(currentQuestionIndex + 1);
+      }
     };
 
     submitBtn.onclick = () => {
-      if (confirm('Submit test?')) finalizeTest();
+      if(confirm('Submit test?')) finalizeTest();
     };
 
-    function finalizeTest() {
+    function finalizeTest(){
       quizSection.style.display = 'none';
       finishSection.style.display = 'block';
 
       const total = mcqs.length;
-      const correct = answers.filter((a, i) => a === mcqs[i].ans).length;
-      const wrong = answers.filter((a, i) => a !== null && a !== undefined && a !== mcqs[i].ans).length;
+      const correct = answers.filter((a,i) => a === mcqs[i].ans).length;
+      const wrong = answers.filter((a,i) => a !== null && a !== undefined && a !== mcqs[i].ans).length;
       const attempted = answers.filter(a => a !== null && a !== undefined).length;
       const skipped = answers.filter(a => a === null).length;
       const notAttempted = answers.filter(a => a === undefined).length;
-      const score = correct * 4 - wrong;
-      const pct = ((score / (total * 4)) * 100).toFixed(2);
 
-      resultDetails.innerHTML = `<strong>Roll Number:</strong> ${rollInput.value.padStart(2, '0')}<br><strong>Batch:</strong> ${batchSelect.value}`;
-      resultScore.textContent = `Score: ${score} / ${total * 4} (${pct}%)`;
+      const score = correct*2 - wrong*0.25;
+      const pct = ((score / (total*2)) * 100).toFixed(2);
+
+      resultDetails.innerHTML =
+        `<strong>Mobile:</strong> ${rollInput.value}<br><strong>Batch:</strong> ${batchSelect.value}`;
+      resultScore.textContent = `Score: ${score.toFixed(2)} / ${total*2} (${pct}%)`;
       resultScore.style.color = score >= 0 ? '#08ad6c' : '#d64541';
 
       attemptedCount.textContent = attempted;
@@ -525,27 +577,27 @@
       wrongCount.textContent = wrong;
       notAttemptedCount.textContent = notAttempted;
 
-      drawPieChart(correct, wrong, skipped);
+      drawPieChart(correct, wrong, notAttempted);
       renderReview();
     }
 
-    function drawPieChart(c, w, s) {
+    function drawPieChart(c,w,nA){
       const ctx = pieCanvas.getContext('2d');
-      const total = c + w + s || 1;
+      const total = c + w + nA || 1;
       const cx = 110, cy = 110, r = 100;
-      ctx.clearRect(0, 0, pieCanvas.width, pieCanvas.height);
-      let start = -Math.PI / 2;
+      ctx.clearRect(0,0,pieCanvas.width,pieCanvas.height);
+      let start = -Math.PI/2;
       const slices = [
-        { v: c, col: '#08ad6c' },
-        { v: w, col: '#d64541' },
-        { v: s, col: '#197fd6' }
+        {v:c,col:'#08ad6c'},
+        {v:w,col:'#d64541'},
+        {v:nA,col:'#197fd6'}
       ];
       slices.forEach(sl => {
-        if (!sl.v) return;
-        const ang = (sl.v / total) * 2 * Math.PI;
+        if(!sl.v) return;
+        const ang = (sl.v/total)*2*Math.PI;
         ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.arc(cx, cy, r, start, start + ang);
+        ctx.moveTo(cx,cy);
+        ctx.arc(cx,cy,r,start,start+ang);
         ctx.closePath();
         ctx.fillStyle = sl.col;
         ctx.fill();
@@ -553,22 +605,41 @@
       });
     }
 
-    function renderReview() {
-      let html = '<table class="review-table"><thead><tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct</th><th>Status</th><th>Explanation</th></tr></thead><tbody>';
-      mcqs.forEach((q, i) => {
+    function renderReview(){
+      let html = '<table class="review-table"><thead><tr>'+
+        '<th>#</th><th>Question</th><th>Your Answer</th>'+
+        '<th>Correct</th><th>Status</th><th>Explanation</th></tr></thead><tbody>';
+
+      mcqs.forEach((q,i) => {
         const a = answers[i];
-        const yourAns = (a === null) ? 'Skipped' : (a !== undefined) ? `(${a}) ${q[a]}` : 'Not Attempted';
+        const yourAns =
+          a === null ? 'Skipped' :
+          a !== undefined ? `(${a}) ${q[a]}` :
+          'Not Attempted';
         const correctAns = `(${q.ans}) ${q[q.ans]}`;
-        const status = (a === null) ? '<span class="skipped">Skipped</span>' : (a === q.ans) ? '<span class="correct">Correct</span>' : '<span class="incorrect">Wrong</span>';
-        html += `<tr><td>${i + 1}</td><td>${q.q}</td><td>${yourAns}</td><td>${correctAns}</td><td>${status}</td><td>${q.expl}</td></tr>`;
+        let status;
+        if(a === null) status = "<span class='skippedTxt'>Skipped</span>";
+        else if(a === q.ans) status = "<span class='correct'>Correct</span>";
+        else if(a === undefined) status = "<span class='skippedTxt'>Not Attempted</span>";
+        else status = "<span class='incorrect'>Wrong</span>";
+
+        html += `<tr>
+          <td>${i+1}</td>
+          <td>${q.q}</td>
+          <td>${yourAns}</td>
+          <td>${correctAns}</td>
+          <td>${status}</td>
+          <td>${q.expl}</td>
+        </tr>`;
       });
+
       html += '</tbody></table>';
       reviewSection.innerHTML = html;
     }
 
     document.getElementById("printBtn").onclick = () => {
       const fs = document.getElementById('finish-section');
-      let original = document.body.innerHTML;
+      const original = document.body.innerHTML;
       document.body.innerHTML = fs.innerHTML;
       window.print();
       document.body.innerHTML = original;
@@ -579,29 +650,33 @@
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.setFontSize(15);
-      doc.text("BIOLOGY TEST - VISHWAJEET SCIENCE ACADEMY", 105, 16, { align: "center" });
+      doc.text("Pharmacology Test - Pharma Solution India", 105, 16, {align:"center"});
       doc.setFontSize(10);
       doc.text(resultDetails.innerText, 14, 26);
       doc.text(resultScore.innerText, 14, 32);
-      doc.autoTable({ html: "#review-section table", startY: 40, theme: "grid", headStyles: { fillColor: [30, 144, 255] } });
-      doc.save("Chapter Name.pdf");
+      doc.autoTable({
+        html:"#review-section table",
+        startY:40,
+        theme:"grid",
+        headStyles:{fillColor:[30,144,255]}
+      });
+      doc.save("Pharma_Test_Report.pdf");
     };
 
     document.getElementById("excelBtn").onclick = () => {
-      let table = document.querySelector("#review-section table");
-      if (!table) {
-        alert("No review table.");
+      const table = document.querySelector("#review-section table");
+      if(!table){
+        alert("No review table available.");
         return;
       }
-      let html = table.outerHTML.replace(/ /g, "%20");
-      let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
-      let link = document.createElement("a");
+      const html = table.outerHTML.replace(/ /g,"%20");
+      const blob = new Blob([html], {type:'application/vnd.ms-excel'});
+      const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "Chapter Test Result.xls";
+      link.download = "Pharma_Test_Result.xls";
       link.click();
-      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      setTimeout(()=>URL.revokeObjectURL(link.href),1000);
     };
   </script>
 </body>
 </html>
-
