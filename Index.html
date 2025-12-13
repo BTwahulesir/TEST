@@ -293,7 +293,7 @@
     <div class="container">
       <h2 class="main-title">VISHWAJEET SCIENCE ACADEMY</h2>
        <img src="vsa logo.jpeg" alt="vsa logo" class="logo-img" />
-      <h3 class="sub-title">BIOLOGY: Excretory Products and their Elimination</h3>
+      <h3 class="sub-title">BIOLOGY: Name of Chapter</h3>
       <h4 class="special-author">&copy; By WAHULE SIR</h4>
       <div id="login-section">
         <label for="rollno">Enter Roll Number (01-200)</label>
@@ -584,7 +584,7 @@
       doc.text(resultDetails.innerText, 14, 26);
       doc.text(resultScore.innerText, 14, 32);
       doc.autoTable({ html: "#review-section table", startY: 40, theme: "grid", headStyles: { fillColor: [30, 144, 255] } });
-      doc.save("Biology_Test_Result.pdf");
+      doc.save("Chapter Name.pdf");
     };
 
     document.getElementById("excelBtn").onclick = () => {
@@ -597,11 +597,12 @@
       let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
       let link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "Photosynthesis-Test_Result.xls";
+      link.download = "Chapter Test Result.xls";
       link.click();
       setTimeout(() => URL.revokeObjectURL(link.href), 1000);
     };
   </script>
 </body>
 </html>
+
 
